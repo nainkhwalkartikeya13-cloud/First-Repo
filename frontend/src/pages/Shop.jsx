@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetFilteredProductsQuery } from "../redux/api/productApiSlice";
-import { useFetchCategoriesQuery } from "../redux/api/categoryApiSlice";
+import { useFetchCategoriesQuery } from "../redux/api/categoryApislice";
 
 import {
   setCategories,
@@ -11,6 +11,7 @@ import {
 import Loader from "../components/Loader";
 import ProductCard from "./Products/ProductCard";
 import ContentWrapper from "../components/ContentWrapper";
+import { FiFilter, FiX } from "react-icons/fi";
 
 const Shop = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const Shop = () => {
 
   const categoriesQuery = useFetchCategoriesQuery();
   const [priceFilter, setPriceFilter] = useState("");
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   const filteredProductsQuery = useGetFilteredProductsQuery({
     checked,
@@ -35,17 +37,14 @@ const Shop = () => {
   useEffect(() => {
     if (!checked.length || !radio.length) {
       if (!filteredProductsQuery.isLoading) {
-        // Filter products based on both checked categories and price filter
         const filteredProducts = filteredProductsQuery.data.filter(
           (product) => {
-            // Check if the product price includes the entered price filter value
             return (
               product.price.toString().includes(priceFilter) ||
               product.price === parseInt(priceFilter, 10)
             );
           }
         );
-
         dispatch(setProducts(filteredProducts));
       }
     }
@@ -65,7 +64,6 @@ const Shop = () => {
     dispatch(setChecked(updatedChecked));
   };
 
-  // Add "All Brands" option to uniqueBrands
   const uniqueBrands = [
     ...Array.from(
       new Set(
@@ -77,107 +75,164 @@ const Shop = () => {
   ];
 
   const handlePriceChange = (e) => {
-    // Update the price filter state when the user types in the input filed
     setPriceFilter(e.target.value);
   };
 
-  return (
-    <div className="bg-[#0E1527] min-h-screen">
-      <ContentWrapper>
-        <div className="flex md:flex-row container mx-auto">
-          <div className="hidden lg:block p-3 mb-4 border border-[#444444] h-full fixed top-[80px] z-20 overflow-y-scroll lg:w-[260px] pb-28 text-[#FFFFFF]">
-            <h2 className="text-center py-2 bg-[#2765EC] text-[#FFFFFF] hover:shadow-md hover:bg-[#1b56d5] mb-2 rounded-sm">
-              Filter by Categories
-            </h2>
+  // Proper reset without page reload
+  const handleReset = () => {
+    dispatch(setChecked([]));
+    setPriceFilter("");
+    if (filteredProductsQuery.data) {
+      dispatch(setProducts(filteredProductsQuery.data));
+    }
+    setMobileFilterOpen(false);
+  };
 
-            <div className="p-5 w-full">
-              {categories?.map((c) => (
-                <div key={c._id} className="mb-2">
-                  <div className="flex ietms-center gap-1">
-                    <input
-                      type="checkbox"
-                      id="red-checkbox"
-                      onChange={(e) => handleCheck(e.target.checked, c._id)}
-                      className="w-4 h-4 rounded-[50%] "
-                    />
-                    <label
-                      htmlFor="pink-checkbox"
-                      className="ml-2 text-sm font-medium text-white"
-                    >
-                      {c.name}
-                    </label>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <h2 className="text-center py-2 bg-[#2765EC] text-[#FFFFFF] hover:shadow-md hover:bg-[#1b56d5] mb-2 rounded-sm">
-              Filter by Brands
-            </h2>
-
-            <div className="p-5 w-full">
-              {uniqueBrands?.map((brand, i) => (
-                <div key={i} className="mb-2">
-                  <div className="flex items-enter gap-1">
-                    <input
-                      type="radio"
-                      id={brand}
-                      name="brand"
-                      onChange={() => handleBrandClick(brand)}
-                      className="w-4 h-4"
-                    />
-
-                    <label
-                      htmlFor="pink-radio"
-                      className="ml-2 text-sm font-medium text-white"
-                    >
-                      {brand}
-                    </label>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <h2 className="text-center py-2 bg-[#2765EC] text-[#FFFFFF] hover:shadow-md hover:bg-[#1b56d5] mb-2 rounded-sm">
-              Filer by Price
-            </h2>
-
-            <div className="w-full my-2">
+  // Reusable filter sidebar content
+  const FilterContent = () => (
+    <div className="space-y-6">
+      {/* Categories */}
+      <div>
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-text-secondary mb-3">
+          Categories
+        </h3>
+        <div className="space-y-2">
+          {categories?.map((c) => (
+            <label
+              key={c._id}
+              htmlFor={`cat-${c._id}`}
+              className="flex items-center gap-3 cursor-pointer group"
+            >
               <input
-                type="text"
-                placeholder="Enter Price"
-                value={priceFilter}
-                onChange={handlePriceChange}
-                className="w-full px-3 py-2 bg-transparent border border-[#959fb3] focus:border-[#1b56d5] outline-none text-white placeholder-white my-2"
+                type="checkbox"
+                id={`cat-${c._id}`}
+                checked={checked.includes(c._id)}
+                onChange={(e) => handleCheck(e.target.checked, c._id)}
+                className="w-4 h-4 rounded accent-accent-pink"
               />
-            </div>
+              <span className="text-sm text-text-muted group-hover:text-text-primary transition-colors">
+                {c.name}
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
 
-            <div className="w-full">
-              <button
-                className="w-full py-2 text-center bg-[#2765EC] text-[#FFFFFF] hover:shadow-md hover:bg-[#1b56d5] rounded-sm"
-                onClick={() => window.location.reload()}
-              >
-                Reset
-              </button>
+      {/* Brands */}
+      <div>
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-text-secondary mb-3">
+          Brands
+        </h3>
+        <div className="space-y-2">
+          {uniqueBrands?.map((brand, i) => (
+            <label
+              key={i}
+              htmlFor={`brand-${brand}`}
+              className="flex items-center gap-3 cursor-pointer group"
+            >
+              <input
+                type="radio"
+                id={`brand-${brand}`}
+                name="brand"
+                onChange={() => handleBrandClick(brand)}
+                className="w-4 h-4 accent-accent-pink"
+              />
+              <span className="text-sm text-text-muted group-hover:text-text-primary transition-colors">
+                {brand}
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Price */}
+      <div>
+        <h3 className="text-sm font-semibold uppercase tracking-wider text-text-secondary mb-3">
+          Filter by Price
+        </h3>
+        <input
+          type="text"
+          placeholder="Enter Price"
+          value={priceFilter}
+          onChange={handlePriceChange}
+          className="w-full px-3 py-2 bg-transparent border border-surface-border-light rounded-lg focus:border-accent-blue outline-none text-text-primary placeholder-text-secondary text-sm"
+        />
+      </div>
+
+      {/* Reset */}
+      <button
+        className="w-full py-2.5 text-center bg-accent-blue hover:bg-accent-blue-hover text-white rounded-lg font-medium transition-colors text-sm"
+        onClick={handleReset}
+      >
+        Reset Filters
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="bg-brand-dark min-h-screen">
+      <ContentWrapper>
+        {/* Mobile filter button */}
+        <div className="lg:hidden flex items-center justify-between py-3">
+          <h2 className="text-lg font-semibold text-text-primary">
+            Products ({products?.length})
+          </h2>
+          <button
+            onClick={() => setMobileFilterOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-surface-card border border-surface-border rounded-lg text-text-primary text-sm"
+          >
+            <FiFilter size={16} />
+            Filters
+          </button>
+        </div>
+
+        {/* Mobile filter overlay */}
+        {mobileFilterOpen && (
+          <div className="fixed inset-0 z-50 lg:hidden">
+            <div
+              className="absolute inset-0 bg-black/60"
+              onClick={() => setMobileFilterOpen(false)}
+            />
+            <div className="absolute right-0 top-0 h-full w-80 bg-brand-navy p-6 overflow-y-auto animate-slide-down">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-semibold text-text-primary">Filters</h2>
+                <button
+                  onClick={() => setMobileFilterOpen(false)}
+                  className="text-text-secondary hover:text-text-primary"
+                >
+                  <FiX size={20} />
+                </button>
+              </div>
+              <FilterContent />
             </div>
           </div>
+        )}
 
-          <div className="lg:ml-[280px] border border-[#444444]">
-            <h2 className="mb-2 p-2">Products ({products?.length})</h2>
-            <div className="flex flex-wrap">
-              {products.length === 0 ? (
+        <div className="flex">
+          {/* Desktop sidebar */}
+          <aside className="hidden lg:block w-[260px] shrink-0 sticky top-[80px] self-start h-[calc(100vh-80px)] overflow-y-auto p-4 border-r border-surface-border">
+            <h2 className="text-lg font-semibold text-text-primary mb-6">Filters</h2>
+            <FilterContent />
+          </aside>
+
+          {/* Products grid */}
+          <main className="flex-1 p-4 lg:p-6">
+            <h2 className="hidden lg:block text-lg font-semibold text-text-primary mb-4">
+              Products ({products?.length})
+            </h2>
+
+            {products.length === 0 ? (
+              <div className="flex justify-center items-center min-h-[400px]">
                 <Loader />
-              ) : (
-                <div className="flex flex-wrap gap-8 w-full mx-auto justify-center items-center">
-                  {products?.map((p) => (
-                    <div className="" key={p._id}>
-                      <ProductCard p={p} />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
+                {products?.map((p) => (
+                  <ProductCard key={p._id} p={p} />
+                ))}
+              </div>
+            )}
+          </main>
         </div>
       </ContentWrapper>
     </div>

@@ -11,156 +11,123 @@ import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { BiHide, BiShowAlt } from "react-icons/bi";
 
+const inputClasses =
+  "w-full p-2.5 border rounded-lg bg-brand-dark text-text-primary placeholder-text-placeholder outline-none border-surface-border-light focus:border-accent-pink transition-colors";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isVisiblePass, setIsVisiblePass] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  // Define a login mutation function and check if it's loading
-  const [login, { isLoading, error, data }] = useLoginMutation();
-  // console.log(isLoading, error, data);
-  // Get user information from the application state
+  const [login, { isLoading }] = useLoginMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
-  // Access the dispatch function to modify the application state
   const dispatch = useDispatch();
-
-  // Get a function to navigate to different pages
   const navigate = useNavigate();
 
-  // Get the current URL location and extract the 'redirect' parameter
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
 
-  // Use an effect to navigate to the 'redirect' page when userInfo is available
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
-      // setLoading(isLoading);
     }
   }, [navigate, userInfo, redirect]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (email.trim() === "" || password.trim() === "") {
+    if (!email.trim() || !password.trim()) {
       toast.error("Please fill all the fields");
       return;
     }
 
     try {
       const res = await login({ email, password }).unwrap();
-      // console.log(res);
       dispatch(setCredentials({ ...res }));
-      //  setLoading(false);
       navigate(redirect);
-      toast.success("User Successfully LoggedIn");
+      toast.success("Logged in successfully");
     } catch (err) {
-      if (err instanceof Error) {
-        // setLoading(false);
-        // Handle errors here
-        toast.error(err.message);
-      } else {
-        toast.error("An error occurred during login.");
-      }
+      toast.error(err?.data?.message || err?.message || "Login failed");
     }
   };
 
   return (
-    <div className="grid place-content-center items-center bg-[#0E1629] min-h-[100vh]">
-      <section className="ml-2 px-6 flex justify-around items-center flex-wrap gap-8 w-full text-[#ffffff] overflow-hidden pt-[8%]">
-        {/* bg-[#2F3349] */}
-        <div className="text-[#e0e0e0]">
-          <h1 className="text-xl md:text-2xl 2xl:text-3xl font-semibold mb-4 text-[#F6F6F6]">
-            Log In
-          </h1>
-          <h1 className="text-lg md:text-2xl 2xl:text-2xl font-medium mb-2">
-            Welcome to LuxeHaven! 👋🏻
-          </h1>
-          <p className="text-base md:text-lg font-medium mb-4">
-            Please sign-in to your account and start the adventure
-          </p>
+    <div className="min-h-screen bg-brand-dark flex items-center justify-center px-4">
+      <div className="w-full max-w-md animate-fade-in">
+        <h1 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-2">
+          Log In
+        </h1>
+        <p className="text-lg font-medium text-text-secondary mb-1">
+          Welcome to LuxeHaven! 👋🏻
+        </p>
+        <p className="text-text-secondary mb-8">
+          Sign in to your account to continue
+        </p>
 
-          <form
-            onSubmit={submitHandler}
-            className="container w-[21rem] md:w-[33rem] 2xl:w-[36rem]"
-          >
-            <div className="">
-              <label
-                htmlFor="email"
-                className="flex items-center gap-3 text-lg font-medium mb-2 "
-              >
-                <HiOutlineMail size={26} className="text-[#08D9D6]" />
-                <span>Email</span>
-              </label>
-
-              <input
-                type="email"
-                id="email"
-                className="mt-1 p-2 border rounded  w-[320px] md:w-[460px] 2xl:w-[520px] mb-4 bg-[#0E1629] placeholder-[#eaeaeab9]  text-[#F6F6F6] outline-none border-[#57575b] focus:border-[#FF2E63]"
-                placeholder="jhon.doe@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="off"
-              />
-            </div>
-
-            <div className="mb-2">
-              <label
-                htmlFor="password"
-                className="flex items-center gap-3 text-lg font-medium mb-2 "
-              >
-                <RiLockPasswordLine size={26} className="text-[#08D9D6]" />
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={isVisiblePass ? "text" : "password"}
-                  id="password"
-                  className="mt-1 p-2 border rounded  w-[320px] md:w-[460px] 2xl:w-[520px] bg-[#0E1629] placeholder-[#eaeaeab9] text-[#F6F6F6] outline-none border-[#57575b] focus:border-[#FF2E63]"
-                  placeholder="********"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <span
-                  className="absolute right-8 top-3 md:top-[15px] md:right-24 cursor-pointer"
-                  onClick={() => setIsVisiblePass(!isVisiblePass)}
-                >
-                  {isVisiblePass ? (
-                    <BiShowAlt size={20} />
-                  ) : (
-                    <BiHide size={20} />
-                  )}
-                </span>
-              </div>
-            </div>
-
-            <button
-              disabled={isLoading}
-              type="submit"
-              className="bg-[#db1143f3] hover:bg-[#FF2E63] transition-colors text-white border-none outline-none w-[320px] md:w-[460px] 2xl:w-[520px] px-4 py-2 rounded cursor-pointer my-[1rem] text-base font-semibold
-              "
-            >
-              {isLoading ? "Signing In..." : "Login"}
-            </button>
-
-            {isLoading && <Loader />}
-          </form>
-
-          <div className="mt-4">
-            <p className="text-lg">
-              New Customer?{" "}
-              <Link
-                to={redirect ? `/register?redirect=${redirect}` : "/register"}
-                className="text-[#7367F0] hover:underline shadow-2xl shadow-white"
-              >
-                Create an account
-              </Link>
-            </p>
+        <form onSubmit={submitHandler} className="space-y-5">
+          <div>
+            <label htmlFor="email" className="flex items-center gap-2 text-sm font-medium text-text-primary mb-2">
+              <HiOutlineMail size={20} className="text-accent-cyan" />
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              className={inputClasses}
+              placeholder="john.doe@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="off"
+            />
           </div>
-        </div>
-      </section>
+
+          <div>
+            <label htmlFor="password" className="flex items-center gap-2 text-sm font-medium text-text-primary mb-2">
+              <RiLockPasswordLine size={20} className="text-accent-cyan" />
+              Password
+            </label>
+            <div className="relative">
+              <input
+                type={isVisiblePass ? "text" : "password"}
+                id="password"
+                className={inputClasses}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary transition-colors"
+                onClick={() => setIsVisiblePass(!isVisiblePass)}
+                aria-label={isVisiblePass ? "Hide password" : "Show password"}
+              >
+                {isVisiblePass ? <BiShowAlt size={20} /> : <BiHide size={20} />}
+              </button>
+            </div>
+          </div>
+
+          <button
+            disabled={isLoading}
+            type="submit"
+            className="w-full bg-accent-pink-hover hover:bg-accent-pink transition-colors text-white py-2.5 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Signing In..." : "Login"}
+          </button>
+
+          {isLoading && <Loader />}
+        </form>
+
+        <p className="mt-6 text-text-secondary">
+          New Customer?{" "}
+          <Link
+            to={redirect ? `/register?redirect=${redirect}` : "/register"}
+            className="text-accent-purple hover:underline font-medium"
+          >
+            Create an account
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

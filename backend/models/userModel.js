@@ -5,16 +5,20 @@ const userSchema = mongoose.Schema(
     username: {
       type: String,
       required: true,
+      trim: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      lowercase: true,
+      match: [/^\S+@\S+\.\S+$/, "Please provide a valid email address"],
     },
     password: {
       type: String,
       required: true,
-      min: 5,
+      minlength: [5, "Password must be at least 5 characters"],
     },
     isAdmin: {
       type: Boolean,
@@ -28,3 +32,4 @@ const userSchema = mongoose.Schema(
 const User = mongoose.model("User", userSchema);
 
 export default User;
+

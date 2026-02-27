@@ -7,13 +7,13 @@ import {
   useGetProductByIdQuery,
   useUploadProductImageMutation,
 } from "../../redux/api/productApiSlice";
-import { useFetchCategoriesQuery } from "../../redux/api/categoryApiSlice";
+import { useFetchCategoriesQuery } from "../../redux/api/categoryApislice";
 import { toast } from "react-toastify";
 
 const ProductUpdate = () => {
   const params = useParams();
 
-  const { data: productData } = useGetProductByIdQuery(params._id);
+  const { data: productData } = useGetProductByIdQuery(params.id);
 
   // console.log(productData);
 
@@ -26,7 +26,7 @@ const ProductUpdate = () => {
   const [category, setCategory] = useState(productData?.category || "");
   const [quantity, setQuantity] = useState(productData?.quantity || "");
   const [brand, setBrand] = useState(productData?.brand || "");
-  const [stock, setStock] = useState(productData?.countInStock);
+  const [stock, setStock] = useState(productData?.countInStock || "");
 
   // hook
   const navigate = useNavigate();
@@ -51,24 +51,29 @@ const ProductUpdate = () => {
       setQuantity(productData.quantity);
       setBrand(productData.brand);
       setImage(productData.image);
+      setStock(productData.countInStock);
     }
   }, [productData]);
 
+  const toBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+
   const uploadFileHandler = async (e) => {
-    const formData = new FormData();
-    formData.append("image", e.target.files[0]);
+    const file = e.target.files[0];
+    if (!file) return;
+
     try {
-      const res = await uploadProductImage(formData).unwrap();
-      toast.success("Item added successfully", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
-      });
+      const imageData = await toBase64(file);
+      const res = await uploadProductImage({ image: imageData }).unwrap();
       setImage(res.image);
+      toast.success("Image uploaded");
     } catch (err) {
-      toast.success("Item added successfully", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
-      });
+      toast.error(err?.data?.message || "Image upload failed");
     }
   };
 
@@ -86,7 +91,7 @@ const ProductUpdate = () => {
       formData.append("countInStock", stock);
 
       // Update product using the RTK Query mutation
-      const data = await updateProduct({ productId: params._id, formData });
+      const data = await updateProduct({ productId: params.id, formData });
 
       if (data?.error) {
         toast.error(data.error, {
@@ -116,7 +121,7 @@ const ProductUpdate = () => {
       );
       if (!answer) return;
 
-      const { data } = await deleteProduct(params._id);
+      const { data } = await deleteProduct(params.id);
       toast.success(`"${data.name}" is deleted`, {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
@@ -157,7 +162,7 @@ const ProductUpdate = () => {
                 className="border rounded border-[#57575b] xl:px-4 block w-[320px] 
             md:w-[460px] xl:w-[98%] text-center cursor-pointer py-4 text-base 2xl:text-xl font-semibold mb-1 text-[#F6F6F6] overflow-hidden"
               >
-                {image ? image.name : "Upload Image"}
+                {typeof image === "string" ? "Change Image" : image?.name || "Upload Image"}
 
                 <input
                   type="file"
@@ -239,6 +244,7 @@ const ProductUpdate = () => {
                   <select
                     placeholder="Choose Category"
                     className="mt-1 p-2 border rounded  w-[320px] md:w-[460px] 2xl:w-[520px] mb-4 bg-[#0E1629] placeholder-[#eaeaeab9]  text-[#F6F6F6] outline-none border-[#57575b] focus:border-[#FF2E63]"
+                    value={category}
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     {categories?.map((category) => (

@@ -55,25 +55,25 @@ const loginUser = asyncHandler(async (req, res) => {
 
   //verify user exists
   const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    const isPasswordValid = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
-    if (isPasswordValid) {
-      generateToken(res, existingUser._id);
-      res.status(200).json({
-        _id: existingUser._id,
-        username: existingUser.username,
-        email: existingUser.email,
-        isAdmin: existingUser.isAdmin,
-      });
-      return;
-    }
-  } else {
-    res.status(400);
-    throw new Error("User not found");
+  if (!existingUser) {
+    return res.status(401).json({ message: "Invalid email or password" });
   }
+
+  const isPasswordValid = await bcrypt.compare(
+    password,
+    existingUser.password
+  );
+  if (!isPasswordValid) {
+    return res.status(401).json({ message: "Invalid email or password" });
+  }
+
+  generateToken(res, existingUser._id);
+  return res.status(200).json({
+    _id: existingUser._id,
+    username: existingUser.username,
+    email: existingUser.email,
+    isAdmin: existingUser.isAdmin,
+  });
 });
 
 // @desc    Logout the current user
@@ -182,7 +182,7 @@ const deleteUserById = asyncHandler(async (req, res) => {
 
   if (user) {
     // Check, If the user is an admin
-    if (user.admin) {
+    if (user.isAdmin) {
       res.status(400);
       throw new Error("Can not delete Admin");
     }

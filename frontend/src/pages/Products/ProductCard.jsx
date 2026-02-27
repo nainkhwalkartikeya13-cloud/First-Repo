@@ -10,36 +10,39 @@ const ProductCard = ({ p }) => {
 
   const addToCartHandler = (product, qty) => {
     dispatch(addToCart({ ...product, qty }));
-    toast.success("Item added successfully", {
+    toast.success("Added to cart", {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 2000,
     });
   };
 
   return (
-    <div className="w-44 md:w-48 lg:w-64 h-80 lg:h-80 overflow-hidden border border-[#444444] relative rounded-sm shadow">
-      <section className="relative h-[70%]">
+    <div className="group bg-surface-card border border-surface-border rounded-lg overflow-hidden hover:border-surface-border-light transition-all duration-300 flex flex-col h-full">
+      {/* Image */}
+      <section className="relative h-48 lg:h-56 overflow-hidden">
         <Link to={`/product/${p._id}`}>
-          <span className="absolute z-30 bottom-3 right-3 bg-[#0F172A] text-white text-sm font-medium mr-2 px-2.5 py-0.5 rounded-md">
-            {p?.brand}
-          </span>
           <img
-            className="w-full h-full object-cover transition-transform ease-in-out duration-500 transform hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             src={p.image}
             alt={p.name}
-            // style={{ height: "170px", objectFit: "cover" }}
+            loading="lazy"
           />
+          <span className="absolute bottom-2 right-2 bg-brand-navy/80 backdrop-blur-sm text-text-primary text-xs font-medium px-2 py-1 rounded-md">
+            {p?.brand}
+          </span>
         </Link>
         <HeartIcon product={p} />
       </section>
 
-      <div className="h-[30%] mt-2 px-2 overflow-hidden">
-        <div className="flex justify-between">
-          <h5 className="mb-2 text-sm md:text-base text-white">
-            {p?.name.substring(0, 15)}...
-          </h5>
-
-          <p className="font-semibold text-[#FF2E63]">
+      {/* Content */}
+      <div className="p-3 flex flex-col flex-1">
+        <div className="flex justify-between items-start mb-2">
+          <Link to={`/product/${p._id}`}>
+            <h5 className="text-sm font-medium text-text-primary hover:text-accent-pink transition-colors line-clamp-1">
+              {p?.name}
+            </h5>
+          </Link>
+          <p className="font-semibold text-accent-pink text-sm whitespace-nowrap ml-2">
             {p?.price?.toLocaleString("en-US", {
               style: "currency",
               currency: "USD",
@@ -47,40 +50,25 @@ const ProductCard = ({ p }) => {
           </p>
         </div>
 
-        {/* <p className="mb-3 font-normal text-[#CFCFCF]">
-          {p?.description?.substring(0, 60)} ...
-        </p> */}
-
-        <section className="flex justify-between items-center">
+        <div className="flex justify-between items-center mt-auto pt-2">
           <Link
             to={`/product/${p._id}`}
-            className="inline-flex items-center p-1 lg:px-3 lg:py-2 text-sm font-medium text-center text-white bg-[#FF2E63] rounded-sm"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-accent-pink hover:bg-accent-pink-hover rounded-md transition-colors"
           >
-            Read More
-            <svg
-              className="w-3.5 h-3.5 ml-2"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
+            View Details
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 14 10" aria-hidden="true">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M1 5h12m0 0L9 1m4 4L9 9" />
             </svg>
           </Link>
 
           <button
-            className="p-2 rounded-full"
+            className="p-2 rounded-full text-text-secondary hover:text-accent-pink hover:bg-surface-card-hover transition-all"
             onClick={() => addToCartHandler(p, 1)}
+            aria-label={`Add ${p.name} to cart`}
           >
-            <AiOutlineShoppingCart size={25} />
+            <AiOutlineShoppingCart size={20} />
           </button>
-        </section>
+        </div>
       </div>
     </div>
   );

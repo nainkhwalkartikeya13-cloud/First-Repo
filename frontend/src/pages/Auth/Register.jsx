@@ -11,19 +11,21 @@ import { BiHide, BiShowAlt } from "react-icons/bi";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine } from "react-icons/ri";
+
+const inputClasses =
+  "w-full p-2.5 border rounded-lg bg-brand-dark text-text-primary placeholder-text-placeholder outline-none border-surface-border-light focus:border-accent-pink transition-colors";
+
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [isVisiblePass, setIsVisiblePass] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
-
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
@@ -46,39 +48,33 @@ const Register = () => {
         const res = await register({ username, email, password }).unwrap();
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
-        toast.success("User successfully registered");
+        toast.success("Registered successfully");
       } catch (err) {
-        console.log(err);
-        toast.error(`err.data.message || err.message || err`);
+        toast.error(err?.data?.message || err?.message || "Registration failed");
       }
     }
   };
 
   return (
-    <section className="px-6 flex justify-around items-center flex-wrap gap-8 w-full text-[#ffffff] overflow-hidden bg-[#0E1629] min-h-[100vh]">
-      <div className="text-[#e0e0e0]">
-        {/* <h1 className="text-xl md:text-2xl 2xl:text-3xl font-semibold mb-4 text-[#F6F6F6]">
-          Register
-        </h1> */}
-        <h1 className="text-lg md:text-2xl 2xl:text-2xl font-medium mb-2 mt-[5%]">
-          Welcome to LuxeHaven! 👋🏻
+    <div className="min-h-screen bg-brand-dark flex items-center justify-center px-4">
+      <div className="w-full max-w-md animate-fade-in py-8">
+        <h1 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-2">
+          Create Account
         </h1>
+        <p className="text-lg font-medium text-text-secondary mb-6">
+          Welcome to LuxeHaven! 👋🏻
+        </p>
 
-        <form
-          onSubmit={submitHandler}
-          className="container w-[21rem] md:w-[33rem] 2xl:w-[36rem]"
-        >
-          <div className="">
-            <label
-              htmlFor="name"
-              className="flex items-center gap-3 text-lg font-medium mb-2 "
-            >
-              <AiOutlineUserAdd size={26} className="text-[#08D9D6]" /> Username
+        <form onSubmit={submitHandler} className="space-y-4">
+          <div>
+            <label htmlFor="name" className="flex items-center gap-2 text-sm font-medium text-text-primary mb-2">
+              <AiOutlineUserAdd size={20} className="text-accent-cyan" />
+              Username
             </label>
             <input
               type="text"
               id="name"
-              className="mt-1 p-2 border rounded  w-[320px] md:w-[460px] 2xl:w-[520px] mb-4 bg-[#0E1629] placeholder-[#eaeaeab9]  text-[#F6F6F6] outline-none border-[#57575b] focus:border-[#FF2E63]"
+              className={inputClasses}
               placeholder="John Doe"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -86,97 +82,94 @@ const Register = () => {
             />
           </div>
 
-          <div className="">
-            <label
-              htmlFor="email"
-              className="flex items-center gap-3 text-lg font-medium mb-2 "
-            >
-              <HiOutlineMail size={26} className="text-[#08D9D6]" />
+          <div>
+            <label htmlFor="email" className="flex items-center gap-2 text-sm font-medium text-text-primary mb-2">
+              <HiOutlineMail size={20} className="text-accent-cyan" />
               Email
             </label>
             <input
               type="email"
               id="email"
-              className="mt-1 p-2 border rounded  w-[320px] md:w-[460px] 2xl:w-[520px] mb-4 bg-[#0E1629] placeholder-[#eaeaeab9]  text-[#F6F6F6] outline-none border-[#57575b] focus:border-[#FF2E63]"
-              placeholder="jhon.doe@gmail.com"
+              className={inputClasses}
+              placeholder="john.doe@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="off"
             />
           </div>
 
-          <div className="relative">
-            <label
-              htmlFor="password"
-              className="flex items-center gap-3 text-lg font-medium mb-2 "
-            >
-              <RiLockPasswordLine size={26} className="text-[#08D9D6]" />
+          <div>
+            <label htmlFor="password" className="flex items-center gap-2 text-sm font-medium text-text-primary mb-2">
+              <RiLockPasswordLine size={20} className="text-accent-cyan" />
               Password
             </label>
-            <input
-              type={isVisiblePass ? "text" : "password"}
-              id="password"
-              className="mt-1 p-2 border rounded w-[320px] md:w-[460px] 2xl:w-[520px] mb-4 bg-[#0E1629] placeholder-[#eaeaeab9]  text-[#F6F6F6] outline-none border-[#57575b] focus:border-[#FF2E63]"
-              placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <span
-              className="absolute right-8 top-12 md:bottom-0 md:right-24 cursor-pointer"
-              onClick={() => setIsVisiblePass(!isVisiblePass)}
-            >
-              {isVisiblePass ? <BiShowAlt size={20} /> : <BiHide size={20} />}
-            </span>
+            <div className="relative">
+              <input
+                type={isVisiblePass ? "text" : "password"}
+                id="password"
+                className={inputClasses}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary transition-colors"
+                onClick={() => setIsVisiblePass(!isVisiblePass)}
+                aria-label={isVisiblePass ? "Hide password" : "Show password"}
+              >
+                {isVisiblePass ? <BiShowAlt size={20} /> : <BiHide size={20} />}
+              </button>
+            </div>
           </div>
 
-          <div className="relative">
-            <label
-              htmlFor="confirmPassword"
-              className="flex items-center gap-3 text-lg font-medium mb-2 "
-            >
-              <RiLockPasswordLine size={26} className="text-[#08D9D6]" />
+          <div>
+            <label htmlFor="confirmPassword" className="flex items-center gap-2 text-sm font-medium text-text-primary mb-2">
+              <RiLockPasswordLine size={20} className="text-accent-cyan" />
               Confirm Password
             </label>
-            <input
-              type={isVisiblePass ? "text" : "password"}
-              id="confirmPassword"
-              className="mt-1 p-2 border rounded w-[320px] md:w-[460px] 2xl:w-[520px] mb-4 bg-[#0E1629] placeholder-[#eaeaeab9]  text-[#F6F6F6] outline-none border-[#57575b] focus:border-[#FF2E63]"
-              placeholder="********"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <span
-              className="absolute right-8 top-12 md:bottom-0 md:right-24 cursor-pointer"
-              onClick={() => setIsVisiblePass(!isVisiblePass)}
-            >
-              {isVisiblePass ? <BiShowAlt size={20} /> : <BiHide size={20} />}
-            </span>
+            <div className="relative">
+              <input
+                type={isVisiblePass ? "text" : "password"}
+                id="confirmPassword"
+                className={inputClasses}
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary transition-colors"
+                onClick={() => setIsVisiblePass(!isVisiblePass)}
+                aria-label={isVisiblePass ? "Hide password" : "Show password"}
+              >
+                {isVisiblePass ? <BiShowAlt size={20} /> : <BiHide size={20} />}
+              </button>
+            </div>
           </div>
 
           <button
             disabled={isLoading}
             type="submit"
-            className="bg-[#db1143f3] hover:bg-[#FF2E63] transition-colors text-white border-none outline-none w-[320px] md:w-[460px] 2xl:w-[520px] px-4 py-2 rounded cursor-pointer text-base font-semibold"
+            className="w-full bg-accent-pink-hover hover:bg-accent-pink transition-colors text-white py-2.5 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Registering..." : "Register"}
+            {isLoading ? "Creating account..." : "Register"}
           </button>
 
           {isLoading && <Loader />}
         </form>
 
-        <div className="mt-2">
-          <p className="text-lg">
-            Already have an account?{" "}
-            <Link
-              to={redirect ? `/login?redirect=${redirect}` : "/login"}
-              className="text-[#7367F0] hover:underline shadow-2xl shadow-white"
-            >
-              Login
-            </Link>
-          </p>
-        </div>
+        <p className="mt-6 text-text-secondary">
+          Already have an account?{" "}
+          <Link
+            to={redirect ? `/login?redirect=${redirect}` : "/login"}
+            className="text-accent-purple hover:underline font-medium"
+          >
+            Login
+          </Link>
+        </p>
       </div>
-    </section>
+    </div>
   );
 };
 export default Register;

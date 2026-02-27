@@ -24,7 +24,7 @@ const AllProducts = () => {
       <div className="bg-[#0E1629] min-h-[100vh]">
         <div className="">
           <div className="p-3">
-            <div className="text-center text-xl md:text-2xl font-bold">
+            <div className="text-center text-xl md:text-4xl font-bold">
               All Products ({products.length})
             </div>
             <div className="flex flex-wrap justify-around items-center gap-6 flex-col mt-[1rem]">

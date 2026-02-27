@@ -1,30 +1,38 @@
 import asyncHandler from "express-async-handler";
 import Product from "../models/productModel.js";
 
+// Shared validation helper — eliminates duplication
+function validateProductFields(fields) {
+  const { name, brand, description, price, category, countInStock, quantity, image } = fields;
+  const stock = countInStock ?? quantity;
+  const errors = [];
+
+  if (!name) errors.push("Name is required");
+  if (!brand) errors.push("Brand is required");
+  if (!description) errors.push("Description is required");
+  if (!price) errors.push("Price is required");
+  if (!category) errors.push("Category is required");
+  if (!stock) errors.push("Quantity is required");
+  if (!image) errors.push("Image is required");
+
+  return { errors, stock };
+}
+
 // @desc    Add new product
 // @route   POST /api/v1/products
 
 const addProduct = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.fields;
-
-    // Validation
-    switch (true) {
-      case !name:
-        return res.json({ error: "Name is required" });
-      case !brand:
-        return res.json({ error: "Brand is required" });
-      case !description:
-        return res.json({ error: "Description is required" });
-      case !price:
-        return res.json({ error: "Price is required" });
-      case !category:
-        return res.json({ error: "Category is required" });
-      case !quantity:
-        return res.json({ error: "Quantity is required" });
+    const { errors, stock } = validateProductFields(req.fields);
+    if (errors.length > 0) {
+      return res.status(400).json({ error: errors[0] });
     }
 
-    const product = new Product({ ...req.fields });
+    const product = new Product({
+      ...req.fields,
+      price: Number(req.fields.price),
+      countInStock: Number(stock),
+    });
     await product.save();
     res.json(product);
   } catch (error) {
@@ -38,31 +46,20 @@ const addProduct = asyncHandler(async (req, res) => {
 
 const updateProductDetails = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.fields;
-
-    // Validation
-    switch (true) {
-      case !name:
-        return res.json({ error: "Name is required" });
-      case !brand:
-        return res.json({ error: "Brand is required" });
-      case !description:
-        return res.json({ error: "Description is required" });
-      case !price:
-        return res.json({ error: "Price is required" });
-      case !category:
-        return res.json({ error: "Category is required" });
-      case !quantity:
-        return res.json({ error: "Quantity is required" });
+    const { errors, stock } = validateProductFields(req.fields);
+    if (errors.length > 0) {
+      return res.status(400).json({ error: errors[0] });
     }
 
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      { ...req.fields },
-      { new: true }
+      {
+        ...req.fields,
+        price: Number(req.fields.price),
+        countInStock: Number(stock),
+      },
+      { new: true, runValidators: true }
     );
-
-    await product.save();
 
     res.json(product);
   } catch (error) {
@@ -75,7 +72,7 @@ const updateProductDetails = asyncHandler(async (req, res) => {
 // @route   DELETE /api/v1/products/:id
 const removeProduct = asyncHandler(async (req, res) => {
   try {
-    const product = await Product.findByIdAndRemove(req.params.id);
+    const product = await Product.findByIdAndDelete(req.params.id);
     res.json(product);
   } catch (error) {
     console.error(error);
@@ -91,11 +88,11 @@ const fetchProducts = asyncHandler(async (req, res) => {
 
     const keyword = req.query.keyword
       ? {
-          name: {
-            $regex: req.query.keyword,
-            $options: "i",
-          },
-        }
+        name: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
       : {};
 
     const count = await Product.countDocuments({ ...keyword });
@@ -137,7 +134,7 @@ const fetchAllProducts = asyncHandler(async (req, res) => {
     const products = await Product.find({})
       .populate("category")
       .limit(12)
-      .sort({ createAt: -1 });
+      .sort({ createdAt: -1 });
 
     res.json(products);
   } catch (error) {

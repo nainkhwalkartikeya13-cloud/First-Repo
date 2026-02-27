@@ -5,25 +5,19 @@ import asyncHandler from "express-async-handler";
 // @desc    Create new category
 // @route   POST /api/v1/category
 const createCategory = asyncHandler(async (req, res) => {
-  try {
-    const { name } = req.body;
+  const { name } = req.body;
 
-    if (!name) res.status(400).json({ message: "Name should be required" });
+  if (!name) return res.status(400).json({ message: "Name should be required" });
 
-    const existingCategory = await Category.findOne({ name });
-    if (existingCategory) {
-      res
-        .status(400)
-        .json({ message: `Category ${existingCategory.name} already exists` });
-      throw new Error(`Category ${existingCategory.name} already exists`);
-    }
-
-    const category = await new Category({ name }).save();
-    res.status(200).json(category);
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json(error);
+  const existingCategory = await Category.findOne({ name });
+  if (existingCategory) {
+    return res.status(400).json({
+      message: `Category ${existingCategory.name} already exists`,
+    });
   }
+
+  const category = await new Category({ name }).save();
+  res.status(200).json(category);
 });
 
 // @desc    Update category
@@ -34,7 +28,7 @@ const updateCategory = asyncHandler(async (req, res) => {
 
   try {
     const category = await Category.findOne({ _id: categoryId });
-    if (!category) res.status(404).json({ message: "Category not found" });
+    if (!category) return res.status(404).json({ message: "Category not found" });
 
     category.name = name;
 
@@ -50,9 +44,12 @@ const updateCategory = asyncHandler(async (req, res) => {
 // @route   DELETE /api/v1/category/categoryId
 const removeCategory = asyncHandler(async (req, res) => {
   try {
-    const deleteCategory = await Category.findByIdAndRemove(
+    const deleteCategory = await Category.findByIdAndDelete(
       req.params.categoryId
     );
+    if (!deleteCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
     res.status(200).json({
       message: "Category deleted",
       category: {

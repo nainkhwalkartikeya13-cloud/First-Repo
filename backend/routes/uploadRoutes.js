@@ -1,50 +1,36 @@
-import path from "path";
 import express from "express";
-import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
+// ✅ ONLY UPLOAD LOGIC (NO CONFIG HERE)
+router.post("/", async (req, res) => {
+  try {
+    const { image, imageUrl } = req.body;
 
-  filename: (req, file, cb) => {
-    const extname = path.extname(file.originalname);
-    cb(null, `${file.fieldname}-${Date.now()}${extname}`);
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  const filetypes = /jpe?g|png|webp/;
-  const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
-
-  const extname = path.extname(file.originalname).toLowerCase();
-  const mimetype = file.mimetype;
-
-  if (filetypes.test(extname) && mimetypes.test(mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error("Images only"), false);
-  }
-};
-
-const upload = multer({ storage, fileFilter });
-const uploadSingleImage = upload.single("image");
-
-router.post("/", (req, res) => {
-  uploadSingleImage(req, res, (err) => {
-    if (err) {
-      res.status(400).send({ message: err.message });
-    } else if (req.file) {
-      res.status(200).send({
-        message: "Image uploaded successfully",
-        image: `/${req.file.path}`,
-      });
-    } else {
-      res.status(400).send({ message: "No image file provided" });
+    if (!image && !imageUrl) {
+      return res.status(400).json({ message: "No image provided" });
     }
-  });
+
+    const source = image || imageUrl;
+
+    const result = await cloudinary.uploader.upload(source, {
+      folder: "luxe-haven",
+      resource_type: "image",
+    });
+
+    return res.status(200).json({
+      success: true,
+      image: result.secure_url,
+      publicId: result.public_id,
+    });
+  } catch (error) {
+    console.error("❌ Cloudinary Upload Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message || "Upload failed",
+    });
+  }
 });
 
 export default router;

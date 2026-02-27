@@ -15,7 +15,6 @@ import {
   FaStar,
   FaStore,
 } from "react-icons/fa";
-
 import { BsArrowLeft } from "react-icons/bs";
 
 import Loader from "../../components/Loader";
@@ -48,13 +47,8 @@ const ProductDetails = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
     try {
-      await createReview({
-        productId,
-        rating,
-        comment,
-      }).unwrap();
+      await createReview({ productId, rating, comment }).unwrap();
       refetch();
       toast.success("Review created successfully");
     } catch (error) {
@@ -67,21 +61,31 @@ const ProductDetails = () => {
     navigate("/cart");
   };
 
+  const InfoItem = ({ icon: Icon, label, value }) => (
+    <div className="flex items-center gap-2 text-sm text-text-secondary">
+      <Icon className="text-text-muted shrink-0" size={14} />
+      <span className="text-text-muted">{label}:</span>
+      <span className="text-text-primary">{value}</span>
+    </div>
+  );
+
   return (
-    <div className="bg-[#0F172A]">
+    <div className="bg-brand-navy min-h-screen">
       <ContentWrapper>
-        <div className="min-h-[100vh] pb-8">
-          <div className="mb-4">
+        <div className="pb-12">
+          {/* Back link */}
+          <div className="py-4">
             <Link
               to="/"
-              className="text-white font-semibold text-base xl:text-lg"
+              className="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors text-sm"
             >
-              <BsArrowLeft size={25} />
+              <BsArrowLeft size={18} />
+              Back to Home
             </Link>
           </div>
 
           {isLoading ? (
-            <div className="flex justify-center items-center w-full h-[100%]">
+            <div className="flex justify-center items-center min-h-[60vh]">
               <Loader />
             </div>
           ) : error ? (
@@ -90,119 +94,91 @@ const ProductDetails = () => {
             </Message>
           ) : (
             <>
-              <div className="px-4 w-full">
-                <div className="container flex mx-auto flex-col md:flex-row gap-8 flex-wrap w-full relative">
-                  <div className="w-full md:w-1/3 overflow-hidden container flex mx-auto">
-                    <img
-                      src={product?.image}
-                      alt={product?.name}
-                      className="w-full object-cover transition-transform ease-in-out duration-500 transform hover:scale-105"
-                    />
-                    <HeartIcon product={product} />
-                  </div>
-
-                  <div className="pt-8 flex-1 mx-4 h-full ">
-                    <div className="w-[90%]">
-                      <h2 className="text-base md:text-2xl font-semibold">
-                        {product?.name}
-                      </h2>
-                      <p className="my-4 text-sm md:text-base text-[#97A1AF] ">
-                        {product?.description}
-                      </p>
-
-                      <p className="text-base md:text-xl font-semibold xl:font-bold mb-4 text-[#009650]">
-                        <span className="font-medium text-[#dddfe3]">
-                          Price:
-                        </span>{" "}
-                        <s className="font-medium text-[#97A1AF] mr-2">
-                          $ {product?.price * 2}
-                        </s>{" "}
-                        $ {product?.price}
-                      </p>
-
-                      <div className="flex gap-6 my-4">
-                        <div className="flex flex-col gap-3">
-                          <h1 className="flex items-center ">
-                            <FaStore className="mr-2 text-white" /> Brand:{" "}
-                            {product?.brand}
-                          </h1>
-                          <h1 className="flex items-center">
-                            <FaClock className="mr-2 text-white" /> Added:{" "}
-                            {moment(product?.createAt).format("MMM Do YY")}
-                          </h1>
-                          <h1 className="flex items-center">
-                            <FaStar className="mr-2 text-white" /> Reviews:{" "}
-                            {product?.numReviews}
-                          </h1>
-                        </div>
-
-                        <div className="flex flex-col gap-3">
-                          <h1 className="flex items-center ">
-                            <FaStar className="mr-2 text-white" /> Ratings:{" "}
-                            {rating}
-                          </h1>
-                          <h1 className="flex items-center ">
-                            <FaShoppingCart className="mr-2 text-white" />{" "}
-                            Quantity: {product?.quantity}
-                          </h1>
-                          <h1 className="flex items-center">
-                            <FaBox className="mr-2 text-white" /> In Stock:{" "}
-                            {product?.countInStock}
-                          </h1>
-                        </div>
-                      </div>
-
-                      <div className="flex gap-8  md:my-8 flex-wrap">
-                        <Ratings
-                          value={product?.rating}
-                          text={`${product?.numReviews} reviews`}
-                        />
-
-                        {product?.countInStock > 0 && (
-                          <div>
-                            <select
-                              value={qty}
-                              onChange={(e) => setQty(e.target.value)}
-                              className="rounded-sm outline-none p-1 border text-white bg-[#0F172A]"
-                            >
-                              {[...Array(product?.countInStock).keys()].map(
-                                (x) => (
-                                  <option key={x + 1} value={x + 1}>
-                                    {x + 1}
-                                  </option>
-                                )
-                              )}
-                            </select>
-                          </div>
-                        )}
-                      </div>
-                      <div className="btn-container">
-                        <button
-                          onClick={addToCartHandler}
-                          disabled={product.countInStock === 0}
-                          className="bg-[#db1143f3] hover:bg-[#FF2E63] transition-colors text-white border-none outline-none w-full  px-4 py-2 rounded cursor-pointer text-base font-semibold mt-12 mb-4"
-                        >
-                          Add To Cart
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+              {/* Product Layout */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                {/* Image */}
+                <div className="relative overflow-hidden rounded-lg bg-surface-card">
+                  <img
+                    src={product?.image}
+                    alt={product?.name}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    loading="lazy"
+                  />
+                  <HeartIcon product={product} />
                 </div>
 
-                <div className="">
-                  <div className="border border-[#444444] mt-[5rem] container flex flex-wrap items-start justify-between min-h-[300px]">
-                    <ProductTabs
-                      loadingProductReview={loadingProductReview}
-                      userInfo={userInfo}
-                      submitHandler={submitHandler}
-                      rating={rating}
-                      setRating={setRating}
-                      comment={comment}
-                      setComment={setComment}
-                      product={product}
-                    />
+                {/* Details */}
+                <div className="flex flex-col">
+                  <h1 className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-text-primary mb-3">
+                    {product?.name}
+                  </h1>
+
+                  <p className="text-text-secondary text-sm md:text-base leading-relaxed mb-6">
+                    {product?.description}
+                  </p>
+
+                  {/* Price */}
+                  <div className="mb-6">
+                    <span className="text-2xl md:text-3xl font-bold text-accent-green">
+                      ${product?.price}
+                    </span>
                   </div>
+
+                  {/* Info Grid */}
+                  <div className="grid grid-cols-2 gap-3 p-4 bg-surface-card rounded-lg border border-surface-border mb-6">
+                    <InfoItem icon={FaStore} label="Brand" value={product?.brand} />
+                    <InfoItem icon={FaClock} label="Added" value={moment(product?.createAt).format("MMM Do YY")} />
+                    <InfoItem icon={FaStar} label="Reviews" value={product?.numReviews} />
+                    <InfoItem icon={FaStar} label="Rating" value={product?.rating?.toFixed(1)} />
+                    <InfoItem icon={FaShoppingCart} label="Quantity" value={product?.quantity} />
+                    <InfoItem icon={FaBox} label="In Stock" value={product?.countInStock} />
+                  </div>
+
+                  {/* Rating + Quantity */}
+                  <div className="flex items-center gap-6 mb-6">
+                    <Ratings
+                      value={product?.rating}
+                      text={`${product?.numReviews} reviews`}
+                    />
+
+                    {product?.countInStock > 0 && (
+                      <select
+                        value={qty}
+                        onChange={(e) => setQty(Number(e.target.value))}
+                        className="px-3 py-2 rounded-lg bg-surface-card border border-surface-border text-text-primary outline-none focus:border-accent-pink text-sm"
+                      >
+                        {[...Array(product?.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </div>
+
+                  {/* Add to Cart */}
+                  <button
+                    onClick={addToCartHandler}
+                    disabled={product?.countInStock === 0}
+                    className="w-full md:w-auto px-8 py-3 bg-accent-pink-hover hover:bg-accent-pink text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {product?.countInStock === 0 ? "Out of Stock" : "Add to Cart"}
+                  </button>
                 </div>
+              </div>
+
+              {/* Reviews Section */}
+              <div className="mt-12 border border-surface-border rounded-lg p-4 lg:p-6">
+                <ProductTabs
+                  loadingProductReview={loadingProductReview}
+                  userInfo={userInfo}
+                  submitHandler={submitHandler}
+                  rating={rating}
+                  setRating={setRating}
+                  comment={comment}
+                  setComment={setComment}
+                  product={product}
+                />
               </div>
             </>
           )}

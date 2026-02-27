@@ -119,8 +119,10 @@ const countTotalOrders = async (req, res) => {
 // @route   GET /api/v1/products/total-sales
 const calculateTotalSales = async (req, res) => {
   try {
-    const orders = await Order.find();
-    const totalSales = orders.reduce((sum, order) => sum + order.totalPrice, 0);
+    const result = await Order.aggregate([
+      { $group: { _id: null, totalSales: { $sum: "$totalPrice" } } },
+    ]);
+    const totalSales = result.length > 0 ? result[0].totalSales : 0;
     res.json({ totalSales });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -129,7 +131,7 @@ const calculateTotalSales = async (req, res) => {
 
 // @desc     Total sales by date
 // @route   GET /api/v1/products/total-sales-by-date
-const calcualteTotalSalesByDate = async (req, res) => {
+const calculateTotalSalesByDate = async (req, res) => {
   try {
     const salesByDate = await Order.aggregate([
       {
@@ -227,7 +229,7 @@ export {
   getUserOrders,
   countTotalOrders,
   calculateTotalSales,
-  calcualteTotalSalesByDate,
+  calculateTotalSalesByDate,
   findOrderById,
   markOrderAsPaid,
   markOrderAsDelivered,

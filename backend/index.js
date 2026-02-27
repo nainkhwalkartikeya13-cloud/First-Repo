@@ -1,46 +1,74 @@
-// packages
 import path from "path";
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import { v2 as cloudinary } from "cloudinary";
+dotenv.config();
 
-// Utils
-
+import razorpayRoutes from "./routes/razorpayRoutes.js";
 import connectDB from "./config/db.js";
-import userRouter from "./routes/userRouter.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+import userRoutes from "./routes/userRouter.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
-import uploadRoutes from "./routes/uploadRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import { notFound, errorHandler } from "./middlewares/errorHandler.js";
 
-dotenv.config();
-const port = process.env.PORT || 5000;
+// ✅ CLOUDINARY ENV
+const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME;
+const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
+const CLOUDINARY_SECRET_KEY = process.env.CLOUDINARY_SECRET_KEY;
 
+if (!CLOUDINARY_NAME || !CLOUDINARY_API_KEY || !CLOUDINARY_SECRET_KEY) {
+  console.error("❌ Cloudinary env vars missing");
+  process.exit(1);
+}
+
+// ✅ CONFIGURE CLOUDINARY ONCE
+cloudinary.config({
+  cloud_name: CLOUDINARY_NAME,
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_SECRET_KEY,
+});
+
+// ✅ CONNECT DB
 connectDB(process.env.MONGO_URI);
 
 const app = express();
+const port = process.env.PORT || 5000;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// MIDDLEWARE
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    credentials: true,
+  })
+);
+
+// Allow large base64 images
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+
 app.use(cookieParser());
 
-// app.get("/api/v1", (req, res) => {
-//   res.json({ message: "Welcome" });
-// });
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/category", categoryRoutes);
-app.use("/api/v1/products", productRoutes);
-app.use("/api/v1/upload", uploadRoutes);
-app.use("/api/v1/orders", orderRoutes);
-
-//******PayPal********
-app.get("/api/config/paypal", (req, res) => {
-  res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
+// ROUTES
+app.get("/", (req, res) => {
+  res.send("API running 🚀");
 });
 
-const __dirname = path.resolve();
-app.use("/uploads", express.static(path.join(__dirname + "/uploads")));
+app.use("/api/v1/upload", uploadRoutes);
+app.use("/api/v1/razorpay", razorpayRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/category", categoryRoutes);
+app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/orders", orderRoutes);
 
-console.clear();
+// ERROR HANDLING (must be after routes)
+app.use(notFound);
+app.use(errorHandler);
 
-app.listen(port, () => console.log(`Server running on port: ${port}`));
+app.listen(port, () => {
+  console.log(`🚀 Server running on port ${port}`);
+});
+

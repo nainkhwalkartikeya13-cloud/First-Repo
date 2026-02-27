@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -7,11 +8,13 @@
 @font-face {
   font-family: canopee;
   src: url(./Canopee.ttf);
+  font-display: swap;
 }
 
 @font-face {
   font-family: editorial;
   src: url(./editorial.ttf);
+  font-display: swap;
 }
 
 html {
@@ -19,33 +22,33 @@ html {
 }
 
 body {
-  /* background: #0e1629; */
   color: #fff;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  width: 100%;
   overflow-x: hidden;
   font-family: "Inter", sans-serif;
+  background-color: #0F172A;
 }
 
+/* Hide scrollbar across browsers */
 ::-webkit-scrollbar {
   display: none;
 }
+
+* {
+  scrollbar-width: none;
+}
+
+/* ApexCharts dark mode fix */
 .apexcharts-menu {
   background: #000;
 }
 
+/* Utility: gradient text */
 .gradient-text {
   background-image: linear-gradient(0deg, #ad60eb 43%, #ffffff 88%);
-  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* color palettes */
-footer {
-  /* color:#08D9D6, */
-  /* color:#252A34, */
-  /* color:#FF2E63, */
-  /* color:#EAEAEA */
-
-  /* color: #f84c01; */
-  color: #ff4800;
-}
