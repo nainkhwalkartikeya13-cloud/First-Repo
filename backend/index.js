@@ -47,11 +47,14 @@ const port = process.env.PORT || 5000;
 // MIDDLEWARE
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173" || "https://aerolith-seven.vercel.app",
+    origin: [
+      "http://localhost:5173",
+      "https://aerolith-seven.vercel.app",
+      process.env.CORS_ORIGIN
+    ].filter(Boolean),
     credentials: true,
   })
 );
-
 // Allow large base64 images
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
