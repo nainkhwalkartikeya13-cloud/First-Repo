@@ -36,4 +36,21 @@ const authorizeAdmin = (req, res, next) => {
     return res.status(401).json({ message: "Not authorized as an admin." });
 };
 
-export { authenticate, authorizeAdmin };
+const optionalAuthenticate = asyncHandler(async (req, res, next) => {
+    let token = req.cookies.jwt;
+
+    if (!token) {
+        return next();
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = await User.findById(decoded.userId).select("-password");
+        return next();
+    } catch (error) {
+        // Just proceed without setting req.user if token is invalid
+        return next();
+    }
+});
+
+export { authenticate, authorizeAdmin, optionalAuthenticate };
