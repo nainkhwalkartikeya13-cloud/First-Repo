@@ -6,28 +6,34 @@ const sendEmail = async (options) => {
   let transporter;
 
   if ((process.env.EMAIL_HOST && process.env.EMAIL_USER) || (process.env.SMTP_HOST && process.env.SMTP_USER)) {
+    console.log("📧 Using Custom SMTP:", process.env.SMTP_HOST || process.env.EMAIL_HOST);
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || process.env.EMAIL_HOST,
-      port: process.env.SMTP_PORT || process.env.EMAIL_PORT || 587,
+      port: parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || 587),
       auth: {
         user: process.env.SMTP_USER || process.env.EMAIL_USER,
         pass: process.env.SMTP_PASS || process.env.EMAIL_PASS,
       },
+      connectionTimeout: 10000, // 10s
+      greetingTimeout: 10000,   // 10s
     });
   } else {
+    console.log("⚠️ Using Ethereal Fallback for Email");
     // FALLBACK: Ethereal Mail (Real emails, but trapped in a dev mailbox)
     transporter = nodemailer.createTransport({
       host: "smtp.ethereal.email",
       port: 587,
       secure: false,
       auth: {
-        user: "steve.bechtelar@ethereal.email", // Replace with dynamic creation if possible, but static works for demo
+        user: "steve.bechtelar@ethereal.email",
         pass: "V8T6Rk6Tz9uX1Nq6Ua",
       },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
     });
   }
 
-  // DEFINE EMAIL OPTIONS
+  console.log("📤 Sending email to:", options.email, "| Subject:", options.subject);
   const mailOptions = {
     from: `AEROLITH <noreply@aerolith.com>`,
     to: options.email,
@@ -37,6 +43,7 @@ const sendEmail = async (options) => {
 
   // SEND EMAIL
   await transporter.sendMail(mailOptions);
+  console.log("✅ Email sent successfully to:", options.email);
 };
 
 export const sendWelcomeEmail = async (user) => {
