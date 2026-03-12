@@ -1,50 +1,71 @@
 import nodemailer from "nodemailer";
 
-const sendEmail = async (options) => {
-  // CREATE TRANSPORTER
-  // If env vars exist, use them. Otherwise, use Ethereal for testing.
-  let transporter;
+// ─── Core Transporter & Sender ────────────────────────────────────────────────
 
-  if ((process.env.EMAIL_HOST && process.env.EMAIL_USER) || (process.env.SMTP_HOST && process.env.SMTP_USER)) {
+const createTransporter = async () => {
+  const hasCustomSMTP =
+    (process.env.EMAIL_HOST && process.env.EMAIL_USER) ||
+    (process.env.SMTP_HOST && process.env.SMTP_USER);
+
+  if (hasCustomSMTP) {
+    const port = parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || 587);
     console.log("📧 Using Custom SMTP:", process.env.SMTP_HOST || process.env.EMAIL_HOST);
-    transporter = nodemailer.createTransport({
+    return nodemailer.createTransport({
       host: process.env.SMTP_HOST || process.env.EMAIL_HOST,
-      port: parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || 587),
+      port,
+      secure: port === 465, // true for 465, false for 587/others
       auth: {
         user: process.env.SMTP_USER || process.env.EMAIL_USER,
         pass: process.env.SMTP_PASS || process.env.EMAIL_PASS,
-      },
-      connectionTimeout: 10000, // 10s
-      greetingTimeout: 10000,   // 10s
-    });
-  } else {
-    console.log("⚠️ Using Ethereal Fallback for Email");
-    // FALLBACK: Ethereal Mail (Real emails, but trapped in a dev mailbox)
-    transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
-      auth: {
-        user: "steve.bechtelar@ethereal.email",
-        pass: "V8T6Rk6Tz9uX1Nq6Ua",
       },
       connectionTimeout: 10000,
       greetingTimeout: 10000,
     });
   }
 
-  console.log("📤 Sending email to:", options.email, "| Subject:", options.subject);
+  // Fallback: Dynamically create a fresh Ethereal test account (never hardcoded)
+  console.log("⚠️  No SMTP env vars found — creating temporary Ethereal test account");
+  const testAccount = await nodemailer.createTestAccount();
+  console.log("📬 Ethereal test inbox:", `https://ethereal.email/login`);
+  console.log("   User:", testAccount.user, "| Pass:", testAccount.pass);
+
+  return nodemailer.createTransport({
+    host: "smtp.ethereal.email",
+    port: 587,
+    secure: false,
+    auth: {
+      user: testAccount.user,
+      pass: testAccount.pass,
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+  });
+};
+
+const sendEmail = async (options) => {
+  const transporter = await createTransporter();
+
   const mailOptions = {
-    from: `AEROLITH <noreply@aerolith.com>`,
+    from: process.env.EMAIL_FROM || "AEROLITH <noreply@aerolith.com>",
     to: options.email,
     subject: options.subject,
     html: options.html,
   };
 
-  // SEND EMAIL
-  await transporter.sendMail(mailOptions);
+  console.log("📤 Sending email to:", options.email, "| Subject:", options.subject);
+  const info = await transporter.sendMail(mailOptions);
   console.log("✅ Email sent successfully to:", options.email);
+
+  // Log Ethereal preview URL in dev (only works for Ethereal accounts)
+  if (process.env.NODE_ENV !== "production" && info.messageId) {
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    if (previewUrl) {
+      console.log("🔗 Preview email at:", previewUrl);
+    }
+  }
 };
+
+// ─── Welcome Email ────────────────────────────────────────────────────────────
 
 export const sendWelcomeEmail = async (user) => {
   const html = `
@@ -73,7 +94,7 @@ export const sendWelcomeEmail = async (user) => {
           <p>Thank you for joining AEROLITH. We believe that luxury shouldn't come at the cost of the planet. By choosing us, you're supporting sustainable craftsmanship and transparent design.</p>
           <p>Your journey towards conscious style starts here.</p>
           <div style="text-align: center;">
-            <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/shop" class="button">Explore the Collection</a>
+            <a href="${process.env.FRONTEND_URL || "http://localhost:5173"}/shop" class="button">Explore the Collection</a>
           </div>
         </div>
         <div class="footer">
@@ -85,15 +106,20 @@ export const sendWelcomeEmail = async (user) => {
     </html>
   `;
 
-  await sendEmail({
-    email: user.email,
-    subject: "Welcome to AEROLITH",
-    html,
-  });
+  try {
+    await sendEmail({ email: user.email, subject: "Welcome to AEROLITH", html });
+  } catch (error) {
+    // Non-blocking — registration should succeed even if welcome email fails
+    console.error("❌ Failed to send welcome email:", error.message);
+  }
 };
 
+// ─── Order Confirmation Email ─────────────────────────────────────────────────
+
 export const sendOrderConfirmationEmail = async (order, user) => {
-  const itemsHtml = order.orderItems.map(item => `
+  const itemsHtml = order.orderItems
+    .map(
+      (item) => `
     <tr>
       <td style="padding: 15px 0; border-bottom: 1px solid #F0F0F0;">
         <div style="font-weight: 600; font-size: 14px; color: #212A2C;">${item.name}</div>
@@ -103,7 +129,11 @@ export const sendOrderConfirmationEmail = async (order, user) => {
         ₹${(item.price * item.qty).toLocaleString("en-IN")}
       </td>
     </tr>
-  `).join("");
+  `
+    )
+    .join("");
+
+  const orderId = order._id.toString().slice(-8).toUpperCase();
 
   const html = `
     <!DOCTYPE html>
@@ -112,8 +142,6 @@ export const sendOrderConfirmationEmail = async (order, user) => {
       <meta charset="utf-8">
       <style>
         .container { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #212A2C; max-width: 600px; margin: 0 auto; padding: 40px; background-color: #FFFFFF; }
-        .header { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 30px; border-bottom: 2px solid #212A2C; margin-bottom: 30px; }
-        .logo { font-size: 24px; font-weight: bold; color: #212A2C; text-decoration: none; }
         .order-id { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 0.1em; }
         .status-badge { display: inline-block; background-color: #E8F5E9; color: #2E7D32; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; margin-bottom: 20px; }
         .title { font-size: 22px; font-weight: 700; margin: 0 0 10px 0; }
@@ -125,13 +153,15 @@ export const sendOrderConfirmationEmail = async (order, user) => {
     </head>
     <body>
       <div class="container">
-        <div style="text-align: right; margin-bottom: 10px;"><span class="order-id">Order #${order._id.toString().slice(-8).toUpperCase()}</span></div>
+        <div style="text-align: right; margin-bottom: 10px;">
+          <span class="order-id">Order #${orderId}</span>
+        </div>
         <div style="border-bottom: 1px solid #F0F0F0; padding-bottom: 20px; margin-bottom: 30px;">
           <span class="status-badge">Confirmed</span>
           <h1 class="title">It's official, ${user.username}.</h1>
           <p style="margin: 0; color: #767676; font-size: 15px;">We've received your order and we're getting it ready for shipment.</p>
         </div>
-        
+
         <table class="table">
           ${itemsHtml}
           <tr class="total-row">
@@ -159,15 +189,22 @@ export const sendOrderConfirmationEmail = async (order, user) => {
     </html>
   `;
 
-  await sendEmail({
-    email: user.email,
-    subject: `Order Confirmation - #${order._id.toString().slice(-8).toUpperCase()}`,
-    html,
-  });
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: `Order Confirmation - #${orderId}`,
+      html,
+    });
+  } catch (error) {
+    // Non-blocking — order should be saved even if confirmation email fails
+    console.error("❌ Failed to send order confirmation email:", error.message);
+  }
 };
 
+// ─── OTP / Verification Email ─────────────────────────────────────────────────
+
 export const sendOTPEmail = async (email, otp) => {
-  // ALWAYS log OTP to console in development for easy testing
+  // Always log OTP to console in non-production for easy testing
   if (process.env.NODE_ENV !== "production") {
     console.log("-----------------------------------------");
     console.log(`🔑 REGISTRATION OTP FOR ${email}: ${otp}`);
@@ -208,14 +245,11 @@ export const sendOTPEmail = async (email, otp) => {
   `;
 
   try {
-    await sendEmail({
-      email,
-      subject: "AEROLITH - Verification Code",
-      html,
-    });
+    await sendEmail({ email, subject: "AEROLITH - Verification Code", html });
   } catch (error) {
     console.error("❌ Failed to send OTP email:", error.message);
-    // In development, we don't want to block the whole flow just because email failed
+    // OTP is logged to console as fallback in dev — never block registration over email
+    // In production, throw so the caller can return a meaningful error to the user
     if (process.env.NODE_ENV === "production") {
       throw error;
     }
