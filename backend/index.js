@@ -47,7 +47,7 @@ const port = process.env.PORT || 5000;
 // MIDDLEWARE
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173" || "https://aerolith-seven.vercel.app",
     credentials: true,
   })
 );
