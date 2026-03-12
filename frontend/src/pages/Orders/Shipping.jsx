@@ -54,6 +54,7 @@ const Shipping = () => {
         firstName,
         lastName,
         phone,
+        email,
       })
     );
     dispatch(savePaymentMethod("Razorpay"));
