@@ -1,4 +1,4 @@
-export const BASE_URL = "";
+export const BASE_URL = import.meta.env.VITE_API_URL || "https://first-repo-production-63fe.up.railway.app";
 export const USERS_URL = "/api/v1/users";
 export const CATEGORY_URL = "/api/v1/category";
 export const PRODUCT_URL = "/api/v1/products";
