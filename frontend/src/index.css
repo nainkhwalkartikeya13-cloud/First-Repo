@@ -1,5 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -17,38 +18,352 @@
   font-display: swap;
 }
 
+/* ═══════════════════════════════════════
+   ALLBIRDS EXACT COLOR TOKENS
+═══════════════════════════════════════ */
+:root {
+  --ab-charcoal: #212a2c;
+  --ab-white: #ffffff;
+  --ab-offwhite: #f7f5f0;
+  --ab-light-gray: #f0f0ed;
+  --ab-mid-gray: #e0ded9;
+  --ab-text-gray: #6b7280;
+  --ab-border: #e5e4e0;
+
+  --bg-base: #ffffff;
+  --bg-secondary: #f7f5f0;
+  --bg-surface: #f0f0ed;
+  --border: #e5e4e0;
+  --text-base: #212a2c;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+}
+
+.dark {
+  --bg-base: #111827;
+  --bg-secondary: #1a2332;
+  --bg-surface: #1f2d3d;
+  --border: #2d3748;
+  --text-base: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+}
+
+/* ═══════════════════════════════════════
+   BASE
+═══════════════════════════════════════ */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  color: #fff;
   min-height: 100vh;
-  width: 100%;
   overflow-x: hidden;
-  font-family: "Inter", sans-serif;
-  background-color: #0F172A;
+  font-family: "Inter", system-ui, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-base);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Hide scrollbar across browsers */
+/* ═══════════════════════════════════════
+   ALLBIRDS TYPOGRAPHY
+═══════════════════════════════════════ */
+.font-serif-display {
+  font-family: "Source Serif 4", "DM Serif Display", Georgia, serif;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.ab-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ab-nav-link {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   ALLBIRDS CTA BUTTONS
+═══════════════════════════════════════ */
+.ab-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  background-color: #212a2c;
+  color: #ffffff;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  border: 1.5px solid #212a2c;
+}
+
+.ab-btn-primary:hover {
+  background-color: #1a2022;
+}
+
+.ab-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  background-color: transparent;
+  color: #212a2c;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  border: 1.5px solid #212a2c;
+}
+
+.ab-btn-outline:hover {
+  background-color: #212a2c;
+  color: #ffffff;
+}
+
+.dark .ab-btn-primary {
+  background-color: #f9fafb;
+  color: #212a2c;
+  border-color: #f9fafb;
+}
+
+.dark .ab-btn-outline {
+  color: #f9fafb;
+  border-color: #f9fafb;
+}
+
+.dark .ab-btn-outline:hover {
+  background-color: #f9fafb;
+  color: #212a2c;
+}
+
+/* Tab underline indicator */
+.ab-tab {
+  position: relative;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #9ca3af;
+  cursor: pointer;
+  padding-bottom: 6px;
+  transition: color 0.2s;
+}
+
+.ab-tab.active {
+  color: #212a2c;
+}
+
+.ab-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #212a2c;
+  border-radius: 1px;
+}
+
+.dark .ab-tab.active {
+  color: #f9fafb;
+}
+
+.dark .ab-tab.active::after {
+  background-color: #f9fafb;
+}
+
+/* ═══════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════ */
 ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 99px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #374151;
+}
+
+/* ═══════════════════════════════════════
+   SMOOTH TRANSITIONS
+═══════════════════════════════════════ */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.no-transition * {
+  transition: none !important;
+}
+
+/* ═══════════════════════════════════════
+   SHIMMER SKELETON
+═══════════════════════════════════════ */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: #e5e4e0;
+}
+
+.dark .skeleton {
+  background: #1f2d3d;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  animation: shimmer 1.8s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+/* ═══════════════════════════════════════
+   MARQUEE TICKER
+═══════════════════════════════════════ */
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  animation: ticker 28s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+/* ═══════════════════════════════════════
+   NO SCROLLBAR
+═══════════════════════════════════════ */
+.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
-
-* {
+.no-scrollbar {
+  -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-/* ApexCharts dark mode fix */
-.apexcharts-menu {
-  background: #000;
+/* ═══════════════════════════════════════
+   LINE CLAMP
+═══════════════════════════════════════ */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* Utility: gradient text */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════
+   RANGE INPUT
+═══════════════════════════════════════ */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: #e5e4e0;
+  border-radius: 99px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #212a2c;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════
+   FOCUS
+═══════════════════════════════════════ */
+:focus-visible {
+  outline: 2px solid #212a2c;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ═══════════════════════════════════════
+   ANNOUNCEMENT BAR
+═══════════════════════════════════════ */
+.ab-announcement {
+  background-color: #212a2c;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: center;
+  padding: 11px 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+}
+
+/* ═══════════════════════════════════════
+   GRADIENT TEXT
+═══════════════════════════════════════ */
 .gradient-text {
-  background-image: linear-gradient(0deg, #ad60eb 43%, #ffffff 88%);
+  background-image: linear-gradient(135deg, #212a2c 0%, #4a7c7d 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+.dark .gradient-text {
+  background-image: linear-gradient(135deg, #f9fafb 0%, #22d3ee 100%);
+}
+
+/* APEXCHARTS */
+.apexcharts-menu {
+  background: #1f2d3d;
+  border-color: #2d3748;
+}

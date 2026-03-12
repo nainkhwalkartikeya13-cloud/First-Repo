@@ -21,6 +21,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    googleAuth: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/google-auth`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     register: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}`,
@@ -63,13 +70,23 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    requestOTP: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/request-otp`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    verifyOTP: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/verify-otp`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-// Create a function to use the "login" mutation endpoint
-// This function can be used to perform user logins
-// It will be called useLoginMutation
-//`use${login}Mutation`
 export const {
   useLoginMutation,
   useLogoutMutation,
@@ -79,4 +96,7 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useGetUserDetailsQuery,
+  useRequestOTPMutation,
+  useVerifyOTPMutation,
+  useGoogleAuthMutation,
 } = userApiSlice;

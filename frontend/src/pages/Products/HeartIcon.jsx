@@ -37,13 +37,13 @@ const HeartIcon = ({ product }) => {
 
   return (
     <div
-      className="absolute top-2 right-5 cursor-pointer"
+      className="cursor-pointer p-1.5 rounded-full bg-white/80 dark:bg-gray-900/60 backdrop-blur-sm hover:scale-110 transition-transform"
       onClick={toggleFavorites}
     >
       {isFavorite ? (
-        <FaHeart className="text-[#FF2E63]" />
+        <FaHeart className="text-red-500 text-base" />
       ) : (
-        <FaRegHeart className="text-white" />
+        <FaRegHeart className="text-gray-500 dark:text-gray-300 hover:text-red-400 transition-colors text-base" />
       )}
     </div>
   );

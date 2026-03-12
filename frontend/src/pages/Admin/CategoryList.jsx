@@ -96,14 +96,14 @@ const CategoryList = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center md:flex-row pt-10 bg-[#0E1629] min-h-[100vh]">
+    <div className="flex flex-col justify-center md:flex-row pt-10 bg-white dark:bg-white min-h-[100vh] text-gray-900 dark:text-gray-900 transition-colors duration-300 pb-20">
       {/* <AdminMenu /> */}
       <ContentWrapper>
         <div className="px-4">
-          <h1 className="text-xl md:text-3xl font-semibold mb-4 text-[#F6F6F6]">
-            Welcome to LuxeHaven! 👋🏻
+          <h1 className="text-xl md:text-3xl font-semibold mb-4 text-gray-900 dark:text-gray-900">
+            Welcome to AEROLITH! 👋🏻
           </h1>
-          <h1 className="text-xl md:text-2xl font-medium mb-2">
+          <h1 className="text-xl md:text-2xl font-medium mb-2 text-gray-800 dark:text-gray-800">
             Manage Categories
           </h1>
           <CategoryForm
@@ -120,7 +120,7 @@ const CategoryList = () => {
             {categories?.map((category) => (
               <div key={category._id}>
                 <button
-                  className="border border-[#08D9D6] transition-all ease-in hover:bg-[#02f2ff] text-[#ffffff] hover:text-[#000000] font-bold py-2 px-4 rounded-sm m-3 focus:outline-none  focus:ring-opacity-50"
+                  className="border border-accent-cyan dark:border-accent-cyan text-gray-700 dark:text-gray-200 bg-white dark:bg-transparent hover:bg-accent-cyan hover:text-white dark:hover:text-black font-semibold py-2.5 px-6 rounded-lg m-2 focus:outline-none transition-colors shadow-sm"
                   onClick={() => {
                     {
                       setModalVisible(true);

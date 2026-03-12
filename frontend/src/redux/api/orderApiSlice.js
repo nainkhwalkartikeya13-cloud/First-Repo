@@ -62,6 +62,30 @@ export const orderApiSlice = apiSlice.injectEndpoints({
     getTotalSalesByDate: builder.query({
       query: () => `${ORDERS_URL}/total-sales-by-date`,
     }),
+
+    processOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/${orderId}/process`,
+        method: "PUT",
+      }),
+    }),
+
+    shipOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `${ORDERS_URL}/${orderId}/ship`,
+        method: "PUT",
+      }),
+    }),
+    getMonthlyRevenueGrowth: builder.query({
+      query: () => `${ORDERS_URL}/revenue-growth`,
+    }),
+
+    getTopSellingProducts: builder.query({
+      query: () => `${ORDERS_URL}/top-selling`,
+    }),
+    checkPurchase: builder.query({
+      query: (productId) => `${ORDERS_URL}/check-purchase/${productId}`,
+    }),
   }),
 });
 
@@ -69,6 +93,8 @@ export const {
   useGetTotalOrdersQuery,
   useGetTotalSalesQuery,
   useGetTotalSalesByDateQuery,
+  useGetMonthlyRevenueGrowthQuery,
+  useGetTopSellingProductsQuery,
   // ------------------
   useCreateOrderMutation,
   useGetOrderDetailsQuery,
@@ -76,5 +102,8 @@ export const {
   useGetPaypalClientIdQuery,
   useGetMyOrdersQuery,
   useDeliverOrderMutation,
+  useProcessOrderMutation,
+  useShipOrderMutation,
   useGetOrdersQuery,
+  useCheckPurchaseQuery,
 } = orderApiSlice;

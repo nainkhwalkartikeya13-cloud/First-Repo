@@ -1,36 +1,41 @@
 import express from "express";
 import crypto from "crypto";
-import razorpay from "../config/razorpay.js";
+import getRazorpay from "../config/razorpay.js";
 import Order from "../models/orderModel.js";
 
 const router = express.Router();
 
 // ✅ Create Razorpay order
 router.post("/create-order", async (req, res) => {
-  const { amount, mongoOrderId } = req.body;
+  try {
+    const { amount, mongoOrderId } = req.body;
 
-  if (!amount || !mongoOrderId)
-    return res.status(400).json({ message: "Amount and Order ID required" });
+    if (!amount || !mongoOrderId)
+      return res.status(400).json({ message: "Amount and Order ID required" });
 
-  const order = await Order.findById(mongoOrderId);
-  if (!order) return res.status(404).json({ message: "Order not found" });
+    const order = await Order.findById(mongoOrderId);
+    if (!order) return res.status(404).json({ message: "Order not found" });
 
-  const options = {
-    amount: Math.round(amount * 100),
-    currency: "INR",
-    receipt: mongoOrderId,
-  };
+    const options = {
+      amount: Math.round(Number(amount) * 100),
+      currency: "INR",
+      receipt: mongoOrderId,
+    };
 
-  const razorpayOrder = await razorpay.orders.create(options);
+    const razorpayOrder = await getRazorpay().orders.create(options);
 
-  order.razorpayOrderId = razorpayOrder.id;
-  await order.save();
+    order.razorpayOrderId = razorpayOrder.id;
+    await order.save();
 
-  res.status(200).json({
-    razorpayOrderId: razorpayOrder.id,
-    amount: razorpayOrder.amount,
-    currency: razorpayOrder.currency,
-  });
+    res.status(200).json({
+      razorpayOrderId: razorpayOrder.id,
+      amount: razorpayOrder.amount,
+      currency: razorpayOrder.currency,
+    });
+  } catch (error) {
+    console.error("Razorpay create-order error:", error.message);
+    res.status(500).json({ message: error.message || "Failed to create Razorpay order" });
+  }
 });
 
 // ✅ Verify Razorpay payment

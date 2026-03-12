@@ -17,11 +17,13 @@ const ProductList = () => {
     name: "",
     description: "",
     price: "",
+    discountPrice: "",
     category: "",
     quantity: "",
     brand: "",
     countInStock: "",
     image: "",
+    images: [],
   });
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -56,9 +58,23 @@ const ProductList = () => {
       const res = await uploadProductImage({ image }).unwrap();
       setForm((prev) => ({ ...prev, image: res.image }));
       setImagePreview(res.image);
-      toast.success(res.message);
+      toast.success(res.message || "Image uploaded successfully");
     } catch (err) {
-      toast.error(err?.data?.message || "Image upload failed");
+      toast.error(err?.data?.message || err?.message || "Image upload failed");
+    }
+  };
+
+  const uploadExtraFileHandler = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const image = await toBase64(file);
+      const res = await uploadProductImage({ image }).unwrap();
+      setForm((prev) => ({ ...prev, images: [...prev.images, res.image] }));
+      toast.success("Additional image added successfully");
+    } catch (err) {
+      toast.error(err?.data?.message || err?.message || "Image upload failed");
     }
   };
 
@@ -74,7 +90,13 @@ const ProductList = () => {
     try {
       const formData = new FormData();
       Object.entries(form).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) formData.append(key, value);
+        if (value !== undefined && value !== null) {
+          if (Array.isArray(value)) {
+            value.forEach(val => formData.append(key, val));
+          } else {
+            formData.append(key, value);
+          }
+        }
       });
 
       const res = await createProduct(formData).unwrap();
@@ -86,7 +108,7 @@ const ProductList = () => {
   };
 
   return (
-    <div className="bg-[#0E1629] min-h-screen text-[#F6F6F6]">
+    <div className="bg-white dark:bg-white min-h-screen text-gray-900 dark:text-gray-900 transition-colors duration-300 pb-20 pt-10">
       <ContentWrapper>
         <div className="grid place-content-center py-8">
           <form
@@ -107,8 +129,8 @@ const ProductList = () => {
             )}
 
             {/* Image Upload */}
-            <label className="block border border-[#444] rounded p-4 text-center cursor-pointer mb-4">
-              {uploading ? "Uploading..." : "Upload Image"}
+            <label className="block border border-dashed border-gray-300 dark:border-gray-300 bg-white dark:bg-white rounded-lg p-8 text-center cursor-pointer mb-4 text-gray-700 dark:text-gray-700 hover:bg-gray-50 dark:hover:bg-gray-50 transition-colors">
+              {uploading ? "Uploading..." : "Upload Primary Image"}
               <input
                 type="file"
                 accept="image/*"
@@ -117,9 +139,34 @@ const ProductList = () => {
               />
             </label>
 
+            {/* Extra Images Preview & Upload */}
+            {form.images.length > 0 && (
+              <div className="flex gap-2 mb-4 overflow-x-auto">
+                {form.images.map((img, i) => (
+                  <img key={i} src={img} alt={`extra-${i}`} className="h-16 w-16 object-cover rounded" />
+                ))}
+              </div>
+            )}
+            <label className="block border border-dashed border-gray-300 dark:border-gray-300 bg-white dark:bg-white rounded-lg p-4 text-center text-sm cursor-pointer mb-6 text-gray-600 dark:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-50 transition-colors">
+              {uploading ? "Uploading..." : "+ Add Additional Image"}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={uploadExtraFileHandler}
+                hidden
+              />
+            </label>
+
             {/* Inputs */}
             <Input name="name" label="Name" value={form.name} onChange={handleChange} />
-            <Input name="price" label="Price" type="number" value={form.price} onChange={handleChange} />
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <Input name="price" label="Price" type="number" value={form.price} onChange={handleChange} />
+              </div>
+              <div className="flex-1">
+                <Input name="discountPrice" label="Discount Price" type="number" value={form.discountPrice} onChange={handleChange} />
+              </div>
+            </div>
             <Input name="quantity" label="Quantity" type="number" value={form.quantity} onChange={handleChange} />
             <Input name="brand" label="Brand" value={form.brand} onChange={handleChange} />
             <Input name="countInStock" label="Count In Stock" type="number" value={form.countInStock} onChange={handleChange} />
@@ -130,7 +177,7 @@ const ProductList = () => {
               name="category"
               value={form.category}
               onChange={handleChange}
-              className="input"
+              className="w-full mt-1 p-2.5 border rounded-lg bg-white dark:bg-white text-gray-900 dark:text-gray-900 outline-none border-gray-300 dark:border-gray-300 focus:border-gray-400 dark:focus:border-gray-400 transition-colors"
             >
               <option value="">Select category</option>
               {categories.map((cat) => (
@@ -146,14 +193,14 @@ const ProductList = () => {
               name="description"
               value={form.description}
               onChange={handleChange}
-              className="input h-24"
+              className="w-full mt-1 p-2.5 border rounded-lg bg-white dark:bg-white text-gray-900 dark:text-gray-900 outline-none border-gray-300 dark:border-gray-300 focus:border-gray-400 dark:focus:border-gray-400 transition-colors h-24 resize-y"
             />
 
             {/* Submit */}
             <button
               type="submit"
               disabled={creating}
-              className="w-full mt-6 bg-[#db1143f3] hover:bg-[#FF2E63] py-2 rounded font-semibold disabled:opacity-60"
+              className="w-full mt-6 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors text-white dark:text-gray-900 py-3 rounded-lg font-semibold disabled:opacity-60 shadow-md"
             >
               {creating ? "Creating..." : "Create Product"}
             </button>
@@ -172,7 +219,7 @@ const Input = ({ label, ...props }) => (
     <label className="block mb-1">{label}</label>
     <input
       {...props}
-      className="input"
+      className="w-full mt-1 p-2.5 border rounded-lg bg-white dark:bg-white text-gray-900 dark:text-gray-900 placeholder-gray-400 dark:placeholder-gray-400 outline-none border-gray-300 dark:border-gray-300 focus:border-gray-400 dark:focus:border-gray-400 transition-colors"
     />
   </div>
 );

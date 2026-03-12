@@ -4,7 +4,7 @@ const orderSchema = mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: false,
       ref: "User",
     },
 
@@ -14,6 +14,7 @@ const orderSchema = mongoose.Schema(
         qty: { type: Number, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
+        size: { type: String }, // Optional to support accessories with no size
         product: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
@@ -23,10 +24,14 @@ const orderSchema = mongoose.Schema(
     ],
 
     shippingAddress: {
+      firstName: { type: String },
+      lastName: { type: String },
+      phone: { type: String, required: true },
       address: { type: String, required: true },
       city: { type: String, required: true },
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
+      apartment: { type: String },
     },
 
     paymentMethod: {
@@ -79,7 +84,22 @@ const orderSchema = mongoose.Schema(
     paidAt: {
       type: Date,
     },
-
+    isProcessing: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    processedAt: {
+      type: Date,
+    },
+    isShipped: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    shippedAt: {
+      type: Date,
+    },
     isDelivered: {
       type: Boolean,
       required: true,
@@ -88,6 +108,29 @@ const orderSchema = mongoose.Schema(
 
     deliveredAt: {
       type: Date,
+    },
+    isCancelled: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    cancelledAt: {
+      type: Date,
+    },
+    statusRecord: [
+      {
+        status: { type: String },
+        timestamp: { type: Date, default: Date.now },
+        message: { type: String },
+      },
+    ],
+    returnRequest: {
+      isRequested: { type: Boolean, default: false },
+      requestType: { type: String, enum: ["Return", "Exchange", null], default: null },
+      reason: { type: String },
+      status: { type: String, enum: ["Pending", "Approved", "Rejected", "Completed", null], default: null },
+      requestedAt: { type: Date },
+      adminComment: { type: String },
     },
   },
   {

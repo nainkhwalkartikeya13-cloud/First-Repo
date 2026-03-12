@@ -26,21 +26,21 @@ const AdminMenu = () => {
                 <HiOutlineMenuAlt1 color="white" size={26} />
               </>
             )} */}
-            <RxDashboard size={26} />
+            <RxDashboard size={26} className="text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-white transition-colors" />
           </button>
         </div>
       </ContentWrapper>
       <ContentWrapper>
         <div className="relative">
           {isMenuOpen && (
-            <section className="bg-[#000000] p-4 fixed top-[80px] right-6 2xl:right-[10%]">
+            <section className="bg-white dark:bg-white border border-gray-200 dark:border-gray-200 text-gray-900 dark:text-gray-900 p-4 fixed top-[80px] right-6 2xl:right-[10%] rounded-xl shadow-lg z-50">
               <ul className="list-none mt-2" onClick={toggleMenu}>
                 <li>
                   <NavLink
-                    className="list-item py-2 px-3 mb-5 hover:bg-[#2E2D2D] rounded-sm"
+                    className="list-item py-2 px-3 mb-5 hover:bg-gray-100 dark:hover:bg-gray-100 rounded-lg transition-colors"
                     to="/admin/dashboard"
                     style={({ isActive }) => ({
-                      color: isActive ? "greenyellow" : "white",
+                      color: isActive ? "#db1143f3" : "",
                     })}
                   >
                     Admin Dashboard
@@ -48,10 +48,10 @@ const AdminMenu = () => {
                 </li>
                 <li>
                   <NavLink
-                    className="list-item py-2 px-3 mb-5 hover:bg-[#2E2D2D] rounded-sm"
+                    className="list-item py-2 px-3 mb-5 hover:bg-gray-100 dark:hover:bg-gray-100 rounded-lg transition-colors"
                     to="/admin/categorylist"
                     style={({ isActive }) => ({
-                      color: isActive ? "greenyellow" : "white",
+                      color: isActive ? "#db1143f3" : "",
                     })}
                   >
                     Create Category
@@ -59,10 +59,10 @@ const AdminMenu = () => {
                 </li>
                 <li>
                   <NavLink
-                    className=" py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
+                    className=" py-2 px-3 block mb-5 hover:bg-gray-100 dark:hover:bg-gray-100 rounded-lg transition-colors"
                     to="/admin/productlist"
                     style={({ isActive }) => ({
-                      color: isActive ? "greenyellow" : "white",
+                      color: isActive ? "#db1143f3" : "",
                     })}
                   >
                     Create Product
@@ -70,10 +70,10 @@ const AdminMenu = () => {
                 </li>
                 <li>
                   <NavLink
-                    className=" py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
+                    className=" py-2 px-3 block mb-5 hover:bg-gray-100 dark:hover:bg-gray-100 rounded-lg transition-colors"
                     to="/admin/allproductslist"
                     style={({ isActive }) => ({
-                      color: isActive ? "greenyellow" : "white",
+                      color: isActive ? "#db1143f3" : "",
                     })}
                   >
                     All Products
@@ -81,10 +81,10 @@ const AdminMenu = () => {
                 </li>
                 <li>
                   <NavLink
-                    className="py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
+                    className="py-2 px-3 block mb-5 hover:bg-gray-100 dark:hover:bg-gray-100 rounded-lg transition-colors"
                     to="/admin/userlist"
                     style={({ isActive }) => ({
-                      color: isActive ? "greenyellow" : "white",
+                      color: isActive ? "#db1143f3" : "",
                     })}
                   >
                     Manage Users
@@ -92,13 +92,24 @@ const AdminMenu = () => {
                 </li>
                 <li>
                   <NavLink
-                    className="py-2 px-3 block mb-5 hover:bg-[#2E2D2D] rounded-sm"
+                    className="py-2 px-3 block mb-5 hover:bg-gray-100 dark:hover:bg-gray-100 rounded-lg transition-colors"
                     to="/admin/orderlist"
                     style={({ isActive }) => ({
-                      color: isActive ? "greenyellow" : "white",
+                      color: isActive ? "#db1143f3" : "",
                     })}
                   >
                     Manage Orders
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="py-2 px-3 block mb-5 hover:bg-gray-100 dark:hover:bg-gray-100 rounded-lg transition-colors"
+                    to="/admin/couponlist"
+                    style={({ isActive }) => ({
+                      color: isActive ? "#db1143f3" : "",
+                    })}
+                  >
+                    Manage Coupons
                   </NavLink>
                 </li>
               </ul>
@@ -111,4 +122,3 @@ const AdminMenu = () => {
 };
 
 export default AdminMenu;
- 

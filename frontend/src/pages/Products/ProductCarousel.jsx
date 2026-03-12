@@ -1,21 +1,10 @@
 import {
-  useGetTopProductsQuery,
   useGetNewProductsQuery,
 } from "../../redux/api/productApiSlice";
 import Message from "../../components/Message";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import moment from "moment";
-
-import {
-  FaBox,
-  FaClock,
-  FaShoppingCart,
-  FaStar,
-  FaStore,
-} from "react-icons/fa";
-import ContentWrapper from "../../components/ContentWrapper";
 
 const ProductCarousel = () => {
   const { data: products, isLoading, error } = useGetNewProductsQuery();
@@ -32,7 +21,6 @@ const ProductCarousel = () => {
   };
 
   return (
-    // <ContentWrapper>
     <div className="">
       {isLoading ? null : error ? (
         <Message variant="danger">
@@ -40,7 +28,7 @@ const ProductCarousel = () => {
         </Message>
       ) : (
         <>
-          <h1 className="text-base lg:text-2xl font-bold mb-8">
+          <h1 className="text-base lg:text-2xl font-bold mb-8 text-gray-900 dark:text-white">
             Featured Products
           </h1>
 
@@ -55,66 +43,29 @@ const ProductCarousel = () => {
                 name,
                 price,
                 description,
-                brand,
-                createdAt,
-                numReviews,
-                rating,
-                quantity,
-                countInStock,
               }) => (
                 <div key={_id} className="mx-auto h-[450px] md:h-[700px]">
                   <img
                     src={image}
                     alt={name}
-                    className="w-full rounded-sm object-cover h-[80%]"
+                    className="w-full rounded-xl object-cover h-[80%] shadow-sm dark:shadow-none"
                   />
 
-                  <div className="mt-2 flex border border-[#444444] px-2 p-2 text-[#d8e2f2c3] overflow-hidden">
-                    <div className="one">
-                      <div className="flex gap-8 justify-between">
-                        <h2 className="text-base md:text-lg font-medium text-white/80 mb-2">
+                  <div className="mt-4 flex border border-gray-200 dark:border-[#444444] bg-white dark:bg-transparent rounded-lg px-2 p-3 text-gray-600 dark:text-[#d8e2f2c3] overflow-hidden shadow-sm dark:shadow-none transition-colors">
+                    <div className="one w-full">
+                      <div className="flex gap-8 justify-between items-center w-full">
+                        <h2 className="text-base md:text-lg font-medium text-gray-900 dark:text-white/80 mb-2">
                           {name.substring(0, 50)}...
                         </h2>
-                        <p className="text-[#009650] text-sm md:text-base md:font-bold hidden md:flex">
+                        <p className="text-gray-900 dark:text-indigo-400 font-bold text-sm md:text-base hidden md:flex">
                           {" "}
-                          $ {price}
+                          ₹ {price}
                         </p>
                       </div>
                       <p className="md:flex text-sm hidden">
                         {description.substring(0, 120)} ...
                       </p>
                     </div>
-
-                    {/* <div className="flex justify-between w-1/2">
-                      <div className="one">
-                        <h1 className="flex items-center mb-6">
-                          <FaStore className="mr-2 text-white" /> Brand: {brand}
-                        </h1>
-                        <h1 className="flex items-center mb-6">
-                          <FaClock className="mr-2 text-white" /> Added:{" "}
-                          {moment(createdAt).fromNow()}
-                        </h1>
-                        <h1 className="flex items-center mb-6">
-                          <FaStar className="mr-2 text-white" /> Reviews:
-                          {numReviews}
-                        </h1>
-                      </div>
-
-                      <div className="two">
-                        <h1 className="flex items-center mb-6">
-                          <FaStar className="mr-2 text-white" /> Ratings:{" "}
-                          {Math.round(rating)}
-                        </h1>
-                        <h1 className="flex items-center mb-6">
-                          <FaShoppingCart className="mr-2 text-white" />{" "}
-                          Quantity: {quantity}
-                        </h1>
-                        <h1 className="flex items-center mb-6">
-                          <FaBox className="mr-2 text-white" /> In Stock:{" "}
-                          {countInStock}
-                        </h1>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               )
@@ -123,7 +74,6 @@ const ProductCarousel = () => {
         </>
       )}
     </div>
-    // </ContentWrapper>
   );
 };
 

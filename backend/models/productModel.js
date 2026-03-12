@@ -34,6 +34,11 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    images: [
+      {
+        type: String,
+      },
+    ],
     brand: {
       type: String,
       required: true,
@@ -51,6 +56,42 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    material: {
+      type: String,
+      default: "",
+    },
+    colors: [
+      {
+        name: { type: String },
+        hex: { type: String },
+      },
+    ],
+    sizes: [
+      {
+        type: String,
+      },
+    ],
+    outOfStockSizes: [
+      {
+        type: String,
+      },
+    ],
+    sustainability: {
+      type: String,
+      default: "",
+    },
+    productCollection: {
+      type: String,
+      default: "",
+    },
+    isBestseller: {
+      type: Boolean,
+      default: false,
+    },
+    isNewArrival: {
+      type: Boolean,
+      default: false,
+    },
     reviews: [reviewSchema],
     rating: {
       type: Number,
@@ -65,6 +106,10 @@ const productSchema = mongoose.Schema(
     price: {
       type: Number,
       required: true,
+      default: 0,
+    },
+    discountPrice: {
+      type: Number,
       default: 0,
     },
     countInStock: {

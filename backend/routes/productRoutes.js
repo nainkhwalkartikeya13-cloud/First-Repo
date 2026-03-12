@@ -13,10 +13,16 @@ import {
   fetchTopProducts,
   fetchNewProducts,
   filterProducts,
+  getSearchSuggestions,
+  bulkUpload,
 } from "../controllers/productController.js";
+import multer from "multer";
 
 const router = express.Router();
+const upload = multer({ dest: "uploads/" });
 
+router.get("/search/suggestions", getSearchSuggestions);
+router.post("/bulk-upload", authenticate, authorizeAdmin, upload.single("file"), bulkUpload);
 router.route("/").get(fetchProducts).post(authenticate, authorizeAdmin, formidable(), addProduct);
 router.route("/allProducts").get(fetchAllProducts);
 router.route("/:id/reviews").post(authenticate, checkId, addProductReview);
@@ -27,7 +33,7 @@ router.route("/filtered-products").post(filterProducts);
 router
   .route("/:id")
   .get(fetchProductById)
-  .put(authenticate, authorizeAdmin, formidable(), updateProductDetails)
+  .put(authenticate, authorizeAdmin, updateProductDetails)
   .delete(authenticate, authorizeAdmin, removeProduct);
 
 export default router;

@@ -1,10 +1,15 @@
 import path from "path";
-import express from "express";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
-dotenv.config();
+
+// Load .env relative to this file — works from any working directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, ".env") });
 
 import razorpayRoutes from "./routes/razorpayRoutes.js";
 import connectDB from "./config/db.js";
@@ -13,6 +18,7 @@ import userRoutes from "./routes/userRouter.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import couponRoutes from "./routes/couponRoutes.js";
 import { notFound, errorHandler } from "./middlewares/errorHandler.js";
 
 // ✅ CLOUDINARY ENV
@@ -56,6 +62,8 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("API running 🚀");
 });
+
+app.use("/api/v1/coupon", couponRoutes);
 
 app.use("/api/v1/upload", uploadRoutes);
 app.use("/api/v1/razorpay", razorpayRoutes);

@@ -9,6 +9,9 @@ import {
   deleteUserById,
   getUserById,
   updateUserById,
+  requestOTP,
+  verifyOTPAndRegister,
+  googleAuth,
 } from "../controllers/userController.js";
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware.js";
 const router = express.Router();
@@ -25,7 +28,10 @@ router
   .put(authenticate, updateCurrentUserProfile);
 
 router.post("/auth", loginUser);
+router.post("/google-auth", googleAuth);
 router.post("/logout", logoutCurrentUser);
+router.post("/request-otp", requestOTP);
+router.post("/verify-otp", verifyOTPAndRegister);
 
 //Admin routes
 router

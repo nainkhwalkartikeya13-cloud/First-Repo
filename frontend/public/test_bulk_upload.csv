@@ -1,0 +1,4 @@
+name,price,discountPrice,category,brand,description,countInStock,image,material,sustainability,productCollection,isNewArrival,isBestseller
+"Eco Varsity Sneaker",4999,3999,"Men","AEROLITH","High-performance sustainable sneaker made from recycled materials.",25,"https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800","Recycled PET","100% Carbon Neutral","Varsity Collection",true,false
+"Cloud Walker",5499,0,"Women","AEROLITH","The world's most comfortable walking shoe, crafted with Merino wool.",15,"https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=800","Merino Wool","Bio-based materials","Dasher NZ Collection",false,true
+"Urban Cruiser",6299,5500,"Men","AEROLITH","Durable and stylish for the city explorer.",8,"https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800","Tree Fiber","FSC Certified","Terralux Collection",true,true

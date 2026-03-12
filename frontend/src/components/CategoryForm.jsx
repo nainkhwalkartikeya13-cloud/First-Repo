@@ -9,21 +9,21 @@ const CategoryForm = ({
     <div className="p-3">
       <form onSubmit={handleSubmit} className="space-y-3">
         <input
-          className="mt-1 p-2 border rounded w-[90%] bg-[#0E1629] placeholder-[#eaeaeab9] text-[#F6F6F6] outline-none border-[#57575b] focus:border-[#FF2E63]"
+          className="mt-1 p-2.5 border rounded-lg w-[90%] bg-white dark:bg-gray-800/50 placeholder-gray-400 dark:placeholder-gray-500 text-gray-900 dark:text-white outline-none border-gray-300 dark:border-gray-600 focus:border-gray-400 dark:focus:border-gray-500 transition-colors"
           placeholder="Write category name"
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
 
-        <div className="flex justify-between gap-4">
-          <button className="bg-[#db1143f3] hover:bg-[#FF2E63] transition-colors text-white border-none outline-none md:w-[180px] px-4 py-2 cursor-pointer my-[1rem] text-base font-semibold rounded-sm">
+        <div className="flex justify-between gap-4 mt-4">
+          <button className="bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors text-white dark:text-gray-900 border-none outline-none md:w-[180px] px-4 py-2.5 cursor-pointer text-base font-semibold rounded-lg shadow-sm">
             {buttonText}
           </button>
 
           {handleDelete && (
             <button
               onClick={handleDelete}
-              className="bg-[#db1143f3] hover:bg-[#FF2E63] transition-colors text-white border-none outline-none md:w-[180px] px-4 py-2 cursor-pointer my-[1rem] text-base font-semibold rounded-sm"
+              className="bg-red-600 hover:bg-red-700 transition-colors text-white border-none outline-none md:w-[180px] px-4 py-2.5 cursor-pointer text-base font-semibold rounded-lg shadow-sm"
             >
               Delete
             </button>

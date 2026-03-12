@@ -4,15 +4,14 @@ import { toast } from "react-toastify";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setCredentials } from "../../redux/features/auth/authSlice";
-import { useLoginMutation } from "../../redux/api/usersApislice";
+import { useLoginMutation, useGoogleAuthMutation } from "../../redux/api/usersApislice";
+import { GoogleLogin } from "@react-oauth/google";
 
 import Loader from "../../components/Loader.jsx";
-import { HiOutlineMail } from "react-icons/hi";
-import { RiLockPasswordLine } from "react-icons/ri";
 import { BiHide, BiShowAlt } from "react-icons/bi";
 
 const inputClasses =
-  "w-full p-2.5 border rounded-lg bg-brand-dark text-text-primary placeholder-text-placeholder outline-none border-surface-border-light focus:border-accent-pink transition-colors";
+  "w-full px-4 py-3 border border-[#E5E5E5] bg-white text-[#212A2C] placeholder-[#BDBDBD] outline-none focus:border-[#212A2C] transition-colors text-[14px]";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +19,7 @@ const Login = () => {
   const [isVisiblePass, setIsVisiblePass] = useState(false);
 
   const [login, { isLoading }] = useLoginMutation();
+  const [googleAuth] = useGoogleAuthMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const Login = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) {
-      toast.error("Please fill all the fields");
+      toast.error("Please fill all fields");
       return;
     }
 
@@ -52,30 +52,67 @@ const Login = () => {
     }
   };
 
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const res = await googleAuth({ credential: credentialResponse.credential }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate(redirect);
+      toast.success("Logged in seamlessly via Google!");
+    } catch (err) {
+      toast.error(err?.data?.message || err?.message || "Google Login failed");
+    }
+  };
+
+  const handleGuestCheckout = () => {
+    // If the user wants to check out as a guest, we just funnel them directly to shipping
+    // The Shipping process handles unauthenticated usage safely
+    navigate("/shipping?guest=true");
+  };
+
   return (
-    <div className="min-h-screen bg-brand-dark flex items-center justify-center px-4">
-      <div className="w-full max-w-md animate-fade-in">
-        <h1 className="text-2xl md:text-3xl font-display font-bold text-text-primary mb-2">
-          Log In
+    <div className="min-h-screen bg-white flex items-center justify-center px-5">
+      <div className="w-full max-w-[420px]">
+        <h1
+          className="text-2xl md:text-3xl font-light text-[#212A2C] tracking-tight mb-2"
+          style={{ fontFamily: "Source Serif 4, Georgia, serif" }}
+        >
+          {redirect === "/shipping" ? "Secure Checkout" : "Log In"}
         </h1>
-        <p className="text-lg font-medium text-text-secondary mb-1">
-          Welcome to LuxeHaven! 👋🏻
+        <p className="text-[14px] text-[#767676] mb-8">
+          Sign in to your AEROLITH account
         </p>
-        <p className="text-text-secondary mb-8">
-          Sign in to your account to continue
-        </p>
+
+        <div className="mb-6 flex justify-center">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => {
+              toast.error("Google Login Failed");
+            }}
+            useOneTap
+            shape="rectangular"
+            theme="outline"
+            text="continue_with"
+            size="large"
+            width="420"
+          />
+        </div>
+
+        <div className="relative flex items-center mb-6">
+          <div className="flex-grow border-t border-[#E5E5E5]"></div>
+          <span className="flex-shrink-0 mx-4 text-[#BDBDBD] text-xs uppercase tracking-widest font-bold">Or</span>
+          <div className="flex-grow border-t border-[#E5E5E5]"></div>
+        </div>
 
         <form onSubmit={submitHandler} className="space-y-5">
           <div>
-            <label htmlFor="email" className="flex items-center gap-2 text-sm font-medium text-text-primary mb-2">
-              <HiOutlineMail size={20} className="text-accent-cyan" />
+            <label htmlFor="email" className="block text-[12px] font-bold uppercase tracking-[0.1em] text-[#767676] mb-2">
               Email
             </label>
             <input
               type="email"
               id="email"
               className={inputClasses}
-              placeholder="john.doe@gmail.com"
+              placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="off"
@@ -83,8 +120,7 @@ const Login = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="flex items-center gap-2 text-sm font-medium text-text-primary mb-2">
-              <RiLockPasswordLine size={20} className="text-accent-cyan" />
+            <label htmlFor="password" className="block text-[12px] font-bold uppercase tracking-[0.1em] text-[#767676] mb-2">
               Password
             </label>
             <div className="relative">
@@ -98,7 +134,7 @@ const Login = () => {
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-text-primary transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#BDBDBD] hover:text-[#212A2C] transition-colors"
                 onClick={() => setIsVisiblePass(!isVisiblePass)}
                 aria-label={isVisiblePass ? "Hide password" : "Show password"}
               >
@@ -110,19 +146,30 @@ const Login = () => {
           <button
             disabled={isLoading}
             type="submit"
-            className="w-full bg-accent-pink-hover hover:bg-accent-pink transition-colors text-white py-2.5 rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-[#212A2C] hover:bg-[#1a2022] transition-colors text-white py-3.5 text-[12px] font-bold uppercase tracking-[0.14em] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Signing In..." : "Login"}
+            {isLoading ? "Signing In..." : "Log In"}
           </button>
 
           {isLoading && <Loader />}
         </form>
 
-        <p className="mt-6 text-text-secondary">
-          New Customer?{" "}
+        {redirect === "/shipping" && (
+          <div className="mt-6">
+            <button
+              onClick={handleGuestCheckout}
+              className="w-full bg-[#F5F5F2] hover:bg-[#eaeaea] transition-colors text-[#212A2C] border border-[#E5E5E5] py-3.5 text-[12px] font-bold uppercase tracking-[0.14em]"
+            >
+              Continue as Guest
+            </button>
+          </div>
+        )}
+
+        <p className="mt-6 text-[#767676] text-[14px]">
+          New here?{" "}
           <Link
             to={redirect ? `/register?redirect=${redirect}` : "/register"}
-            className="text-accent-purple hover:underline font-medium"
+            className="text-[#212A2C] underline underline-offset-2 font-medium"
           >
             Create an account
           </Link>

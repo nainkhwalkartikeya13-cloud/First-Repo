@@ -6,8 +6,8 @@ const SmallProduct = ({ product }) => {
   // console.log(product);
   return (
     // <ContentWrapper>
-    <div className="w-[11rem] lg:w-[15rem] h-[17rem] md:h-[20rem] overflow-hidden flex flex-col gap-4 border border-[#444444]">
-      <div className="relative h-[80%]">
+    <div className="w-[11rem] lg:w-[15rem] h-[17rem] md:h-[20rem] overflow-hidden flex flex-col gap-4 border border-gray-200 dark:border-gray-700 bg-white dark:bg-transparent transition-colors duration-300 rounded-lg group hover:border-gray-300 dark:hover:border-gray-600">
+      <div className="relative h-[80%] overflow-hidden">
         <img
           src={product.image}
           alt={product.name}

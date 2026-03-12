@@ -21,6 +21,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
 
     allProducts: builder.query({
       query: () => `${PRODUCT_URL}/allProducts`,
+      providesTags: ["Products"],
     }),
 
     getProductDetails: builder.query({
@@ -36,15 +37,16 @@ export const productApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: formData,
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: ["Product", "Products"],
     }),
 
     updateProduct: builder.mutation({
-      query: ({ productId, formData }) => ({
-        url: `${PRODUCT_URL}/${productId}`,
+      query: (data) => ({
+        url: `${PRODUCT_URL}/${data.productId}`,
         method: "PUT",
-        body: formData,
+        body: data,
       }),
+      invalidatesTags: ["Product", "Products"],
     }),
 
     uploadProductImage: builder.mutation({
@@ -60,7 +62,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
         url: `${PRODUCT_URL}/${productId}`,
         method: "DELETE",
       }),
-      providesTags: ["Product"],
+      invalidatesTags: ["Product", "Products"],
     }),
 
     createReview: builder.mutation({
@@ -88,6 +90,23 @@ export const productApiSlice = apiSlice.injectEndpoints({
         body: { checked, radio },
       }),
     }),
+
+    getSearchSuggestions: builder.query({
+      query: (keyword) => ({
+        url: `${PRODUCT_URL}/search/suggestions`,
+        params: { keyword },
+      }),
+      keepUnusedDataFor: 5,
+    }),
+
+    bulkUpload: builder.mutation({
+      query: (formData) => ({
+        url: `${PRODUCT_URL}/bulk-upload`,
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["Product"],
+    }),
   }),
 });
 
@@ -104,4 +123,6 @@ export const {
   useGetNewProductsQuery,
   useUploadProductImageMutation,
   useGetFilteredProductsQuery,
+  useGetSearchSuggestionsQuery,
+  useBulkUploadMutation,
 } = productApiSlice;

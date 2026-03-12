@@ -3,20 +3,31 @@ export const addDecimals = (num) => {
 };
 
 export const updateCart = (state) => {
-  // Calculate the items price
+  // Calculate the items price (use discountPrice when available)
   state.itemsPrice = addDecimals(
-    state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+    state.cartItems.reduce((acc, item) => {
+      const effectivePrice =
+        item.discountPrice > 0 ? item.discountPrice : item.price;
+      return acc + effectivePrice * item.qty;
+    }, 0)
   );
 
-  // Calculate the shipping price
-  state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
+  // Calculate potential discount from applied coupon
+  const discountRate = state.appliedCoupon ? state.appliedCoupon.discount / 100 : 0;
+  state.discountPrice = addDecimals(Number(state.itemsPrice) * discountRate);
 
-  // Calculate the tax price
-  state.taxPrice = addDecimals(Number((0.15 * state.itemsPrice).toFixed(2)));
+  // Calculate the shipping price (free over ₹4,999 after items price, else ₹99)
+  state.shippingPrice = addDecimals(
+    Number(state.itemsPrice) >= 4999 ? 0 : 99
+  );
+
+  // Calculate the tax price (15% GST)
+  state.taxPrice = addDecimals(Number((0.15 * (Number(state.itemsPrice) - Number(state.discountPrice))).toFixed(2)));
 
   // Calculate the total price
   state.totalPrice = (
-    Number(state.itemsPrice) +
+    Number(state.itemsPrice) -
+    Number(state.discountPrice) +
     Number(state.shippingPrice) +
     Number(state.taxPrice)
   ).toFixed(2);
