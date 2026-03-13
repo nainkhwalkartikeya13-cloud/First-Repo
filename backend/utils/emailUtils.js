@@ -1,49 +1,63 @@
 import nodemailer from "nodemailer";
 
-const sendEmail = async (options) => {
-  // CREATE TRANSPORTER
-  // If env vars exist, use them. Otherwise, use Ethereal for testing.
-  let transporter;
+// ─── Primary: Brevo HTTP API (works on Railway — no SMTP port blocking) ────────
+const sendViaBrevoAPI = async (options) => {
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: { name: "AEROLITH", email: process.env.EMAIL_FROM || "noreply@aerolith.com" },
+      to: [{ email: options.email }],
+      subject: options.subject,
+      htmlContent: options.html,
+    }),
+  });
 
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Brevo API error ${response.status}: ${err}`);
+  }
+};
+
+// ─── Fallback: Nodemailer SMTP (for local dev only) ────────────────────────────
+const sendEmail = async (options) => {
+  // Use Brevo HTTP API in production (avoids SMTP port blocking on Railway)
+  if (process.env.BREVO_API_KEY) {
+    console.log(`📧 Using Brevo HTTP API → ${options.email} | ${options.subject}`);
+    await sendViaBrevoAPI(options);
+    console.log("✅ Email sent via Brevo API to:", options.email);
+    return;
+  }
+
+  // FALLBACK: SMTP via nodemailer (local dev)
+  let transporter;
   if ((process.env.EMAIL_HOST && process.env.EMAIL_USER) || (process.env.SMTP_HOST && process.env.SMTP_USER)) {
     const smtpHost = process.env.SMTP_HOST || process.env.EMAIL_HOST;
     const smtpPort = parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || 587);
     const smtpUser = process.env.SMTP_USER || process.env.EMAIL_USER;
     const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS;
-    const useSecure = smtpPort === 465; // 465 = SSL, 587 = TLS STARTTLS
+    const useSecure = smtpPort === 465;
 
-    console.log(`📧 Using Custom SMTP: ${smtpHost}:${smtpPort} secure=${useSecure} user=${smtpUser}`);
+    console.log(`📧 Using SMTP: ${smtpHost}:${smtpPort} user=${smtpUser}`);
     transporter = nodemailer.createTransport({
       host: smtpHost,
       port: smtpPort,
       secure: useSecure,
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-      tls: {
-        rejectUnauthorized: false, // Needed on Railway/cloud environments
-      },
+      auth: { user: smtpUser, pass: smtpPass },
+      tls: { rejectUnauthorized: false },
       connectionTimeout: 15000,
       greetingTimeout: 15000,
     });
   } else {
-    console.log("⚠️ Using Ethereal Fallback for Email");
-    // FALLBACK: Ethereal Mail (Real emails, but trapped in a dev mailbox)
-    transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
-      auth: {
-        user: "steve.bechtelar@ethereal.email",
-        pass: "V8T6Rk6Tz9uX1Nq6Ua",
-      },
-      connectionTimeout: 10000,
-      greetingTimeout: 10000,
-    });
+    console.log("⚠️ No email config found — logging only (no email sent)");
+    return;
   }
 
   console.log("📤 Sending email to:", options.email, "| Subject:", options.subject);
+
   const mailOptions = {
     from: `AEROLITH <noreply@aerolith.com>`,
     to: options.email,
