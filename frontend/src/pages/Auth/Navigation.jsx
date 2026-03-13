@@ -37,8 +37,8 @@ import SearchOverlay from "../../components/SearchOverlay.jsx";
 ══════════════════════════════════════════════ */
 const AnnouncementBar = () => {
   return (
-    <div className="bg-gradient-to-r from-[#0f0f0f] via-[#1a1a1a] to-[#0f0f0f] text-white border-b border-[#2a2a2a] flex justify-center items-center py-2.5 text-[11px] font-bold tracking-[0.18em] uppercase z-50 relative w-full">
-      <span>Free Shipping on Orders over ₹4,999 &nbsp;·&nbsp; Easy Returns</span>
+    <div className="bg-gradient-to-r from-[#0f0f0f] via-[#1a1a1a] to-[#0f0f0f] text-white border-b border-[#2a2a2a] flex justify-center items-center py-2.5 text-[10px] sm:text-[11px] font-bold tracking-[0.12em] sm:tracking-[0.18em] uppercase z-50 relative w-full overflow-hidden">
+      <span className="truncate px-4 text-center">Free Shipping on Orders over ₹4,999 &nbsp;·&nbsp; Easy Returns</span>
     </div>
   );
 };
@@ -523,17 +523,17 @@ const Navigation = () => {
 
       {/* ── Main Nav ── */}
       <nav
-        className={`fixed left-4 right-4 z-50 transition-all duration-500 rounded-[20px] ${hidden ? "-translate-y-[150%] opacity-0" : "translate-y-0 opacity-100"
+        className={`fixed left-2 right-2 sm:left-4 sm:right-4 z-50 transition-all duration-500 rounded-[16px] sm:rounded-[20px] ${hidden ? "-translate-y-[150%] opacity-0" : "translate-y-0 opacity-100"
           } ${mobileMenu || activeMenu
-            ? "bg-white border border-gray-200 top-[48px]"
+            ? "bg-white border border-gray-200 top-[44px] sm:top-[48px]"
             : scrolled
-              ? "bg-white border border-gray-200/60 shadow-nav top-4"
-              : "bg-white border border-transparent hover:border-gray-200 top-[48px]"
+              ? "bg-white border border-gray-200/60 shadow-nav top-3 sm:top-4"
+              : "bg-white border border-transparent hover:border-gray-200 top-[44px] sm:top-[48px]"
           }`}
         onMouseLeave={handleMenuLeave}
       >
-        <div className="mx-auto px-6">
-          <div className="flex items-center justify-between h-[60px]">
+        <div className="mx-auto px-3 sm:px-6">
+          <div className="flex items-center justify-between h-[52px] sm:h-[60px]">
             {/* ── Left: hamburger + logo ── */}
             <div className="flex items-center gap-3">
               <button
@@ -558,9 +558,9 @@ const Navigation = () => {
                 <img
                   src="/aerolith_icon.png"
                   alt="AEROLITH Logo"
-                  className="h-10 md:h-12 w-auto mr-3 transition-transform duration-700 group-hover:scale-110"
+                  className="h-8 sm:h-10 md:h-12 w-auto mr-1.5 sm:mr-3 transition-transform duration-700 group-hover:scale-110"
                 />
-                <span className="text-[22px] md:text-[26px] font-black text-black uppercase translate-y-[1px]" style={{ fontFamily: "'Montserrat', 'Inter', sans-serif", letterSpacing: "0.25em" }}>
+                <span className="hidden sm:inline text-[20px] md:text-[26px] font-black text-black uppercase translate-y-[1px]" style={{ fontFamily: "'Montserrat', 'Inter', sans-serif", letterSpacing: "0.25em" }}>
                   AEROLITH
                 </span>
               </Link>
@@ -599,7 +599,7 @@ const Navigation = () => {
             </div>
 
             {/* ── Right: icons ── */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <div className="hidden md:flex items-center gap-6">
                 <div className="relative group py-5">
                   <Link to="/about" className="text-[13px] font-medium text-[#1A1A1A] hover:underline">About</Link>
@@ -611,11 +611,11 @@ const Navigation = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 ml-2">
-                {/* Favorites */}
+              <div className="flex items-center gap-2 sm:gap-3 ml-0 sm:ml-2">
+                {/* Favorites — hidden on mobile, shown in hamburger menu */}
                 <Link
                   to="/favorite"
-                  className="relative text-black hover:text-black transition-colors flex items-center"
+                  className="relative text-black hover:text-black transition-colors items-center hidden sm:flex"
                   aria-label="Favorites"
                 >
                   <MdOutlineFavoriteBorder size={22} />
@@ -634,9 +634,9 @@ const Navigation = () => {
                   <AiOutlineSearch size={22} strokeWidth={1.5} />
                 </button>
 
-                {/* Account */}
+                {/* Account — hidden on mobile (accessible via hamburger) */}
                 {userInfo ? (
-                  <div className="relative flex items-center">
+                  <div className="relative items-center hidden sm:flex">
                     <button
                       onClick={toggleDropdown}
                       className="text-black hover:text-black transition-colors"
@@ -721,7 +721,7 @@ const Navigation = () => {
                 ) : (
                   <Link
                     to="/login"
-                    className="text-black hover:text-black transition-colors"
+                    className="text-black hover:text-black transition-colors hidden sm:block"
                     aria-label="Login"
                   >
                     <AiOutlineLogin size={22} />
@@ -854,7 +854,27 @@ const Navigation = () => {
                   </Link>
                 )}
 
-                {!userInfo && (
+                {userInfo ? (
+                  <div className="flex flex-col gap-1 mt-4 pb-2 border-t border-ab-border pt-4">
+                    <div className="text-[11px] font-bold tracking-widest text-gray-400 uppercase px-1 mb-2">
+                      Account — {userInfo.username}
+                    </div>
+                    <Link to="/profile" onClick={closeMobileMenu} className="py-3 text-base font-semibold text-ab-charcoal border-b border-ab-border flex items-center gap-3">
+                      <RiAccountCircleLine size={20} /> Profile
+                    </Link>
+                    <Link to="/user-orders" onClick={closeMobileMenu} className="py-3 text-base font-semibold text-ab-charcoal border-b border-ab-border flex items-center gap-3">
+                      <FiPackage size={20} /> My Orders
+                    </Link>
+                    {userInfo.isAdmin && (
+                      <Link to="/admin/dashboard" onClick={closeMobileMenu} className="py-3 text-base font-semibold text-ab-charcoal border-b border-ab-border flex items-center gap-3">
+                        <MdOutlineSpaceDashboard size={20} /> Admin Dashboard
+                      </Link>
+                    )}
+                    <button onClick={() => { logoutHandler(); closeMobileMenu(); }} className="py-3 text-base font-semibold text-red-600 flex items-center gap-3">
+                      <MdLogout size={20} /> Logout
+                    </button>
+                  </div>
+                ) : (
                   <div className="flex flex-col gap-3 mt-8 pb-4">
                     <Link
                       to="/login"
