@@ -7,3 +7,4 @@ export const UPLOAD_URL = "/api/v1/upload";
 export const ORDERS_URL = "/api/v1/orders";
 export const PAYPAL_URL = "/api/v1/config/paypal"; // Adding this export to fix the crash
 export const RAZORPAY_URL = "/api/v1/razorpay";
+export const CONTACT_URL = "/api/v1/contact";
