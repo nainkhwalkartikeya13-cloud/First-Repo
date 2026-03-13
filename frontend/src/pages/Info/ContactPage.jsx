@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { BsChatDots, BsEnvelope, BsTelephone } from "react-icons/bs";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { BASE_URL, CONTACT_URL } from "../../../redux/constants";
 
 const ContactPage = () => {
     const [formData, setFormData] = useState({
@@ -10,15 +13,26 @@ const ContactPage = () => {
         message: "",
     });
 
+    const [loading, setLoading] = useState(false);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
-        // Simulate sending
-        alert("Message sent! We will get back to you shortly.");
-        setFormData({ name: "", email: "", orderNumber: "", message: "" });
+        setLoading(true);
+        try {
+            const res = await axios.post(`${BASE_URL}${CONTACT_URL}`, formData);
+            toast.success(res.data.message || "Message sent successfully!");
+            setFormData({ name: "", email: "", orderNumber: "", message: "" });
+        } catch (error) {
+            toast.error(
+                error?.response?.data?.message || "Failed to send message. Please try again later."
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -181,9 +195,20 @@ const ContactPage = () => {
 
                         <button
                             type="submit"
-                            className="w-full mt-4 py-4 bg-[#212A2C] text-white text-[12px] font-bold uppercase tracking-[0.15em] hover:bg-[#1a2022] active:scale-[0.99] transition-all"
+                            disabled={loading}
+                            className="w-full mt-4 py-4 bg-[#212A2C] text-white text-[12px] font-bold uppercase tracking-[0.15em] hover:bg-[#1a2022] active:scale-[0.99] transition-all disabled:opacity-50 flex justify-center items-center"
                         >
-                            Submit Request
+                            {loading ? (
+                                <>
+                                    <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Sending...
+                                </>
+                            ) : (
+                                "Submit Request"
+                            )}
                         </button>
                     </form>
                 </div>
