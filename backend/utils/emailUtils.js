@@ -6,16 +6,26 @@ const sendEmail = async (options) => {
   let transporter;
 
   if ((process.env.EMAIL_HOST && process.env.EMAIL_USER) || (process.env.SMTP_HOST && process.env.SMTP_USER)) {
-    console.log("📧 Using Custom SMTP:", process.env.SMTP_HOST || process.env.EMAIL_HOST);
+    const smtpHost = process.env.SMTP_HOST || process.env.EMAIL_HOST;
+    const smtpPort = parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || 587);
+    const smtpUser = process.env.SMTP_USER || process.env.EMAIL_USER;
+    const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS;
+    const useSecure = smtpPort === 465; // 465 = SSL, 587 = TLS STARTTLS
+
+    console.log(`📧 Using Custom SMTP: ${smtpHost}:${smtpPort} secure=${useSecure} user=${smtpUser}`);
     transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || process.env.EMAIL_HOST,
-      port: parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || 587),
+      host: smtpHost,
+      port: smtpPort,
+      secure: useSecure,
       auth: {
-        user: process.env.SMTP_USER || process.env.EMAIL_USER,
-        pass: process.env.SMTP_PASS || process.env.EMAIL_PASS,
+        user: smtpUser,
+        pass: smtpPass,
       },
-      connectionTimeout: 10000, // 10s
-      greetingTimeout: 10000,   // 10s
+      tls: {
+        rejectUnauthorized: false, // Needed on Railway/cloud environments
+      },
+      connectionTimeout: 15000,
+      greetingTimeout: 15000,
     });
   } else {
     console.log("⚠️ Using Ethereal Fallback for Email");
