@@ -46,6 +46,8 @@ const sendEmail = async (options) => {
   console.log("✅ Email sent successfully to:", options.email);
 };
 
+export { sendEmail };
+
 export const sendWelcomeEmail = async (user) => {
   const html = `
     <!DOCTYPE html>
