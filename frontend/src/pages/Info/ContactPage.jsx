@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { BsChatDots, BsEnvelope, BsTelephone } from "react-icons/bs";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { BASE_URL, CONTACT_URL } from "../../../redux/constants";
+import { BASE_URL, CONTACT_URL } from "../../redux/constants";
 
 const ContactPage = () => {
     const [formData, setFormData] = useState({
