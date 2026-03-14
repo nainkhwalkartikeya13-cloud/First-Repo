@@ -21,15 +21,14 @@ export const updateCart = (state) => {
     Number(state.itemsPrice) >= 4999 ? 0 : 99
   );
 
-  // Calculate the tax price (15% GST)
-  state.taxPrice = addDecimals(Number((0.15 * (Number(state.itemsPrice) - Number(state.discountPrice))).toFixed(2)));
+  // Calculate the tax price (15% GST - Inclusive)
+  state.taxPrice = addDecimals(Number(((0.15 * (Number(state.itemsPrice) - Number(state.discountPrice))) / 1.15).toFixed(2)));
 
   // Calculate the total price
   state.totalPrice = (
     Number(state.itemsPrice) -
     Number(state.discountPrice) +
-    Number(state.shippingPrice) +
-    Number(state.taxPrice)
+    Number(state.shippingPrice)
   ).toFixed(2);
 
   // Save the cart to localStorage
