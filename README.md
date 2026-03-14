@@ -23,31 +23,31 @@
 
 ### 🛒 User Journey (Customer Experience)
 <div align="center">
-  <img src="screenshots/1.png" alt="Hero Section" width="48%">
-  <img src="screenshots/2.png" alt="Product Listing" width="48%">
+  <img src="./1.png" alt="Hero Section" width="48%">
+  <img src="./2.png" alt="Product Listing" width="48%">
   <br>
-  <img src="screenshots/3.png" alt="Product Detail" width="48%">
-  <img src="screenshots/4.png" alt="Cart View" width="48%">
+  <img src="./3.png" alt="Product Detail" width="48%">
+  <img src="./4.png" alt="Cart View" width="48%">
   <br>
-  <img src="screenshots/5.png" alt="Shipping Details" width="48%">
-  <img src="screenshots/6.png" alt="Order Review" width="48%">
+  <img src="./5.png" alt="Shipping Details" width="48%">
+  <img src="./6.png" alt="Order Review" width="48%">
   <br>
-  <img src="screenshots/7.png" alt="Razorpay Integration" width="48%">
-  <img src="screenshots/8.png" alt="Order Confirmation" width="48%">
+  <img src="./7.png" alt="Razorpay Integration" width="48%">
+  <img src="./8.png" alt="Order Confirmation" width="48%">
 </div>
 
 ### 🛡️ Administrative Dashboard
 <div align="center">
-  <img src="screenshots/9.png" alt="Admin Analytics" width="48%">
-  <img src="screenshots/10.png" alt="Product Management" width="48%">
+  <img src="./9.png" alt="Admin Analytics" width="48%">
+  <img src="./10.png" alt="Product Management" width="48%">
   <br>
-  <img src="screenshots/11.png" alt="Category Management" width="48%">
-  <img src="screenshots/12.png" alt="Order Management" width="48%">
+  <img src="./11.png" alt="Category Management" width="48%">
+  <img src="./12.png" alt="Order Management" width="48%">
   <br>
-  <img src="screenshots/13.png" alt="User Management" width="48%">
-  <img src="screenshots/14.png" alt="Coupon Management" width="48%">
+  <img src="./13.png" alt="User Management" width="48%">
+  <img src="./14.png" alt="Coupon Management" width="48%">
   <br>
-  <img src="screenshots/15.png" alt="System Logs" width="48%">
+  <img src="./15.png" alt="System Logs" width="48%">
 </div>
 
 ---
