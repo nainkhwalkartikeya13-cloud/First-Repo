@@ -420,7 +420,7 @@ const Order = () => {
               </span>
             </div>
             <div className="flex justify-between text-[#6B7280]">
-              <span>Tax</span>
+              <span>GST (Included 15%)</span>
               <span className="text-[#212A2C] font-medium">
                 ₹{Number(order.taxPrice).toLocaleString("en-IN")}
               </span>
