@@ -42,6 +42,7 @@ const createOrder = async (req, res) => {
       shippingAddress,
       paymentMethod,
       guestEmail, // Passed from frontend if guest
+      discountPrice, // Passed from frontend if coupon applied
     } = req.body;
 
     if (!orderItems || orderItems.length === 0) {
@@ -82,8 +83,11 @@ const createOrder = async (req, res) => {
       };
     });
 
-    const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
+    const { itemsPrice, taxPrice, shippingPrice, totalPrice: initialTotalPrice } =
       calcPrices(dbOrderItems);
+
+    const discountAmount = Number(discountPrice) || 0;
+    const finalTotalPrice = (Number(initialTotalPrice) - discountAmount).toFixed(2);
 
     const orderData = {
       orderItems: dbOrderItems,
@@ -91,8 +95,9 @@ const createOrder = async (req, res) => {
       paymentMethod,
       itemsPrice,
       taxPrice,
+      discountPrice: discountAmount,
       shippingPrice,
-      totalPrice,
+      totalPrice: finalTotalPrice,
     };
 
     if (req.user && req.user._id) {
