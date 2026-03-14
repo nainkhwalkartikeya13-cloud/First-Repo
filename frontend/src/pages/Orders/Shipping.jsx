@@ -61,22 +61,22 @@ const Shipping = () => {
   };
 
   /* ─── pricing helpers ─── */
-  const subtotal = cartItems.reduce(
+  const itemsPrice = cartItems.reduce(
     (acc, item) =>
       acc +
       (item.discountPrice > 0 ? item.discountPrice : item.price) * item.qty,
     0
   );
-  const freeShipping = subtotal >= 4999;
+
+  const discountAmount = cart.appliedCoupon ? (itemsPrice * cart.appliedCoupon.discount) / 100 : 0;
+  const subtotalAfterPromo = itemsPrice - discountAmount;
+
+  const freeShipping = itemsPrice >= 4999;
   const shippingCost = freeShipping ? 0 : 99;
 
-  const INDIAN_STATES = [
-    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Delhi",
-    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
-    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
-    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
-    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
-  ];
+  // Inclusive tax (15%)
+  const taxPrice = (itemsPrice * 0.15) / 1.15;
+  const totalPrice = subtotalAfterPromo + shippingCost;
 
   return (
     <div className="min-h-screen bg-white">
@@ -415,9 +415,19 @@ const Shipping = () => {
                 {cartItems.reduce((acc, i) => acc + i.qty, 0)} items
               </span>
               <span className="text-[#212A2C] font-medium">
-                ₹{subtotal.toLocaleString("en-IN")}
+                ₹{itemsPrice.toLocaleString("en-IN")}
               </span>
             </div>
+
+            {cart.appliedCoupon && (
+              <div className="flex justify-between text-emerald-600 font-medium">
+                <span>Promo Discount ({cart.appliedCoupon.discount}%)</span>
+                <span>
+                  -₹{discountAmount.toLocaleString("en-IN")}
+                </span>
+              </div>
+            )}
+
             <div className="flex justify-between text-[#6B7280]">
               <span>Shipping</span>
               <span
@@ -431,6 +441,14 @@ const Shipping = () => {
                   : "Enter shipping address"}
               </span>
             </div>
+
+            <div className="flex justify-between text-[#6B7280]">
+              <span>GST (Included 15%)</span>
+              <span className="text-[#212A2C] font-medium">
+                ₹{taxPrice.toLocaleString("en-IN")}
+              </span>
+            </div>
+
             <hr className="border-[#E5E5E5]" />
             <div className="flex justify-between items-center pt-1">
               <span className="text-[16px] font-bold text-[#212A2C]">
@@ -440,7 +458,7 @@ const Shipping = () => {
                 <span className="text-[12px] font-normal text-[#999] mr-1">
                   INR
                 </span>
-                ₹{(subtotal + shippingCost).toLocaleString("en-IN")}
+                ₹{totalPrice.toLocaleString("en-IN")}
               </span>
             </div>
           </div>
