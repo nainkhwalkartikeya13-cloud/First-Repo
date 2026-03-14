@@ -1,295 +1,241 @@
 <div align="center">
-
-<img src="https://img.shields.io/badge/Health-Axis-2A4365?style=for-the-badge&logo=health&logoColor=white" alt="HealthAxis Logo Placeholder" height="60" />
-
-# 🏥 HealthAxis Enterprise
-
-### **Next-Generation Full-Stack Healthcare Operations Platform**
-#### *Seamlessly connecting Patients, Doctors, and Administrators with a unified, real-time ecosystem.*
-
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Deploy-10b981?style=for-the-badge)](https://health-axis-five.vercel.app)
-[![Tech Stack](https://img.shields.io/badge/Stack-MERN-3b82f6?style=for-the-badge&logo=react)](#)
-[![Payments](https://img.shields.io/badge/Payments-Razorpay-0248a3?style=for-the-badge&logo=razorpay)](#)
-[![Freelance Ready](https://img.shields.io/badge/Status-Production_Ready-f59e0b?style=for-the-badge)](#)
-
-*HealthAxis is a highly scalable, securely authenticated MERN stack application designed to handle high-volume clinical operations, from discovery and robust scheduling to dynamic payment processing.*
-
+  <img src="frontend/src/assets/images/logo.png" alt="AEROLITH Logo" width="200" style="margin-bottom: 20px" onError="this.style.display='none'">
+  
+  # 🛍️ AEROLITH E-Commerce Platform
+  
+  **An Exclusive, High-Performance Destination for Luxury Shopping.**
+  
+  A modern, full-stack E-commerce platform built with the MERN stack. Designed with a premium aesthetic, featuring immersive 3D elements, secure scalable infrastructure, and a robust administrative dashboard.
+  
+  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+  [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+  [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+  [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+  [![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)](https://redux.js.org/)
+  [![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+  
+  [Report Bug](https://github.com/KartikeyaNainkhwal/aerolith/issues) · [Request Feature](https://github.com/KartikeyaNainkhwal/aerolith/issues)
 </div>
 
----
+<br />
 
-## 📖 Table of Contents
+## 🎥 Project Demo & Screenshots
 
-- [🎥 Live Demo & Video Walkthrough](#-live-demo--video-walkthrough)
-- [✨ Core Capabilities](#-core-capabilities)
-- [🏗️ High-Level Architecture](#-high-level-architecture)
-- [📸 Application Showcase](#-application-showcase)
-  - [Patient Experience](#patient-experience)
-  - [Doctor Workflow](#doctor-workflow)
-  - [Administrative Control](#administrative-control)
-- [🛠️ Technical Stack & Integrations](#️-technical-stack--integrations)
-- [⚙️ System Design highlights](#️-system-design-highlights)
-- [🚀 Quick Start Guide](#-quick-start-guide)
-- [🔐 Environment Variables](#-environment-variables)
-- [📈 Future Roadmap](#-future-roadmap)
-- [🤝 About the Developer](#-about-the-developer)
+> **Note to Developer:** Replace the placeholder media links below with your actual demo video and application screenshots.
 
----
+### 🎬 Video Demo
+<!-- Replace 'DEMO_VIDEO_LINK_HERE' with your YouTube or Loom link -->
+[![Watch the video](https://img.shields.io/badge/Watch-Demo_Video-red?style=for-the-badge&logo=youtube)](DEMO_VIDEO_LINK_HERE)
 
-## 🎥 Live Demo & Video Walkthrough
-
-Experiencing the platform is the best way to understand its power.
-
-### 🌐 [Click Here to Access the Live Platform](https://health-axis-five.vercel.app)
-
-### 🎬 Full Project Walkthrough Video
-*(Replace the URL and Video ID below with your actual demo platform like YouTube or Loom)*
-
+### 📸 Showcase
 <div align="center">
-  <a href="https://youtu.be/YOUR_VIDEO_ID_HERE" target="_blank">
-    <img src="https://img.youtube.com/vi/YOUR_VIDEO_ID_HERE/maxresdefault.jpg" alt="HealthAxis Demo Video URL" width="700" style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
-  </a>
-  <p><i>Click the thumbnail above to watch the comprehensive 10-minute deep dive into the architecture and user flows.</i></p>
+  <!-- Replace the src with your actual screenshot paths. You can add more as needed. -->
+  <img src="https://via.placeholder.com/800x450.png?text=Homepage+Screenshot" alt="Homepage" width="48%">
+  <img src="https://via.placeholder.com/800x450.png?text=Admin+Dashboard+Screenshot" alt="Admin Dashboard" width="48%">
+  
+  <br>
+  
+  <img src="https://via.placeholder.com/800x450.png?text=Product+Details+Screenshot" alt="Product Details" width="48%">
+  <img src="https://via.placeholder.com/800x450.png?text=Checkout+Process+Screenshot" alt="Checkout Process" width="48%">
 </div>
 
 ---
 
-## ✨ Core Capabilities
+## 📑 Table of Contents
+<details>
+  <summary>Click to expand</summary>
+  
+  1. [About The Project](#-about-the-project)
+  2. [Key Features](#-key-features)
+  3. [Architecture & Tech Stack](#-architecture--tech-stack)
+  4. [Getting Started](#-getting-started)
+     - [Prerequisites](#prerequisites)
+     - [Installation](#installation)
+     - [Environment Variables](#environment-variables)
+  5. [Project Structure](#-project-structure)
+  6. [Contributing](#-contributing)
+  7. [License](#-license)
+  8. [Contact](#-contact)
+</details>
 
-HealthAxis is segmented into three distinct dashboards, completely decoupled logically but integrated visually to provide a unified user experience.
+---
 
-### 🙍 Patient Workspace
-- **Smart Discovery**: Advanced filtering of doctors based on specialty, availability, and fees.
-- **Real-Time Booking**: Frictionless calendar interface preventing double-booking and timezone conflicts.
-- **Secure Financials**: Complete **Razorpay** checkout integration for immediate appointment confirmations.
-- **Health Dashboard**: Centralized view of upcoming, completed, and canceled appointments.
+## 🚀 About The Project
 
-### 👨‍⚕️ Doctor Workspace
-- **Revenue & Schedule Management**: Dedicated KPI dashboard showing daily earnings, total patients, and upcoming slots.
-- **Dynamic Profile Editing**: Update consulting fees, availability metrics, and profile imagery via **Cloudinary**.
-- **Actionable Appointments**: 1-click accept/cancel mechanism triggering instant database updates.
+**AEROLITH** is not just another e-commerce site; it's a meticulously crafted digital storefront designed for the modern web. Built specifically to handle high-value transactions with elegance, it combines cutting-edge frontend animations (using Framer Motion and WebGL via Spline) with a rock-solid Node.js/Express backend. 
+
+Whether you are scaling a boutique brand or managing a large-scale enterprise catalog, Aerolith provides the infrastructure, the aesthetics, and the admin tools required to succeed in competitive online retail.
+
+---
+
+## ✨ Key Features
+
+### 🛒 Customer Experience
+* **Immersive UI/UX:** Fluid page transitions and interactive 3D elements that elevate the shopping experience.
+* **Frictionless Authentication:** JWT-based secure login, supplemented by seamless Google OAuth integration.
+* **Advanced Catalog Discovery:** Lightning-fast search, dynamic filtering, and detailed product views.
+* **Streamlined Checkout:** Multi-step, conversion-optimized checkout flow with integrated cart management.
+* **Enterprise-Grade Payments:** Bank-level security via integrated **Razorpay** payment gateway.
+* **Order Tracking & Invoicing:** Real-time order status updates and automated PDF invoice generation.
+* **Automated Communications:** Instant Email and WhatsApp notifications for order confirmations (Nodemailer & Twilio).
 
 ### 🛡️ Administrative Control
-- **God-Mode Dashboard**: High-level metrics tracking total doctors, patients, appointments, and overall platform health.
-- **Onboarding Pipeline**: Secure endpoints to add and verify new medical professionals.
-- **Oversight**: Total visibility into the transaction and appointment streams across the entire organization.
+* **Command Center Dashboard:** Comprehensive analytics, revenue charts (ApexCharts), and real-time business metrics.
+* **Inventory Management:** Intuitive CRUD interface for products with seamless Cloudinary media storage integration.
+* **Marketing Tools:** Granular control over product categories and promotional discount campaigns.
+* **Order Fulfillment Pipeline:** End-to-end tracking of customer orders from payment to delivery.
+* **Access Control:** Role-based user management to protect sensitive operational data.
 
 ---
 
-## 🏗️ High-Level Architecture
+## 🛠️ Architecture & Tech Stack
 
-The platform utilizes a modern decoupled architecture, ensuring scalability and ease of maintenance.
+Aerolith leverages a modern microservice-inspired architecture within a monorepo structure, ensuring separation of concerns while maintaining developer velocity.
 
-```mermaid
-graph TD;
-    Client((Web Client))-->|RESTful API| Gateway[Express Server API];
-    Gateway-->Auth[JWT Auth Middleware];
-    Gateway-->DB[(MongoDB Atlas)];
-    Gateway-->Cloudinary[Cloudinary Webhook \nImage Hosting];
-    Gateway-->Razorpay[Razorpay API \nPayment Gateway];
-    Auth-->Controllers[Role-Based Controllers \nAdmin/Doctor/User];
-```
+### Frontend
+| Technology | Description |
+| :--- | :--- |
+| **React.js (Vite)** | Blazing fast development server and optimized production builds. |
+| **Redux Toolkit** | Centralized state management & caching via RTK Query. |
+| **Tailwind CSS & Flowbite** | Utility-first styling for rapid, responsive UI development. |
+| **Framer Motion & Spline** | Physics-based animations and 3D web graphics. |
+| **Radix UI** | Unstyled, accessible UI primitives. |
 
----
-
-## 📸 Application Showcase
-
-> *A curated look at the pixel-perfect, responsive UI designed with Tailwind CSS.*
-
-### Patient Experience
-
-<table align="center" style="width:100%; text-align:center;">
-  <tr>
-    <td align="center" width="50%">
-      <b>🏠 Intelligent Home Dashboard</b><br>
-      <img src="home.png" alt="Home Dashboard" width="100%" style="border-radius:8px;"/>
-    </td>
-    <td align="center" width="50%">
-      <b>👨‍⚕️ Doctor Directory & Filtering</b><br>
-      <img src="doctors.png" alt="Doctor Finder" width="100%" style="border-radius:8px;"/>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <b>📅 Frictionless Booking Interface</b><br>
-      <img src="booking.png" alt="Booking System" width="100%" style="border-radius:8px;"/>
-    </td>
-    <td align="center" width="50%">
-      <b>💳 Secure Razorpay Checkout</b><br>
-      <img src="razorpay.png" alt="Payments" width="100%" style="border-radius:8px;"/>
-    </td>
-  </tr>
-    <tr>
-    <td align="center" width="50%">
-      <b>📋 Patient Appointment History</b><br>
-      <img src="patient-appointments.png" alt="Patient Appointments" width="100%" style="border-radius:8px;"/>
-    </td>
-    <td align="center" width="50%">
-      <b>👤 Patient Profile Management</b><br>
-      <img src="patient-profile.png" alt="Patient Profile" width="100%" style="border-radius:8px;"/>
-    </td>
-  </tr>
-</table>
-
-### Doctor Workflow
-
-<table align="center" style="width:100%; text-align:center;">
-  <tr>
-    <td align="center" width="50%">
-      <b>📊 Analytics Dashboard</b><br>
-      <img src="doctor-dashboard.png" alt="Doctor Dashboard" width="100%" style="border-radius:8px;"/>
-    </td>
-    <td align="center" width="50%">
-      <b>📋 Schedule & Approvals</b><br>
-      <img src="doctor-appointment.png" alt="Doctor Appointments" width="100%" style="border-radius:8px;"/>
-    </td>
-  </tr>
-</table>
-
-### Administrative Control
-
-<table align="center" style="width:100%; text-align:center;">
-  <tr>
-    <td align="center" width="33%">
-      <b>📊 Global Command Center</b><br>
-      <img src="admin-dashboard.png" alt="Admin Dashboard" width="100%" style="border-radius:8px;"/>
-    </td>
-    <td align="center" width="33%">
-      <b>➕ Secure Doctor Onboarding</b><br>
-      <img src="admin-add-doctor.png" alt="Onboarding" width="100%" style="border-radius:8px;"/>
-    </td>
-    <td align="center" width="33%">
-      <b>🗓️ Complete Platform Oversight</b><br>
-      <img src="admin-appointments.png" alt="Platform Oversight" width="100%" style="border-radius:8px;"/>
-    </td>
-  </tr>
-</table>
+### Backend
+| Technology | Description |
+| :--- | :--- |
+| **Node.js & Express.js** | High-performance, event-driven server infrastructure. |
+| **MongoDB & Mongoose** | Flexible, scalable NoSQL database with robust object modeling. |
+| **JWT & Bcrypt** | Industry-standard authentication and password hashing. |
+| **Cloudinary** | Cloud-native media asset management and optimization. |
+| **Razorpay SDK** | Secure, compliant payment processing integration. |
 
 ---
 
-## 🛠️ Technical Stack & Integrations
+## 🏁 Getting Started
 
-<div align="center">
-
-| Domain | Core Technology | Strategic Purpose |
-| :--- | :--- | :--- |
-| **Frontend** | React.js, Vite | Lightning-fast HMR, component-driven UI |
-| **Styling** | Tailwind CSS | Utility-first, highly responsive design system |
-| **Backend API** | Node.js, Express.js | Non-blocking I/O event-driven RESTful architecture |
-| **Database** | MongoDB, Mongoose | Flexible Document Schema, robust data relations (NoSQL) |
-| **Security** | JWT, bcrypt.js, cors | Role-Based Access Control (RBAC) & encrypted payloads |
-| **Payments** | Razorpay Node SDK | Compliant financial transaction gateway |
-| **Media Delivery**| Cloudinary, Multer | Edge-optimized image transformations and hosting |
-| **Deployment** | Vercel | CI/CD pipeline, Edge Network Delivery |
-
-</div>
-
----
-
-## ⚙️ System Design Highlights
-
-1. **Role-Based Access Control (RBAC):** Middleware checks embedded across endpoints prevent horizontal and vertical privilege escalation. Only users with specific token payloads can access target routes.
-2. **Atomic Payment Rollbacks:** Ensuring data integrity by linking the Razorpay `order_id` to the MongoDB document securely before prompting the client for payment.
-3. **Stateless Authentication:** Utilizing HTTP-only cookies and Bearer tokens for a scalable authentication flow that requires zero session storage in the database.
-
----
-
-## 🚀 Quick Start Guide
-
-Spin up the entire ecosystem on your local machine in under **5 minutes**.
+To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
-- **Node.js**: `v18.x` or higher
-- **Package Manager**: `npm v9.x` or higher
-- **Daemons**: A running local MongoDB instance OR MongoDB Atlas cluster URI.
 
-### Step 1: Clone the Monorepo-style structure
-```bash
-git clone https://github.com/KartikeyaNainkhwal/HealthAxis.git
-cd HealthAxis
-```
+* [Node.js](https://nodejs.org/) (v16.x or higher)
+* [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+* [MongoDB](https://www.mongodb.com/) (Local installation or MongoDB Atlas instance)
+* Third-party accounts: [Cloudinary](https://cloudinary.com/) (Images), [Razorpay](https://razorpay.com/) (Payments).
 
-### Step 2: Initialize the API (Backend)
-```bash
-cd backend
-npm install
-npm start
-# 🚀 Backend ignites on http://localhost:4000
-```
+### Installation
 
-### Step 3: Initialize the Web Client (Patient Frontend)
-*(In a new terminal)*
-```bash
-cd frontend
-npm install
-npm run dev
-# 💻 Client launches on http://localhost:5173
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/KartikeyaNainkhwal/aerolith.git
+   cd aerolith
+   ```
 
-### Step 4: Initialize the Portal (Admin/Doctor Frontend)
-*(In a new terminal)*
-```bash
-cd admin
-npm install
-npm run dev
-# 🛡️ Portal launches on http://localhost:5174
-```
+2. **Install Backend Dependencies**
+   ```bash
+   npm install
+   ```
 
----
+3. **Install Frontend Dependencies**
+   ```bash
+   cd frontend
+   npm install
+   cd ..
+   ```
 
-## 🔐 Environment Variables
+### Environment Variables
 
-The backend relies on strict environmental configurations. Create a `.env` file at `backend/.env` utilizing the template below:
+For the application to function correctly, you must set up your environment variables. 
+Create a `.env` file in the `backend/` directory:
 
 ```env
-# ── Core Server Configuration ────────────────
-PORT=4000
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.exmple.mongodb.net/healthaxis
+# Server Configuration
+PORT=5000
+NODE_ENV=development
 
-# ── Security & Cryptography ──────────────────
-JWT_SECRET=generate_a_strong_random_256_bit_string
+# Database
+MONGO_URI=your_mongodb_connection_string
 
-# ── Global Administrative Credentials ────────
-ADMIN_EMAIL=your_admin_email@example.com
-ADMIN_PASSWORD=your_ultra_secure_password
+# Authentication
+JWT_SECRET=your_super_secret_jwt_key
 
-# ── Cloudinary Media Delivery ────────────────
-CLOUDINARY_NAME=your_cloudinary_namespace
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_SECRET_KEY=your_cloudinary_secret_key
+# Payment Gateway (Razorpay)
+RAZORPAY_KEY_ID=your_razorpay_key_id
+RAZORPAY_SECRET=your_razorpay_secret
 
-# ── Financial Processing (Razorpay) ──────────
-RAZORPAY_KEY_ID=your_razorpay_production_or_test_key
-RAZORPAY_KEY_SECRET=your_razorpay_secret
+# Media Storage (Cloudinary)
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# Communications (Optional)
+SMTP_HOST=your_smtp_host
+SMTP_PORT=your_smtp_port
+SMTP_USER=your_smtp_user
+SMTP_PASS=your_smtp_password
+
+# Twilio (Optional)
+TWILIO_ACCOUNT_SID=your_twilio_sid
+TWILIO_AUTH_TOKEN=your_twilio_token
+TWILIO_PHONE_NUMBER=your_twilio_number
+```
+
+### Running the Application
+
+You can spin up both the frontend client and the backend server concurrently from the root directory:
+
+```bash
+npm run dev
+```
+
+* **Frontend Client:** accessible at `http://localhost:5173`
+* **Backend API:** accessible at `http://localhost:5000`
+
+---
+
+## 📂 Project Structure
+
+```text
+aerolith/
+├── backend/
+│   ├── config/          # Configurations (DB, Cloudinary, Razorpay)
+│   ├── controllers/     # Route dispatchers and business logic
+│   ├── middlewares/     # Request interceptors (Auth, Error handling)
+│   ├── models/          # Mongoose DB schemas
+│   ├── routes/          # Express route definitions
+│   └── utils/           # Shared modules (Email, Tokens, Helpers)
+├── frontend/
+│   ├── public/          # Static assets
+│   └── src/
+│       ├── assets/      # Local media and fonts
+│       ├── components/  # Shared React components
+│       ├── context/     # React Context providers
+│       ├── pages/       # Next.js-style page components
+│       ├── redux/       # Store setup and RTK endpoints
+│       └── utils/       # Frontend utilities and formatters
+└── package.json         # Root scripts and workspace config
 ```
 
 ---
 
-## 📈 Future Roadmap
+## 🤝 Contributing
 
-I treat my projects as living products. Upcoming features slated for development:
-- [ ] **WebRTC Telemedicine Integration:** Real-time video consultations directly within the platform.
-- [ ] **AI-Powered Symptom Checker:** Pre-screening bot using an LLM to recommend the correct specialist.
-- [ ] **Push Notifications & Reminders:** SMS and WhatsApp integrations for appointment reminders via Twilio.
-- [ ] **Prescription Generator:** Doctors can generate, securely sign, and send Digital Prescriptions (PDFs).
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 🤝 About the Developer
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
 
 <div align="center">
-
-<img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" width="50" height="50" alt="wave"/>
-
-Hey there! I'm **Kartikeya Nainkhwal**, a Full-Stack Engineer and MERN specialist who loves building mission-critical business applications. I architect solutions with a relentless focus on clean code, scalable infrastructure, and premium user experiences. 
-
-**🔥 Available for Freelance & Full-Time Opportunities**
-
-If you're looking for a developer who can own a product from *database design* to *production deployment*, **let's chat**.
-
-[![GitHub Portfolio](https://img.shields.io/badge/GitHub-View_Profile-181717?style=for-the-badge&logo=github)](https://github.com/KartikeyaNainkhwal)
-[![Drop an Email](https://img.shields.io/badge/Email-Contact_Me-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:youremail@example.com)
-
-**If HealthAxis impressed you, I would deeply appreciate a ⭐ on the repository!**
-
+  <p>Crafted with ❤️ by <a href="https://github.com/KartikeyaNainkhwal">Kartikeya Nainkhwal</a></p>
 </div>
