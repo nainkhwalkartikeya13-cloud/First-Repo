@@ -64,6 +64,10 @@ const Cart = () => {
     const shippingPrice = itemsPrice >= 4999 ? 0 : 99;
     const taxPrice = Number(((0.15 * itemsPrice) / 1.15).toFixed(2));
 
+    // Product savings (already included in itemsPrice via discountPrice)
+    const originalItemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+    const productSavings = originalItemsPrice - itemsPrice;
+
     // Apply coupon discount if exists
     let discountAmount = 0;
     if (cart.appliedCoupon) {
@@ -72,10 +76,6 @@ const Cart = () => {
 
     const totalPrice = (itemsPrice - discountAmount + shippingPrice).toFixed(2);
 
-    // Calculate total non-discounted price to show savings
-    const originalTotalPrice = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
-    const savings = originalTotalPrice - itemsPrice + discountAmount;
-
     return {
       subtotal: itemsPrice,
       totalItems: cartItems.reduce((acc, item) => acc + item.qty, 0),
@@ -83,7 +83,7 @@ const Cart = () => {
       tax: taxPrice,
       total: Number(totalPrice),
       discountTotal: discountAmount,
-      savings
+      savings: productSavings // This reflects ONLY automatic product discounts now
     };
   };
 
@@ -360,9 +360,9 @@ const Cart = () => {
                   </div>
                 </div>
 
-                {savings > 0 && (
+                {(savings > 0 || discountTotal > 0) && (
                   <div className="bg-[#2D5233]/10 text-[#2D5233] text-[13px] font-medium px-4 py-2.5 mb-4">
-                    You&apos;re saving ₹{savings.toLocaleString("en-IN")} on this order!
+                    You&apos;re saving ₹{(savings + discountTotal).toLocaleString("en-IN")} on this order!
                   </div>
                 )}
 
