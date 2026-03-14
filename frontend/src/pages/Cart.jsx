@@ -62,7 +62,7 @@ const Cart = () => {
       0
     );
     const shippingPrice = itemsPrice >= 4999 ? 0 : 99;
-    const taxPrice = Number((0.15 * itemsPrice).toFixed(2));
+    const taxPrice = Number(((0.15 * itemsPrice) / 1.15).toFixed(2));
 
     // Apply coupon discount if exists
     let discountAmount = 0;
@@ -70,7 +70,7 @@ const Cart = () => {
       discountAmount = (itemsPrice * cart.appliedCoupon.discount) / 100;
     }
 
-    const totalPrice = (itemsPrice - discountAmount + shippingPrice + taxPrice).toFixed(2);
+    const totalPrice = (itemsPrice - discountAmount + shippingPrice).toFixed(2);
 
     // Calculate total non-discounted price to show savings
     const originalTotalPrice = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
@@ -346,8 +346,8 @@ const Cart = () => {
                       {freeShipping ? "FREE" : "₹99"}
                     </span>
                   </div>
-                  <div className="flex justify-between text-[#767676]">
-                    <span>Tax (GST 15%)</span>
+                  <div className="flex justify-between text-[#6B7280]">
+                    <span>Estimated GST (Included 15%)</span>
                     <span className="text-[#212A2C] font-medium">
                       ₹{tax.toLocaleString("en-IN")}
                     </span>
