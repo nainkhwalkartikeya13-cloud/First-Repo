@@ -21,22 +21,33 @@
 
 ## 🎥 Project Demo & Screenshots
 
-> **Note to Developer:** Replace the placeholder media links below with your actual demo video and application screenshots.
-
-### 🎬 Video Demo
-<!-- Replace 'DEMO_VIDEO_LINK_HERE' with your YouTube or Loom link -->
-[![Watch the video](https://img.shields.io/badge/Watch-Demo_Video-red?style=for-the-badge&logo=youtube)](DEMO_VIDEO_LINK_HERE)
-
-### 📸 Showcase
+### 🛒 User Journey (Customer Experience)
 <div align="center">
-  <!-- Replace the src with your actual screenshot paths. You can add more as needed. -->
-  <img src="https://via.placeholder.com/800x450.png?text=Homepage+Screenshot" alt="Homepage" width="48%">
-  <img src="https://via.placeholder.com/800x450.png?text=Admin+Dashboard+Screenshot" alt="Admin Dashboard" width="48%">
-  
+  <img src="screenshots/1.png" alt="Hero Section" width="48%">
+  <img src="screenshots/2.png" alt="Product Listing" width="48%">
   <br>
-  
-  <img src="https://via.placeholder.com/800x450.png?text=Product+Details+Screenshot" alt="Product Details" width="48%">
-  <img src="https://via.placeholder.com/800x450.png?text=Checkout+Process+Screenshot" alt="Checkout Process" width="48%">
+  <img src="screenshots/3.png" alt="Product Detail" width="48%">
+  <img src="screenshots/4.png" alt="Cart View" width="48%">
+  <br>
+  <img src="screenshots/5.png" alt="Shipping Details" width="48%">
+  <img src="screenshots/6.png" alt="Order Review" width="48%">
+  <br>
+  <img src="screenshots/7.png" alt="Razorpay Integration" width="48%">
+  <img src="screenshots/8.png" alt="Order Confirmation" width="48%">
+</div>
+
+### 🛡️ Administrative Dashboard
+<div align="center">
+  <img src="screenshots/9.png" alt="Admin Analytics" width="48%">
+  <img src="screenshots/10.png" alt="Product Management" width="48%">
+  <br>
+  <img src="screenshots/11.png" alt="Category Management" width="48%">
+  <img src="screenshots/12.png" alt="Order Management" width="48%">
+  <br>
+  <img src="screenshots/13.png" alt="User Management" width="48%">
+  <img src="screenshots/14.png" alt="Coupon Management" width="48%">
+  <br>
+  <img src="screenshots/15.png" alt="System Logs" width="48%">
 </div>
 
 ---
