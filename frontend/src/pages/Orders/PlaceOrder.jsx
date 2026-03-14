@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import ProgressSteps from "../../components/ProgressSteps";
 import { useCreateOrderMutation } from "../../redux/api/orderApiSlice";
 import { clearCartItems } from "../../redux/features/cart/cartSlice";
-import { BASE_URL, RAZORPAY_URL } from "../../redux/constants";
 import axios from "axios";
 import {
   FiLock,
@@ -40,8 +39,8 @@ const PlaceOrder = () => {
   );
   const freeShipping = subtotal >= 4999;
   const shippingCost = freeShipping ? 0 : 99;
-  const tax = Math.round(subtotal * 0.15 * 100) / 100;
-  const total = subtotal + shippingCost + tax;
+  const tax = Math.round(((subtotal * 0.15) / 1.15) * 100) / 100;
+  const total = subtotal + shippingCost;
 
   const placeOrderHandler = async () => {
     try {
@@ -67,7 +66,7 @@ const PlaceOrder = () => {
       const chargeAmount = Number(res.totalPrice) || total;
 
       const { data: razorpayOrder } = await axios.post(
-        `${BASE_URL}${RAZORPAY_URL}/create-order`,
+        "/api/v1/razorpay/create-order",
         { amount: chargeAmount, mongoOrderId: res._id },
         {
           headers: { "Content-Type": "application/json" },
@@ -85,7 +84,7 @@ const PlaceOrder = () => {
         handler: async function (response) {
           try {
             const { data } = await axios.post(
-              `${BASE_URL}${RAZORPAY_URL}/verify`,
+              "/api/v1/razorpay/verify",
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -437,7 +436,7 @@ const PlaceOrder = () => {
               </span>
             </div>
             <div className="flex justify-between text-[#6B7280]">
-              <span>Tax (15%)</span>
+              <span>Estimated GST (Included 15%)</span>
               <span className="text-[#212A2C] font-medium">
                 ₹{tax.toLocaleString("en-IN")}
               </span>
