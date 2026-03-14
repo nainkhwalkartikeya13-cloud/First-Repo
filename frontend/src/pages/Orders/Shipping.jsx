@@ -18,6 +18,14 @@ import {
 const inputCls =
   "w-full px-4 py-3 bg-white border border-[#D9D9D9] text-[14px] text-[#212A2C] placeholder-[#999] outline-none transition-all duration-200 focus:border-[#212A2C] focus:ring-1 focus:ring-[#212A2C] rounded-md";
 
+const INDIAN_STATES = [
+  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Delhi",
+  "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+  "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+  "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
+  "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
+];
+
 const Shipping = () => {
   const cart = useSelector((state) => state.cart);
   const { shippingAddress, cartItems } = cart;
