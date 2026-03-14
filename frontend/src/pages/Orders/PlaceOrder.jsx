@@ -58,6 +58,7 @@ const PlaceOrder = () => {
         itemsPrice: itemsPrice, // Send original items total
         shippingPrice: shippingCost,
         taxPrice: tax,
+        discountPrice: discountAmount,
         totalPrice: total,
       }).unwrap();
 
