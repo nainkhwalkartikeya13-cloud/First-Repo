@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ProgressSteps from "../../components/ProgressSteps";
 import { useCreateOrderMutation } from "../../redux/api/orderApiSlice";
 import { clearCartItems } from "../../redux/features/cart/cartSlice";
+import { BASE_URL } from "../../redux/constants";
 import axios from "axios";
 import {
   FiLock,
@@ -70,7 +71,7 @@ const PlaceOrder = () => {
       const chargeAmount = Number(res.totalPrice) || total;
 
       const { data: razorpayOrder } = await axios.post(
-        "/api/v1/razorpay/create-order",
+        `${BASE_URL}/api/v1/razorpay/create-order`,
         { amount: chargeAmount, mongoOrderId: res._id },
         {
           headers: { "Content-Type": "application/json" },
@@ -88,7 +89,7 @@ const PlaceOrder = () => {
         handler: async function (response) {
           try {
             const { data } = await axios.post(
-              "/api/v1/razorpay/verify",
+              `${BASE_URL}/api/v1/razorpay/verify`,
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
