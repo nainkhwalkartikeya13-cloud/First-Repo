@@ -72,16 +72,25 @@ export const generateInvoice = (order) => {
         doc.text("Subtotal:", 140, finalY);
         doc.text(`INR ${Number(order.itemsPrice).toLocaleString("en-IN")}`, 170, finalY, { align: "right" });
 
-        doc.text("Shipping:", 140, finalY + 7);
-        doc.text(`INR ${Number(order.shippingPrice).toLocaleString("en-IN")}`, 170, finalY + 7, { align: "right" });
+        let currentY = finalY + 7;
+        if (order.discountPrice > 0) {
+            doc.text("Promo Discount:", 140, currentY);
+            doc.text(`-INR ${Number(order.discountPrice).toLocaleString("en-IN")}`, 170, currentY, { align: "right" });
+            currentY += 7;
+        }
 
-        doc.text("GST (Included 15%):", 140, finalY + 14);
-        doc.text(`INR ${Number(order.taxPrice).toLocaleString("en-IN")}`, 170, finalY + 14, { align: "right" });
+        doc.text("Shipping:", 140, currentY);
+        doc.text(`INR ${Number(order.shippingPrice).toLocaleString("en-IN")}`, 170, currentY, { align: "right" });
+        currentY += 7;
+
+        doc.text("GST (Included 15%):", 140, currentY);
+        doc.text(`INR ${Number(order.taxPrice).toLocaleString("en-IN")}`, 170, currentY, { align: "right" });
+        currentY += 7;
 
         doc.setFont("helvetica", "bold");
         doc.setFontSize(12);
-        doc.text("Total:", 140, finalY + 24);
-        doc.text(`INR ${Number(order.totalPrice).toLocaleString("en-IN")}`, 170, finalY + 24, { align: "right" });
+        doc.text("Total Paid:", 140, currentY + 3);
+        doc.text(`INR ${Number(order.totalPrice).toLocaleString("en-IN")}`, 170, currentY + 3, { align: "right" });
 
         // ── Footer ──
         doc.setFontSize(8);
