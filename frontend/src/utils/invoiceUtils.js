@@ -75,7 +75,7 @@ export const generateInvoice = (order) => {
         doc.text("Shipping:", 140, finalY + 7);
         doc.text(`INR ${Number(order.shippingPrice).toLocaleString("en-IN")}`, 170, finalY + 7, { align: "right" });
 
-        doc.text("Tax (15%):", 140, finalY + 14);
+        doc.text("GST (Included 15%):", 140, finalY + 14);
         doc.text(`INR ${Number(order.taxPrice).toLocaleString("en-IN")}`, 170, finalY + 14, { align: "right" });
 
         doc.setFont("helvetica", "bold");
