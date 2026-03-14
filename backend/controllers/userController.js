@@ -110,7 +110,7 @@ const verifyOTPAndRegister = asyncHandler(async (req, res) => {
   // Verify OTP
   const lastOTP = await OTP.findOne({ email });
 
-  if (!lastOTP || lastOTP.otp !== otp) {
+  if (!lastOTP || lastOTP.otp.toString() !== otp.toString().trim()) {
     res.status(400);
     throw new Error("Invalid or expired OTP");
   }
