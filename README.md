@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="frontend/src/assets/images/logo.png" alt="AEROLITH Logo" width="180" onError="this.style.display='none'">
+  <img src="frontend/public/aerolith_logo_full.png" alt="AEROLITH Logo" width="180" onError="this.style.display='none'">
 
   <h1>🛍️ AEROLITH</h1>
   <p><strong>A Premium Full-Stack E-Commerce Platform — Built for Real Business</strong></p>
