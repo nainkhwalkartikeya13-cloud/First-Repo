@@ -401,11 +401,19 @@ const Order = () => {
           {/* Totals */}
           <div className="space-y-2.5 text-[14px]">
             <div className="flex justify-between text-[#6B7280]">
-              <span>Subtotal</span>
+              <span>Subtotal · {order.orderItems.reduce((acc, i) => acc + i.qty, 0)} items</span>
               <span className="text-[#212A2C] font-medium">
                 ₹{Number(order.itemsPrice).toLocaleString("en-IN")}
               </span>
             </div>
+
+            {order.discountPrice > 0 && (
+              <div className="flex justify-between text-emerald-600 font-medium">
+                <span>Promo Discount</span>
+                <span>-₹{Number(order.discountPrice).toLocaleString("en-IN")}</span>
+              </div>
+            )}
+
             <div className="flex justify-between text-[#6B7280]">
               <span>Shipping</span>
               <span
