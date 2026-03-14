@@ -31,16 +31,20 @@ const PlaceOrder = () => {
   }, [shippingAddress.address, navigate]);
 
   /* ─── pricing helpers ─── */
-  const subtotal = cartItems.reduce(
+  const itemsPrice = cartItems.reduce(
     (acc, item) =>
       acc +
       (item.discountPrice > 0 ? item.discountPrice : item.price) * item.qty,
     0
   );
-  const freeShipping = subtotal >= 4999;
+
+  const discountAmount = cart.appliedCoupon ? (itemsPrice * cart.appliedCoupon.discount) / 100 : 0;
+  const subtotalAfterPromo = itemsPrice - discountAmount;
+
+  const freeShipping = itemsPrice >= 4999;
   const shippingCost = freeShipping ? 0 : 99;
-  const tax = Math.round(((subtotal * 0.15) / 1.15) * 100) / 100;
-  const total = subtotal + shippingCost;
+  const tax = Math.round(((itemsPrice * 0.15) / 1.15) * 100) / 100;
+  const total = subtotalAfterPromo + shippingCost;
 
   const placeOrderHandler = async () => {
     try {
@@ -50,7 +54,7 @@ const PlaceOrder = () => {
         orderItems: cart.cartItems.map(item => ({ ...item, size: item.selectedSize })),
         shippingAddress: cart.shippingAddress,
         paymentMethod: "Razorpay",
-        itemsPrice: subtotal,
+        itemsPrice: itemsPrice, // Send original items total
         shippingPrice: shippingCost,
         taxPrice: tax,
         totalPrice: total,
@@ -423,9 +427,19 @@ const PlaceOrder = () => {
                 {cartItems.reduce((acc, i) => acc + i.qty, 0)} items
               </span>
               <span className="text-[#212A2C] font-medium">
-                ₹{subtotal.toLocaleString("en-IN")}
+                ₹{itemsPrice.toLocaleString("en-IN")}
               </span>
             </div>
+
+            {cart.appliedCoupon && (
+              <div className="flex justify-between text-emerald-600 font-medium">
+                <span>Promo Discount ({cart.appliedCoupon.discount}%)</span>
+                <span>
+                  -₹{discountAmount.toLocaleString("en-IN")}
+                </span>
+              </div>
+            )}
+
             <div className="flex justify-between text-[#6B7280]">
               <span>Shipping</span>
               <span
