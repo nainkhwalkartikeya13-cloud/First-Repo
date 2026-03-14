@@ -1,166 +1,176 @@
 <div align="center">
-  <img src="frontend/src/assets/images/logo.png" alt="AEROLITH Logo" width="200" style="margin-bottom: 20px" onError="this.style.display='none'">
-  
-  # 🛍️ AEROLITH E-Commerce Platform
-  
-  **An Exclusive, High-Performance Destination for Luxury Shopping.**
-  
-  A modern, full-stack E-commerce platform built with the MERN stack. Designed with a premium aesthetic, featuring immersive 3D elements, secure scalable infrastructure, and a robust administrative dashboard.
-  
-  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-  [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-  [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-  [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-  [![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)](https://redux.js.org/)
-  [![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-  
-  [Report Bug](https://github.com/KartikeyaNainkhwal/aerolith/issues) · [Request Feature](https://github.com/KartikeyaNainkhwal/aerolith/issues)
+  <img src="frontend/src/assets/images/logo.png" alt="AEROLITH Logo" width="180" onError="this.style.display='none'">
+
+  <h1>🛍️ AEROLITH</h1>
+  <p><strong>A Premium Full-Stack E-Commerce Platform — Built for Real Business</strong></p>
+
+  <p>
+    <a href="https://aerolith-seven.vercel.app/" target="_blank">
+      <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Visit%20App-4CAF50?style=for-the-badge" alt="Live Demo">
+    </a>
+    <a href="https://github.com/KartikeyaNainkhwal/AEROLITH-">
+      <img src="https://img.shields.io/badge/GitHub-Source%20Code-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+    </a>
+  </p>
+
+  <p>
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+    <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white">
+    <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white">
+    <img src="https://img.shields.io/badge/Redux_Toolkit-593D88?style=for-the-badge&logo=redux&logoColor=white">
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white">
+    <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white">
+  </p>
+
+  <p>
+    <img src="https://img.shields.io/badge/Deployment-Vercel%20+%20Railway-black?style=flat-square">
+    <img src="https://img.shields.io/badge/Payments-Razorpay%20Integrated-blue?style=flat-square">
+    <img src="https://img.shields.io/badge/Status-Live%20%26%20Production%20Ready-brightgreen?style=flat-square">
+  </p>
 </div>
 
-<br />
+---
 
-## 🎥 Project Demo & Screenshots
+## 🎯 What Is AEROLITH?
 
-### 🛒 User Journey (Customer Experience)
+**AEROLITH** is a production-deployed, full-stack e-commerce platform built for high-value online retail. It's not a tutorial clone — it's a complete business system with real payments, automated notifications, 3D UI, and a powerful admin command center.
+
+> Built to show what a real client's e-commerce store would look like — not a demo, a deployable product.
+
+| Problem | Solution |
+|---|---|
+| Customers need a seamless shopping experience | Immersive 3D UI, fluid Framer Motion transitions, instant search |
+| Businesses need secure, reliable payments | Razorpay production gateway — real transactions, not mocks |
+| Admins need full operational control | Revenue analytics, inventory, orders, coupons — one dashboard |
+| Customers expect instant communication | Auto email + WhatsApp notifications via Nodemailer & Twilio |
+| Scale requires media management | Cloudinary for all product images — no server storage |
+
+---
+
+## 🎥 Demo Video
+
+> 📽️ **[Watch Full Demo on Loom](#)** ← *(replace with your Loom link)*
+
+---
+
+## 📸 Screenshots
+
+### 🛒 Customer Experience
+
 <div align="center">
   <img src="./1.png" alt="Hero Section" width="48%">
   <img src="./2.png" alt="Product Listing" width="48%">
-  <br>
+  <br><br>
   <img src="./3.png" alt="Product Detail" width="48%">
   <img src="./4.png" alt="Cart View" width="48%">
-  <br>
+  <br><br>
   <img src="./5.png" alt="Shipping Details" width="48%">
   <img src="./6.png" alt="Order Review" width="48%">
-  <br>
-  <img src="./7.png" alt="Razorpay Integration" width="48%">
+  <br><br>
+  <img src="./7.png" alt="Razorpay Payment" width="48%">
   <img src="./8.png" alt="Order Confirmation" width="48%">
 </div>
 
-### 🛡️ Administrative Dashboard
+### 🛡️ Admin Dashboard
+
 <div align="center">
-  <img src="./9.png" alt="Admin Analytics" width="48%">
+  <img src="./9.png" alt="Revenue Analytics" width="48%">
   <img src="./10.png" alt="Product Management" width="48%">
-  <br>
+  <br><br>
   <img src="./11.png" alt="Category Management" width="48%">
   <img src="./12.png" alt="Order Management" width="48%">
-  <br>
+  <br><br>
   <img src="./13.png" alt="User Management" width="48%">
   <img src="./14.png" alt="Coupon Management" width="48%">
-  <br>
+  <br><br>
   <img src="./15.png" alt="System Logs" width="48%">
 </div>
 
 ---
 
-## 📑 Table of Contents
-<details>
-  <summary>Click to expand</summary>
-  
-  1. [About The Project](#-about-the-project)
-  2. [Key Features](#-key-features)
-  3. [Architecture & Tech Stack](#-architecture--tech-stack)
-  4. [Getting Started](#-getting-started)
-     - [Prerequisites](#prerequisites)
-     - [Installation](#installation)
-     - [Environment Variables](#environment-variables)
-  5. [Project Structure](#-project-structure)
-  6. [Contributing](#-contributing)
-  7. [License](#-license)
-  8. [Contact](#-contact)
-</details>
+## ✨ Features
+
+### 🛒 Customer Side
+- **Immersive 3D UI** — Interactive WebGL elements via Spline + fluid page transitions with Framer Motion
+- **Google OAuth + JWT Auth** — One-click Google login or secure email/password authentication
+- **Smart Product Discovery** — Real-time search, dynamic filters, and detailed product views
+- **Cart & Checkout** — Multi-step, conversion-optimized flow with live cart state via Redux Toolkit
+- **Razorpay Payments** — Production-grade payment gateway — real transactions, bank-level security
+- **Order Tracking** — Real-time order status from payment to delivery
+- **Auto Notifications** — Instant email (Nodemailer) + WhatsApp message (Twilio) on every order
+- **PDF Invoice Generation** — Automated invoice created and sent on order confirmation
+
+### 🛡️ Admin Side
+- **Analytics Dashboard** — Revenue charts, sales metrics, and business KPIs via ApexCharts
+- **Product & Inventory Management** — Full CRUD with Cloudinary image uploads
+- **Category & Coupon Management** — Create categories, run discount campaigns
+- **Order Fulfillment Pipeline** — Track and update every order from placement to delivery
+- **User Management** — Role-based access control for staff and customers
+- **System Logs** — Monitor every critical platform event in real time
 
 ---
 
-## 🚀 About The Project
-
-**AEROLITH** is not just another e-commerce site; it's a meticulously crafted digital storefront designed for the modern web. Built specifically to handle high-value transactions with elegance, it combines cutting-edge frontend animations (using Framer Motion and WebGL via Spline) with a rock-solid Node.js/Express backend. 
-
-Whether you are scaling a boutique brand or managing a large-scale enterprise catalog, Aerolith provides the infrastructure, the aesthetics, and the admin tools required to succeed in competitive online retail.
-
----
-
-## ✨ Key Features
-
-### 🛒 Customer Experience
-* **Immersive UI/UX:** Fluid page transitions and interactive 3D elements that elevate the shopping experience.
-* **Frictionless Authentication:** JWT-based secure login, supplemented by seamless Google OAuth integration.
-* **Advanced Catalog Discovery:** Lightning-fast search, dynamic filtering, and detailed product views.
-* **Streamlined Checkout:** Multi-step, conversion-optimized checkout flow with integrated cart management.
-* **Enterprise-Grade Payments:** Bank-level security via integrated **Razorpay** payment gateway.
-* **Order Tracking & Invoicing:** Real-time order status updates and automated PDF invoice generation.
-* **Automated Communications:** Instant Email and WhatsApp notifications for order confirmations (Nodemailer & Twilio).
-
-### 🛡️ Administrative Control
-* **Command Center Dashboard:** Comprehensive analytics, revenue charts (ApexCharts), and real-time business metrics.
-* **Inventory Management:** Intuitive CRUD interface for products with seamless Cloudinary media storage integration.
-* **Marketing Tools:** Granular control over product categories and promotional discount campaigns.
-* **Order Fulfillment Pipeline:** End-to-end tracking of customer orders from payment to delivery.
-* **Access Control:** Role-based user management to protect sensitive operational data.
-
----
-
-## 🛠️ Architecture & Tech Stack
-
-Aerolith leverages a modern microservice-inspired architecture within a monorepo structure, ensuring separation of concerns while maintaining developer velocity.
+## 🛠️ Tech Stack
 
 ### Frontend
-| Technology | Description |
-| :--- | :--- |
-| **React.js (Vite)** | Blazing fast development server and optimized production builds. |
-| **Redux Toolkit** | Centralized state management & caching via RTK Query. |
-| **Tailwind CSS & Flowbite** | Utility-first styling for rapid, responsive UI development. |
-| **Framer Motion & Spline** | Physics-based animations and 3D web graphics. |
-| **Radix UI** | Unstyled, accessible UI primitives. |
+| Technology | Role |
+|---|---|
+| React.js + Vite | UI framework with fast builds |
+| Redux Toolkit + RTK Query | State management and API caching |
+| Tailwind CSS + Flowbite | Utility-first responsive styling |
+| Framer Motion | Physics-based animations and transitions |
+| Spline (WebGL) | Interactive 3D homepage elements |
+| Radix UI | Accessible headless UI primitives |
 
 ### Backend
-| Technology | Description |
-| :--- | :--- |
-| **Node.js & Express.js** | High-performance, event-driven server infrastructure. |
-| **MongoDB & Mongoose** | Flexible, scalable NoSQL database with robust object modeling. |
-| **JWT & Bcrypt** | Industry-standard authentication and password hashing. |
-| **Cloudinary** | Cloud-native media asset management and optimization. |
-| **Razorpay SDK** | Secure, compliant payment processing integration. |
+| Technology | Role |
+|---|---|
+| Node.js + Express.js | REST API server |
+| MongoDB + Mongoose | NoSQL database with object modeling |
+| JWT + Bcrypt | Secure authentication and password hashing |
+| Razorpay SDK | Payment processing integration |
+| Cloudinary | Cloud media storage and optimization |
+| Nodemailer | Automated email notifications |
+| Twilio | WhatsApp order notifications |
+
+### Infrastructure
+| Service | Usage |
+|---|---|
+| Vercel | Frontend deployment (CDN) |
+| Railway | Backend deployment (always-on, no cold starts) |
+| MongoDB Atlas | Cloud database hosting |
 
 ---
 
-## 🏁 Getting Started
-
-To get a local copy up and running, follow these simple steps.
+## 🚀 Getting Started
 
 ### Prerequisites
-
-* [Node.js](https://nodejs.org/) (v16.x or higher)
-* [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-* [MongoDB](https://www.mongodb.com/) (Local installation or MongoDB Atlas instance)
-* Third-party accounts: [Cloudinary](https://cloudinary.com/) (Images), [Razorpay](https://razorpay.com/) (Payments).
+- Node.js v16+
+- MongoDB Atlas account
+- Cloudinary account
+- Razorpay account
+- Twilio account (for WhatsApp notifications)
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/KartikeyaNainkhwal/aerolith.git
-   cd aerolith
-   ```
+```bash
+# 1. Clone the repository
+git clone https://github.com/KartikeyaNainkhwal/AEROLITH-.git
+cd AEROLITH-
 
-2. **Install Backend Dependencies**
-   ```bash
-   npm install
-   ```
+# 2. Install backend dependencies
+npm install
 
-3. **Install Frontend Dependencies**
-   ```bash
-   cd frontend
-   npm install
-   cd ..
-   ```
+# 3. Install frontend dependencies
+cd frontend && npm install && cd ..
+```
 
 ### Environment Variables
 
-For the application to function correctly, you must set up your environment variables. 
-Create a `.env` file in the `backend/` directory:
+Create a `.env` file in the root directory:
 
 ```env
-# Server Configuration
+# Server
 PORT=5000
 NODE_ENV=development
 
@@ -170,83 +180,83 @@ MONGO_URI=your_mongodb_connection_string
 # Authentication
 JWT_SECRET=your_super_secret_jwt_key
 
-# Payment Gateway (Razorpay)
+# Razorpay
 RAZORPAY_KEY_ID=your_razorpay_key_id
 RAZORPAY_SECRET=your_razorpay_secret
 
-# Media Storage (Cloudinary)
+# Cloudinary
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
-# Communications (Optional)
+# Email (Nodemailer)
 SMTP_HOST=your_smtp_host
 SMTP_PORT=your_smtp_port
 SMTP_USER=your_smtp_user
 SMTP_PASS=your_smtp_password
 
-# Twilio (Optional)
+# Twilio (WhatsApp)
 TWILIO_ACCOUNT_SID=your_twilio_sid
 TWILIO_AUTH_TOKEN=your_twilio_token
 TWILIO_PHONE_NUMBER=your_twilio_number
 ```
 
-### Running the Application
-
-You can spin up both the frontend client and the backend server concurrently from the root directory:
+### Run Locally
 
 ```bash
+# Run both frontend and backend concurrently
 npm run dev
-```
 
-* **Frontend Client:** accessible at `http://localhost:5173`
-* **Backend API:** accessible at `http://localhost:5000`
+# Frontend → http://localhost:5173
+# Backend  → http://localhost:5000
+```
 
 ---
 
-## 📂 Project Structure
+## 📁 Project Structure
 
-```text
-aerolith/
+```
+AEROLITH/
 ├── backend/
-│   ├── config/          # Configurations (DB, Cloudinary, Razorpay)
-│   ├── controllers/     # Route dispatchers and business logic
-│   ├── middlewares/     # Request interceptors (Auth, Error handling)
-│   ├── models/          # Mongoose DB schemas
-│   ├── routes/          # Express route definitions
-│   └── utils/           # Shared modules (Email, Tokens, Helpers)
+│   ├── config/         # DB, Cloudinary, Razorpay config
+│   ├── controllers/    # Business logic per feature
+│   ├── middlewares/    # Auth guards, error handling
+│   ├── models/         # Mongoose schemas
+│   ├── routes/         # Express route definitions
+│   └── utils/          # Email, tokens, helpers
 ├── frontend/
-│   ├── public/          # Static assets
 │   └── src/
-│       ├── assets/      # Local media and fonts
-│       ├── components/  # Shared React components
-│       ├── context/     # React Context providers
-│       ├── pages/       # Next.js-style page components
-│       ├── redux/       # Store setup and RTK endpoints
-│       └── utils/       # Frontend utilities and formatters
-└── package.json         # Root scripts and workspace config
+│       ├── components/ # Shared React components
+│       ├── pages/      # Page-level components
+│       ├── redux/      # Store + RTK Query endpoints
+│       └── utils/      # Frontend utilities
+└── package.json        # Root scripts
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
+1. Fork the repo
+2. Create your branch: `git checkout -b feature/your-feature`
+3. Commit: `git commit -m "feat: describe your change"`
+4. Push: `git push origin feature/your-feature`
 5. Open a Pull Request
 
 ---
 
 ## 📜 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License.
 
 ---
 
 <div align="center">
-  <p>Crafted with ❤️ by <a href="https://github.com/KartikeyaNainkhwal">Kartikeya Nainkhwal</a></p>
+  <p>Built by <a href="https://github.com/KartikeyaNainkhwal"><strong>Kartikeya Nainkhwal</strong></a> · Full-Stack Developer · IIT Bhilai</p>
+  <p>
+    <a href="https://aerolith-seven.vercel.app/">🌐 Live Demo</a> ·
+    <a href="mailto:kartikeyak@iitbhilai.ac.in">📧 Hire Me</a> ·
+    <a href="https://github.com/KartikeyaNainkhwal">👨‍💻 GitHub</a>
+  </p>
+  <p><em>Open for freelance projects — let's build something great together.</em></p>
 </div>
