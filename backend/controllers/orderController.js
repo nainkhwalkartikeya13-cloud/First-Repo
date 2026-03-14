@@ -14,13 +14,15 @@ function calcPrices(orderItems) {
 
   // Free shipping over ₹4,999, else ₹99
   const shippingPrice = itemsPrice >= 4999 ? 0 : 99;
+
+  // Inclusive tax: Tax = (Items Price * Tax Rate) / (1 + Tax Rate)
+  // itemsPrice here is assumed to already include tax because products are listed with inclusive price.
   const taxRate = 0.15;
-  const taxPrice = (itemsPrice * taxRate).toFixed(2);
+  const taxPrice = ((itemsPrice * taxRate) / (1 + taxRate)).toFixed(2);
 
   const totalPrice = (
     itemsPrice +
-    shippingPrice +
-    parseFloat(taxPrice)
+    shippingPrice
   ).toFixed(2);
 
   return {
