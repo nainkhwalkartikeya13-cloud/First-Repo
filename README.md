@@ -2,7 +2,8 @@
   <img src="frontend/public/aerolith_logo_full.png" alt="AEROLITH Logo" width="180" onError="this.style.display='none'">
 
   <h1>🛍️ AEROLITH</h1>
-  <p><strong>A Premium Full-Stack E-Commerce Platform — Built for Real Business</strong></p>
+  <p><strong>Production-Ready Full-Stack E-Commerce Platform</strong></p>
+  <p><em>Complete online store solution — payments, inventory, analytics, and automated customer communication out of the box.</em></p>
 
   <p>
     <a href="https://aerolith-seven.vercel.app/" target="_blank">
@@ -23,33 +24,35 @@
   </p>
 
   <p>
-    <img src="https://img.shields.io/badge/Deployment-Vercel%20+%20Railway-black?style=flat-square">
     <img src="https://img.shields.io/badge/Payments-Razorpay%20Integrated-blue?style=flat-square">
+    <img src="https://img.shields.io/badge/Notifications-Email%20%2B%20WhatsApp-25D366?style=flat-square&logo=whatsapp&logoColor=white">
     <img src="https://img.shields.io/badge/Status-Live%20%26%20Production%20Ready-brightgreen?style=flat-square">
+    <img src="https://img.shields.io/badge/Deployment-Vercel%20+%20Railway-black?style=flat-square">
   </p>
 </div>
 
 ---
 
-## 🎯 What Is AEROLITH?
+## 🎯 What Does This Platform Deliver?
 
-**AEROLITH** is a production-deployed, full-stack e-commerce platform built for high-value online retail. It's not a tutorial clone — it's a complete business system with real payments, automated notifications, 3D UI, and a powerful admin command center.
+AEROLITH is a complete, deployed e-commerce system built for real business operations. Every feature you'd need to launch and run an online store is already built — from the first product page visit to payment confirmation and automated customer communication.
 
-> Built to show what a real client's e-commerce store would look like — not a demo, a deployable product.
-
-| Problem | Solution |
+| Business Need | What's Built |
 |---|---|
-| Customers need a seamless shopping experience | Immersive 3D UI, fluid Framer Motion transitions, instant search |
-| Businesses need secure, reliable payments | Razorpay production gateway — real transactions, not mocks |
-| Admins need full operational control | Revenue analytics, inventory, orders, coupons — one dashboard |
-| Customers expect instant communication | Auto email + WhatsApp notifications via Nodemailer & Twilio |
-| Scale requires media management | Cloudinary for all product images — no server storage |
+| Accept real payments online | Razorpay production gateway — live transactions, not a sandbox |
+| Keep customers informed automatically | Order confirmation email + WhatsApp message sent on every purchase |
+| Manage the business from one place | Revenue analytics, inventory, orders, coupons — single admin dashboard |
+| Handle product media at scale | Cloudinary CDN integration — no server storage, fast load times globally |
+| Secure customer accounts | Google OAuth + JWT — one-click sign-in or email/password |
+| Generate financial records | PDF invoices auto-created and delivered on order confirmation |
 
 ---
 
-## 🎥 Demo Video
+## 🎥 Demo Walkthrough
 
-> 📽️ **[Watch Full Demo on Loom](#)** ← *(replace with your Loom link)*
+> 📽️ **[Watch the Full Demo on YouTube / Loom](#)** ← *(replace with your actual link before sharing)*
+
+The demo covers the complete purchase flow — product discovery → cart → Razorpay checkout → order confirmation with email & WhatsApp notification — plus a full walkthrough of the admin dashboard.
 
 ---
 
@@ -61,107 +64,105 @@
   <img src="./1.png" alt="Hero Section" width="48%">
   <img src="./2.png" alt="Product Listing" width="48%">
   <br><br>
-  <img src="./3.png" alt="Product Detail" width="48%">
-  <img src="./4.png" alt="Cart View" width="48%">
+  <img src="./3.png" alt="Product Detail with 3D View" width="48%">
+  <img src="./4.png" alt="Shopping Cart" width="48%">
   <br><br>
   <img src="./5.png" alt="Shipping Details" width="48%">
   <img src="./6.png" alt="Order Review" width="48%">
   <br><br>
-  <img src="./7.png" alt="Razorpay Payment" width="48%">
-  <img src="./8.png" alt="Order Confirmation" width="48%">
+  <img src="./7.png" alt="Razorpay Payment Gateway" width="48%">
+  <img src="./8.png" alt="Order Confirmation + Invoice" width="48%">
 </div>
 
 ### 🛡️ Admin Dashboard
 
 <div align="center">
-  <img src="./9.png" alt="Revenue Analytics" width="48%">
-  <img src="./10.png" alt="Product Management" width="48%">
+  <img src="./9.png" alt="Revenue Analytics Dashboard" width="48%">
+  <img src="./10.png" alt="Product & Inventory Management" width="48%">
   <br><br>
   <img src="./11.png" alt="Category Management" width="48%">
-  <img src="./12.png" alt="Order Management" width="48%">
+  <img src="./12.png" alt="Order Fulfillment Pipeline" width="48%">
   <br><br>
-  <img src="./13.png" alt="User Management" width="48%">
-  <img src="./14.png" alt="Coupon Management" width="48%">
+  <img src="./13.png" alt="User & Role Management" width="48%">
+  <img src="./14.png" alt="Coupon & Discount Campaigns" width="48%">
   <br><br>
-  <img src="./15.png" alt="System Logs" width="48%">
+  <img src="./15.png" alt="Real-Time System Logs" width="48%">
 </div>
 
 ---
 
-## ✨ Features
+## ✨ Complete Feature Set
 
-### 🛒 Customer Side
-- **Immersive 3D UI** — Interactive WebGL elements via Spline + fluid page transitions with Framer Motion
-- **Google OAuth + JWT Auth** — One-click Google login or secure email/password authentication
-- **Smart Product Discovery** — Real-time search, dynamic filters, and detailed product views
-- **Cart & Checkout** — Multi-step, conversion-optimized flow with live cart state via Redux Toolkit
-- **Razorpay Payments** — Production-grade payment gateway — real transactions, bank-level security
-- **Order Tracking** — Real-time order status from payment to delivery
-- **Auto Notifications** — Instant email (Nodemailer) + WhatsApp message (Twilio) on every order
-- **PDF Invoice Generation** — Automated invoice created and sent on order confirmation
+### 🛒 Customer-Facing
+- **Interactive 3D Homepage** — WebGL elements via Spline with fluid Framer Motion page transitions
+- **Google OAuth + JWT Auth** — One-click Google login or secure email/password sign-in
+- **Smart Product Discovery** — Real-time search, dynamic category filters, and detailed product views
+- **Multi-Step Checkout** — Conversion-optimized flow with persistent cart state via Redux Toolkit
+- **Razorpay Payment Gateway** — Live production payments with bank-level security
+- **Order Tracking** — Real-time status updates from payment to delivery
+- **Automated Notifications** — Instant email (Nodemailer) + WhatsApp message (Twilio) on every order
+- **PDF Invoice Generation** — Auto-created and delivered on order confirmation
 
-### 🛡️ Admin Side
-- **Analytics Dashboard** — Revenue charts, sales metrics, and business KPIs via ApexCharts
-- **Product & Inventory Management** — Full CRUD with Cloudinary image uploads
-- **Category & Coupon Management** — Create categories, run discount campaigns
+### 🛡️ Admin Dashboard
+- **Revenue & Sales Analytics** — Charts, KPIs, and business metrics via ApexCharts
+- **Product & Inventory Management** — Full CRUD with Cloudinary image upload
+- **Category & Coupon Management** — Create categories, run discount campaigns with expiry controls
 - **Order Fulfillment Pipeline** — Track and update every order from placement to delivery
-- **User Management** — Role-based access control for staff and customers
-- **System Logs** — Monitor every critical platform event in real time
+- **User & Role Management** — Role-based access for staff and customers
+- **System Event Logs** — Monitor every critical platform event in real time
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-| Technology | Role |
+| Technology | Purpose |
 |---|---|
-| React.js + Vite | UI framework with fast builds |
-| Redux Toolkit + RTK Query | State management and API caching |
+| React.js + Vite | UI framework with fast HMR builds |
+| Redux Toolkit + RTK Query | Global state management and automatic API caching |
 | Tailwind CSS + Flowbite | Utility-first responsive styling |
-| Framer Motion | Physics-based animations and transitions |
+| Framer Motion | Physics-based animations and page transitions |
 | Spline (WebGL) | Interactive 3D homepage elements |
 | Radix UI | Accessible headless UI primitives |
 
 ### Backend
-| Technology | Role |
+| Technology | Purpose |
 |---|---|
-| Node.js + Express.js | REST API server |
-| MongoDB + Mongoose | NoSQL database with object modeling |
-| JWT + Bcrypt | Secure authentication and password hashing |
-| Razorpay SDK | Payment processing integration |
-| Cloudinary | Cloud media storage and optimization |
-| Nodemailer | Automated email notifications |
-| Twilio | WhatsApp order notifications |
+| Node.js + Express.js | RESTful API server |
+| MongoDB + Mongoose | NoSQL database with schema modeling |
+| JWT + Bcrypt | Authentication and secure password hashing |
+| Razorpay SDK | Payment processing and webhook handling |
+| Cloudinary | Cloud media storage, optimization, and CDN delivery |
+| Nodemailer | Automated transactional email |
+| Twilio | WhatsApp order notification API |
 
 ### Infrastructure
 | Service | Usage |
 |---|---|
-| Vercel | Frontend deployment (CDN) |
-| Railway | Backend deployment (always-on, no cold starts) |
-| MongoDB Atlas | Cloud database hosting |
+| Vercel | Frontend deployment with global CDN |
+| Railway | Backend hosting — always-on, no cold starts |
+| MongoDB Atlas | Cloud-managed database |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Local Setup
 
 ### Prerequisites
 - Node.js v16+
 - MongoDB Atlas account
-- Cloudinary account
-- Razorpay account
-- Twilio account (for WhatsApp notifications)
+- Cloudinary, Razorpay, and Twilio accounts
 
 ### Installation
 
 ```bash
-# 1. Clone the repository
+# Clone the repository
 git clone https://github.com/KartikeyaNainkhwal/AEROLITH-.git
 cd AEROLITH-
 
-# 2. Install backend dependencies
+# Install backend dependencies
 npm install
 
-# 3. Install frontend dependencies
+# Install frontend dependencies
 cd frontend && npm install && cd ..
 ```
 
@@ -178,7 +179,7 @@ NODE_ENV=development
 MONGO_URI=your_mongodb_connection_string
 
 # Authentication
-JWT_SECRET=your_super_secret_jwt_key
+JWT_SECRET=your_jwt_secret_key
 
 # Razorpay
 RAZORPAY_KEY_ID=your_razorpay_key_id
@@ -191,7 +192,7 @@ CLOUDINARY_API_SECRET=your_api_secret
 
 # Email (Nodemailer)
 SMTP_HOST=your_smtp_host
-SMTP_PORT=your_smtp_port
+SMTP_PORT=587
 SMTP_USER=your_smtp_user
 SMTP_PASS=your_smtp_password
 
@@ -204,9 +205,7 @@ TWILIO_PHONE_NUMBER=your_twilio_number
 ### Run Locally
 
 ```bash
-# Run both frontend and backend concurrently
 npm run dev
-
 # Frontend → http://localhost:5173
 # Backend  → http://localhost:5000
 ```
@@ -223,31 +222,21 @@ AEROLITH/
 │   ├── middlewares/    # Auth guards, error handling
 │   ├── models/         # Mongoose schemas
 │   ├── routes/         # Express route definitions
-│   └── utils/          # Email, tokens, helpers
+│   └── utils/          # Email, tokens, PDF, helpers
 ├── frontend/
 │   └── src/
 │       ├── components/ # Shared React components
-│       ├── pages/      # Page-level components
-│       ├── redux/      # Store + RTK Query endpoints
+│       ├── pages/      # Route-level page components
+│       ├── redux/      # RTK store + API slice endpoints
 │       └── utils/      # Frontend utilities
-└── package.json        # Root scripts
+└── package.json        # Root scripts (concurrent dev)
 ```
-
----
-
-## 🤝 Contributing
-
-1. Fork the repo
-2. Create your branch: `git checkout -b feature/your-feature`
-3. Commit: `git commit -m "feat: describe your change"`
-4. Push: `git push origin feature/your-feature`
-5. Open a Pull Request
 
 ---
 
 ## 📜 License
 
-Distributed under the MIT License.
+MIT License — free to use and adapt.
 
 ---
 
@@ -255,8 +244,8 @@ Distributed under the MIT License.
   <p>Built by <a href="https://github.com/KartikeyaNainkhwal"><strong>Kartikeya Nainkhwal</strong></a> · Full-Stack Developer · IIT Bhilai</p>
   <p>
     <a href="https://aerolith-seven.vercel.app/">🌐 Live Demo</a> ·
-    <a href="mailto:kartikeyak@iitbhilai.ac.in">📧 Hire Me</a> ·
+    <a href="mailto:kartikeyak@iitbhilai.ac.in">📧 Get in Touch</a> ·
     <a href="https://github.com/KartikeyaNainkhwal">👨‍💻 GitHub</a>
   </p>
-  <p><em>Open for freelance projects — let's build something great together.</em></p>
+  <p><em>Available for freelance e-commerce and full-stack web projects.</em></p>
 </div>
