@@ -14,11 +14,16 @@ export const sendWhatsAppNotification = async (order, user) => {
 
   const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
-  // Format the phone number (assuming typical 10-digit Indian numbers for test if without country code)
-  let phoneNumber = user.phone || "";
-  // In a real app, users should provide country code. Fallback to +91 just for test scenarios if 10 digits.
+  // Get phone from shippingAddress (always present, works for both logged-in and guest users)
+  let phoneNumber = (order.shippingAddress && order.shippingAddress.phone) || "";
+  // Auto-prefix +91 for 10-digit Indian numbers without country code
   if (phoneNumber.length === 10) {
     phoneNumber = "+91" + phoneNumber;
+  }
+
+  if (!phoneNumber || phoneNumber.length < 10) {
+    console.warn("⚠️ WhatsApp: No valid phone number in shippingAddress, skipping notification.");
+    return false;
   }
 
   // For WhatsApp sandbox, the number must be prefixed with 'whatsapp:'
