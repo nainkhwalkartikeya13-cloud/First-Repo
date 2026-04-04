@@ -93,7 +93,6 @@ const Login = () => {
             theme="outline"
             text="continue_with"
             size="large"
-            width="420"
           />
         </div>
 

@@ -80,33 +80,35 @@ export const DashboardSkeleton = () => (
 );
 
 export const ProductDetailsSkeleton = () => (
-    <div className="max-w-[1400px] mx-auto animate-pulse">
-        <div className="px-5 md:px-10 py-4">
-            <GenericSkeleton className="h-3 w-48" />
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] xl:grid-cols-[1fr_480px]">
-            <div className="aspect-square bg-[#F5F5F2]" />
-            <div className="px-6 md:px-10 py-8 lg:py-10 space-y-6">
-                <div className="space-y-3">
-                    <GenericSkeleton className="h-10 w-3/4" />
-                    <GenericSkeleton className="h-4 w-1/4" />
-                    <GenericSkeleton className="h-4 w-32" />
-                </div>
-                <div className="space-y-4 pt-6 border-t border-[#E5E4E0]">
-                    <div className="flex gap-2">
-                        {[...Array(4)].map((_, i) => (
-                            <div key={i} className="w-10 h-10 rounded-full bg-[#F5F5F2]" />
-                        ))}
+    <div className="min-h-screen bg-white">
+        <div className="max-w-[1400px] mx-auto animate-pulse">
+            <div className="px-5 md:px-10 py-4">
+                <GenericSkeleton className="h-3 w-48" />
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] xl:grid-cols-[1fr_480px]">
+                <div className="aspect-square bg-[#F5F5F2]" />
+                <div className="px-6 md:px-10 py-8 lg:py-10 space-y-6">
+                    <div className="space-y-3">
+                        <GenericSkeleton className="h-10 w-3/4" />
+                        <GenericSkeleton className="h-4 w-1/4" />
+                        <GenericSkeleton className="h-4 w-32" />
                     </div>
-                </div>
-                <div className="space-y-4 pt-6 border-t border-[#E5E4E0]">
-                    <div className="grid grid-cols-4 gap-2">
-                        {[...Array(12)].map((_, i) => (
-                            <div key={i} className="h-12 bg-[#F5F5F2]" />
-                        ))}
+                    <div className="space-y-4 pt-6 border-t border-[#E5E4E0]">
+                        <div className="flex gap-2">
+                            {[...Array(4)].map((_, i) => (
+                                <div key={i} className="w-10 h-10 rounded-full bg-[#F5F5F2]" />
+                            ))}
+                        </div>
                     </div>
+                    <div className="space-y-4 pt-6 border-t border-[#E5E4E0]">
+                        <div className="grid grid-cols-4 gap-2">
+                            {[...Array(12)].map((_, i) => (
+                                <div key={i} className="h-12 bg-[#F5F5F2]" />
+                            ))}
+                        </div>
+                    </div>
+                    <GenericSkeleton className="h-14 w-full" />
                 </div>
-                <GenericSkeleton className="h-14 w-full" />
             </div>
         </div>
     </div>

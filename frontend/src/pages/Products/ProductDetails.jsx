@@ -128,6 +128,10 @@ const ProductDetails = () => {
   const [showSticky, setShowSticky] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [productId]);
+
+  useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 400) {
         setShowSticky(true);
