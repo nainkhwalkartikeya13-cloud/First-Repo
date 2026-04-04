@@ -380,7 +380,7 @@ const Cart = () => {
                         <input
                           type="text"
                           placeholder="Enter code"
-                          className="flex-1 bg-white border border-[#E5E5E5] px-3 py-2 text-[13px] outline-none focus:border-[#212A2C] transition-colors"
+                          className="flex-1 bg-white border border-[#E5E5E5] px-3 py-2 text-[13px] text-[#212A2C] placeholder:text-[#999] outline-none focus:border-[#212A2C] transition-colors"
                           value={couponCode}
                           onChange={(e) => setCouponCode(e.target.value)}
                         />

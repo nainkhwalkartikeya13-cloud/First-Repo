@@ -411,9 +411,9 @@ const ProductDetails = () => {
               <div className="flex items-center gap-4 mb-5">
                 <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-[#212A2C]">Qty</p>
                 <div className="flex items-center border border-[#E5E4E0]">
-                  <button onClick={() => setQty(q => Math.max(1, q - 1))} className="w-10 h-10 flex items-center justify-center"><FiMinus size={14} /></button>
-                  <span className="w-10 h-10 flex items-center justify-center text-[14px] font-medium">{qty}</span>
-                  <button onClick={() => setQty(q => Math.min(product.countInStock, q + 1))} className="w-10 h-10 flex items-center justify-center"><FiPlus size={14} /></button>
+                  <button onClick={() => setQty(q => Math.max(1, q - 1))} className="w-10 h-10 flex items-center justify-center text-[#212A2C]"><FiMinus size={14} /></button>
+                  <span className="w-10 h-10 flex items-center justify-center text-[14px] font-medium text-[#212A2C]">{qty}</span>
+                  <button onClick={() => setQty(q => Math.min(product.countInStock, q + 1))} className="w-10 h-10 flex items-center justify-center text-[#212A2C]"><FiPlus size={14} /></button>
                 </div>
               </div>
             )}
