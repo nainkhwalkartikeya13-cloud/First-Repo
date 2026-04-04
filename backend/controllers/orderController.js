@@ -14,13 +14,15 @@ function calcPrices(orderItems) {
 
   // Free shipping over ₹4,999, else ₹99
   const shippingPrice = itemsPrice >= 4999 ? 0 : 99;
+
+  // Inclusive tax: Tax = (Items Price * Tax Rate) / (1 + Tax Rate)
+  // itemsPrice here is assumed to already include tax because products are listed with inclusive price.
   const taxRate = 0.15;
-  const taxPrice = (itemsPrice * taxRate).toFixed(2);
+  const taxPrice = ((itemsPrice * taxRate) / (1 + taxRate)).toFixed(2);
 
   const totalPrice = (
     itemsPrice +
-    shippingPrice +
-    parseFloat(taxPrice)
+    shippingPrice
   ).toFixed(2);
 
   return {
@@ -40,6 +42,7 @@ const createOrder = async (req, res) => {
       shippingAddress,
       paymentMethod,
       guestEmail, // Passed from frontend if guest
+      discountPrice, // Passed from frontend if coupon applied
     } = req.body;
 
     if (!orderItems || orderItems.length === 0) {
@@ -80,8 +83,11 @@ const createOrder = async (req, res) => {
       };
     });
 
-    const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
+    const { itemsPrice, taxPrice, shippingPrice, totalPrice: initialTotalPrice } =
       calcPrices(dbOrderItems);
+
+    const discountAmount = Number(discountPrice) || 0;
+    const finalTotalPrice = (Number(initialTotalPrice) - discountAmount).toFixed(2);
 
     const orderData = {
       orderItems: dbOrderItems,
@@ -89,8 +95,9 @@ const createOrder = async (req, res) => {
       paymentMethod,
       itemsPrice,
       taxPrice,
+      discountPrice: discountAmount,
       shippingPrice,
-      totalPrice,
+      totalPrice: finalTotalPrice,
     };
 
     if (req.user && req.user._id) {

@@ -19,6 +19,7 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 import { notFound, errorHandler } from "./middlewares/errorHandler.js";
 
 // ✅ CLOUDINARY ENV
@@ -42,12 +43,27 @@ cloudinary.config({
 connectDB(process.env.MONGO_URI);
 
 const app = express();
+app.set("trust proxy", 1); // Trust Railway's proxy to allow secure cookies
 const port = process.env.PORT || 5000;
 
 // MIDDLEWARE
+const origins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",").map(o => o.trim())
+  : ["http://localhost:5173"];
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      if (origins.indexOf(origin) !== -1 || origins.includes(origin.replace(/\/$/, ""))) {
+        callback(null, true);
+      } else {
+        console.warn(`⚠️ Blocked by CORS: ${origin}`);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
@@ -71,6 +87,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/contact", contactRoutes);
 
 // ERROR HANDLING (must be after routes)
 app.use(notFound);

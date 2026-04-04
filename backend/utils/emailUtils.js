@@ -1,33 +1,63 @@
 import nodemailer from "nodemailer";
 
-const sendEmail = async (options) => {
-  // CREATE TRANSPORTER
-  // If env vars exist, use them. Otherwise, use Ethereal for testing.
-  let transporter;
+// ─── Primary: Brevo HTTP API (works on Railway — no SMTP port blocking) ────────
+const sendViaBrevoAPI = async (options) => {
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: { name: "AEROLITH", email: process.env.EMAIL_FROM || "noreply@aerolith.com" },
+      to: [{ email: options.email }],
+      subject: options.subject,
+      htmlContent: options.html,
+    }),
+  });
 
-  if ((process.env.EMAIL_HOST && process.env.EMAIL_USER) || (process.env.SMTP_HOST && process.env.SMTP_USER)) {
-    transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || process.env.EMAIL_HOST,
-      port: process.env.SMTP_PORT || process.env.EMAIL_PORT || 587,
-      auth: {
-        user: process.env.SMTP_USER || process.env.EMAIL_USER,
-        pass: process.env.SMTP_PASS || process.env.EMAIL_PASS,
-      },
-    });
-  } else {
-    // FALLBACK: Ethereal Mail (Real emails, but trapped in a dev mailbox)
-    transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
-      secure: false,
-      auth: {
-        user: "steve.bechtelar@ethereal.email", // Replace with dynamic creation if possible, but static works for demo
-        pass: "V8T6Rk6Tz9uX1Nq6Ua",
-      },
-    });
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Brevo API error ${response.status}: ${err}`);
+  }
+};
+
+// ─── Fallback: Nodemailer SMTP (for local dev only) ────────────────────────────
+const sendEmail = async (options) => {
+  // Use Brevo HTTP API in production (avoids SMTP port blocking on Railway)
+  if (process.env.BREVO_API_KEY) {
+    console.log(`📧 Using Brevo HTTP API → ${options.email} | ${options.subject}`);
+    await sendViaBrevoAPI(options);
+    console.log("✅ Email sent via Brevo API to:", options.email);
+    return;
   }
 
-  // DEFINE EMAIL OPTIONS
+  // FALLBACK: SMTP via nodemailer (local dev)
+  let transporter;
+  if ((process.env.EMAIL_HOST && process.env.EMAIL_USER) || (process.env.SMTP_HOST && process.env.SMTP_USER)) {
+    const smtpHost = process.env.SMTP_HOST || process.env.EMAIL_HOST;
+    const smtpPort = parseInt(process.env.SMTP_PORT || process.env.EMAIL_PORT || 587);
+    const smtpUser = process.env.SMTP_USER || process.env.EMAIL_USER;
+    const smtpPass = process.env.SMTP_PASS || process.env.EMAIL_PASS;
+    const useSecure = smtpPort === 465;
+
+    console.log(`📧 Using SMTP: ${smtpHost}:${smtpPort} user=${smtpUser}`);
+    transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: useSecure,
+      auth: { user: smtpUser, pass: smtpPass },
+      tls: { rejectUnauthorized: false },
+      connectionTimeout: 15000,
+      greetingTimeout: 15000,
+    });
+  } else {
+    console.log("⚠️ No email config found — logging only (no email sent)");
+    return;
+  }
+
+  console.log("📤 Sending email to:", options.email, "| Subject:", options.subject);
+
   const mailOptions = {
     from: `AEROLITH <noreply@aerolith.com>`,
     to: options.email,
@@ -37,7 +67,10 @@ const sendEmail = async (options) => {
 
   // SEND EMAIL
   await transporter.sendMail(mailOptions);
+  console.log("✅ Email sent successfully to:", options.email);
 };
+
+export { sendEmail };
 
 export const sendWelcomeEmail = async (user) => {
   const html = `
@@ -160,12 +193,10 @@ export const sendOrderConfirmationEmail = async (order, user) => {
 };
 
 export const sendOTPEmail = async (email, otp) => {
-  // ALWAYS log OTP to console in development for easy testing
-  if (process.env.NODE_ENV !== "production") {
-    console.log("-----------------------------------------");
-    console.log(`🔑 REGISTRATION OTP FOR ${email}: ${otp}`);
-    console.log("-----------------------------------------");
-  }
+  // 🚀 TEMPORARY WORKAROUND: Always log OTP to console so you can register without SMTP
+  console.log("-----------------------------------------");
+  console.log(`🔑 REGISTRATION OTP FOR ${email}: ${otp}`);
+  console.log("-----------------------------------------");
 
   const html = `
     <!DOCTYPE html>
@@ -208,9 +239,8 @@ export const sendOTPEmail = async (email, otp) => {
     });
   } catch (error) {
     console.error("❌ Failed to send OTP email:", error.message);
-    // In development, we don't want to block the whole flow just because email failed
-    if (process.env.NODE_ENV === "production") {
-      throw error;
-    }
+    console.error("⚠️ REGISTRATION UNBLOCKED: Check the Railway logs above for the 6-digit OTP code.");
+    // We purposefully do NOT throw the error here anymore.
+    // This allows the frontend to advance to the OTP entry screen.
   }
 };

@@ -77,19 +77,21 @@ const requestOTP = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
+  const normalizedEmail = email.toLowerCase();
+
   // Generate 6 digit OTP
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
   // Save/Update OTP in DB
   await OTP.findOneAndUpdate(
-    { email },
-    { $set: { otp, createdAt: Date.now() } },
+    { email: normalizedEmail },
+    { $set: { otp, createdAt: new Date() } },
     { upsert: true, new: true }
   );
 
   // Send Email
   try {
-    await sendOTPEmail(email, otp);
+    await sendOTPEmail(normalizedEmail, otp);
     res.status(200).json({ message: "OTP sent to your email" });
   } catch (error) {
     res.status(500);
@@ -107,10 +109,17 @@ const verifyOTPAndRegister = asyncHandler(async (req, res) => {
     throw new Error("Missing required fields");
   }
 
-  // Verify OTP
-  const lastOTP = await OTP.findOne({ email });
+  const normalizedEmail = email.toLowerCase();
 
-  if (!lastOTP || lastOTP.otp !== otp) {
+  // Verify OTP
+  const lastOTP = await OTP.findOne({ email: normalizedEmail });
+
+  console.log(`[DEBUG] Verifying OTP for ${normalizedEmail}. Found in DB: ${lastOTP ? 'YES' : 'NO'}`);
+  if (lastOTP) {
+    console.log(`[DEBUG] Comparing DB OTP [${lastOTP.otp}] with Submitted OTP [${otp}]`);
+  }
+
+  if (!lastOTP || lastOTP.otp.toString() !== otp.toString().trim()) {
     res.status(400);
     throw new Error("Invalid or expired OTP");
   }
