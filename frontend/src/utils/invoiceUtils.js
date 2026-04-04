@@ -32,11 +32,14 @@ export const generateInvoice = (order) => {
         // ── Billing & Shipping ──
         doc.line(20, 50, 190, 50); // Horizontal line
 
+        const billName = order.user?.username || [order.shippingAddress?.firstName, order.shippingAddress?.lastName].filter(Boolean).join(" ") || "Guest Customer";
+        const billEmail = order.user?.email || order.shippingAddress?.email || "No email provided";
+
         doc.setFont("helvetica", "bold");
         doc.text("Bill To:", 20, 60);
         doc.setFont("helvetica", "normal");
-        doc.text(order.user.username, 20, 65);
-        doc.text(order.user.email, 20, 70);
+        doc.text(billName, 20, 65);
+        doc.text(billEmail, 20, 70);
 
         doc.setFont("helvetica", "bold");
         doc.text("Ship To:", 100, 60);
