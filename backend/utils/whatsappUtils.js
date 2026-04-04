@@ -15,15 +15,27 @@ export const sendWhatsAppNotification = async (order, user) => {
   const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
   // Get phone from shippingAddress (always present, works for both logged-in and guest users)
-  let phoneNumber = (order.shippingAddress && order.shippingAddress.phone) || "";
+  let rawPhone = (order.shippingAddress && order.shippingAddress.phone) || "";
+  rawPhone = rawPhone.toString().trim();
+
+  // Strip all non-numeric characters (except a leading '+')
+  let phoneNumber = rawPhone.replace(/(?!^\+)[^\d]/g, "");
+
+  // Make sure we have at least 10 digits
+  const digitCount = (phoneNumber.match(/\d/g) || []).length;
+  if (digitCount < 10) {
+    console.warn("⚠️ WhatsApp: No valid phone number in shippingAddress, skipping notification.");
+    return false;
+  }
+
   // Auto-prefix +91 for 10-digit Indian numbers without country code
-  if (phoneNumber.length === 10) {
+  if (/^\d{10}$/.test(phoneNumber)) {
     phoneNumber = "+91" + phoneNumber;
   }
 
-  if (!phoneNumber || phoneNumber.length < 10) {
-    console.warn("⚠️ WhatsApp: No valid phone number in shippingAddress, skipping notification.");
-    return false;
+  // Ensure number starts with + for international format
+  if (!phoneNumber.startsWith("+")) {
+    phoneNumber = "+" + phoneNumber;
   }
 
   // For WhatsApp sandbox, the number must be prefixed with 'whatsapp:'

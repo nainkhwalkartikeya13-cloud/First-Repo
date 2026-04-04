@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware.js";
+import { authenticate, authorizeAdmin, optionalAuthenticate } from "../middlewares/authMiddleware.js";
 import {
   createOrder,
   getAllOrders,
@@ -23,7 +23,7 @@ import {
 
 router
   .route("/")
-  .post(authenticate, createOrder)
+  .post(optionalAuthenticate, createOrder)
   .get(authenticate, authorizeAdmin, getAllOrders);
 
 router.route("/mine").get(authenticate, getUserOrders);
@@ -33,8 +33,8 @@ router.route("/total-sales-by-date").get(authenticate, authorizeAdmin, calculate
 router.route("/top-selling").get(authenticate, authorizeAdmin, getTopSellingProducts);
 router.route("/revenue-growth").get(authenticate, authorizeAdmin, getMonthlyRevenueGrowth);
 
-router.route("/:id").get(authenticate, findOrderById);
 router.route("/check-purchase/:productId").get(authenticate, checkIfPurchased);
+router.route("/:id").get(authenticate, findOrderById);
 router.route("/:id/pay").put(authenticate, markOrderAsPaid);
 router.route("/:id/cancel").put(authenticate, cancelOrder);
 router.route("/:id/return").put(authenticate, requestReturnOrExchange);
