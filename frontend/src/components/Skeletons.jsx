@@ -15,43 +15,45 @@ export const GenericSkeleton = ({ className = "h-4 w-full" }) => (
 );
 
 export const OrderSkeleton = () => (
-    <div className="max-w-[1200px] mx-auto flex flex-col-reverse lg:flex-row animate-pulse">
-        <div className="flex-1 px-6 md:px-10 lg:pr-14 py-8 lg:py-12">
-            <div className="mb-12">
-                <div className="flex items-center gap-4 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-[#F5F5F2]" />
-                    <GenericSkeleton className="h-3 w-32" />
-                </div>
-                <GenericSkeleton className="h-10 w-3/4 mb-4" />
-                <GenericSkeleton className="h-4 w-1/2" />
-            </div>
-
-            <div className="mb-10 h-40 bg-[#F9F9F8] rounded-xl border border-[#E5E5E5]/50" />
-
-            <div className="grid grid-cols-2 gap-3 mb-8">
-                <div className="h-20 bg-[#F5F5F2] rounded-lg" />
-                <div className="h-20 bg-[#F5F5F2] rounded-lg" />
-            </div>
-
-            <div className="space-y-4 mb-8">
-                <GenericSkeleton className="h-16 rounded-lg" />
-                <GenericSkeleton className="h-16 rounded-lg" />
-            </div>
-        </div>
-
-        <aside className="lg:w-[440px] shrink-0 bg-[#FAFAFA] p-8 lg:p-10">
-            <div className="space-y-6">
-                {[...Array(3)].map((_, i) => (
-                    <div key={i} className="flex gap-4">
-                        <div className="w-16 h-16 bg-white rounded-lg border border-gray-100" />
-                        <div className="flex-1 space-y-2">
-                            <GenericSkeleton className="h-4 w-full" />
-                            <GenericSkeleton className="h-3 w-1/2" />
-                        </div>
+    <div className="min-h-screen bg-white">
+        <div className="max-w-[1200px] mx-auto flex flex-col-reverse lg:flex-row animate-pulse">
+            <div className="flex-1 px-6 md:px-10 lg:pr-14 py-8 lg:py-12">
+                <div className="mb-12">
+                    <div className="flex items-center gap-4 mb-3">
+                        <div className="w-12 h-12 rounded-full bg-[#F5F5F2]" />
+                        <GenericSkeleton className="h-3 w-32" />
                     </div>
-                ))}
+                    <GenericSkeleton className="h-10 w-3/4 mb-4" />
+                    <GenericSkeleton className="h-4 w-1/2" />
+                </div>
+
+                <div className="mb-10 h-40 bg-[#F9F9F8] rounded-xl border border-[#E5E5E5]/50" />
+
+                <div className="grid grid-cols-2 gap-3 mb-8">
+                    <div className="h-20 bg-[#F5F5F2] rounded-lg" />
+                    <div className="h-20 bg-[#F5F5F2] rounded-lg" />
+                </div>
+
+                <div className="space-y-4 mb-8">
+                    <GenericSkeleton className="h-16 rounded-lg" />
+                    <GenericSkeleton className="h-16 rounded-lg" />
+                </div>
             </div>
-        </aside>
+
+            <aside className="lg:w-[440px] shrink-0 bg-[#FAFAFA] p-8 lg:p-10">
+                <div className="space-y-6">
+                    {[...Array(3)].map((_, i) => (
+                        <div key={i} className="flex gap-4">
+                            <div className="w-16 h-16 bg-white rounded-lg border border-gray-100" />
+                            <div className="flex-1 space-y-2">
+                                <GenericSkeleton className="h-4 w-full" />
+                                <GenericSkeleton className="h-3 w-1/2" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </aside>
+        </div>
     </div>
 );
 
