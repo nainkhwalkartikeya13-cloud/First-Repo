@@ -34,7 +34,7 @@ router.route("/top-selling").get(authenticate, authorizeAdmin, getTopSellingProd
 router.route("/revenue-growth").get(authenticate, authorizeAdmin, getMonthlyRevenueGrowth);
 
 router.route("/check-purchase/:productId").get(authenticate, checkIfPurchased);
-router.route("/:id").get(authenticate, findOrderById);
+router.route("/:id").get(optionalAuthenticate, findOrderById);
 router.route("/:id/pay").put(authenticate, markOrderAsPaid);
 router.route("/:id/cancel").put(authenticate, cancelOrder);
 router.route("/:id/return").put(authenticate, requestReturnOrExchange);
