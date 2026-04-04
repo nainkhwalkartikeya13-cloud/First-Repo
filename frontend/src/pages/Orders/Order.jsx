@@ -134,9 +134,10 @@ const Order = () => {
           {order.isPaid && (
             <button
               type="button"
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.preventDefault();
-                generateInvoice(order);
+                toast.info("Generating your invoice...");
+                await generateInvoice(order);
               }}
               className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-[#212A2C] border border-[#212A2C] px-4 py-2 rounded-full hover:bg-[#212A2C] hover:text-white transition-all"
             >
