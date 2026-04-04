@@ -270,9 +270,18 @@ const markOrderAsPaid = async (req, res) => {
 
       // Send Order Confirmation Email
       try {
-        const user = await User.findById(order.user);
-        if (user) {
-          await sendOrderConfirmationEmail(updateOrder, user);
+        if (order.user) {
+          const user = await User.findById(order.user);
+          if (user) {
+            await sendOrderConfirmationEmail(updateOrder, user);
+          }
+        } else if (order.shippingAddress && order.shippingAddress.email) {
+          // Guest User Email Backup
+          const guestObj = {
+            email: order.shippingAddress.email,
+            username: order.shippingAddress.firstName || "Guest Customer"
+          };
+          await sendOrderConfirmationEmail(updateOrder, guestObj);
         }
       } catch (emailErr) {
         console.error("Order Confirmation Email error:", emailErr.message);
